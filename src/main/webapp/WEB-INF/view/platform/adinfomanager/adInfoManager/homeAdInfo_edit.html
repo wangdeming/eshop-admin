@@ -1,0 +1,67 @@
+@layout("/common/_container.html"){
+<div class="row">
+    <div class="col-sm-12">
+        <div class="ibox float-e-margins">
+            <div class="ibox-content">
+                <div class="row row-lg">
+                    <div class="col-sm-12">
+                        <input type="hidden" id="typeValueInput" value="${type}" />
+                        <input type="hidden" id="relationValInput" value="${relationVal}" />
+                        <input type="hidden" id="imgValueInput" value="${img}" />
+                        <input type="hidden" id="adIdInput" value="${adInfoId}" />
+                        <div style="width: 20%;float: left;text-align: right;">关联类型:</div>
+                        <div style="width: 80%;float: left;">
+                            <div style="width: 100%;height: 40px;">
+                                <input style="margin-left: 10px;" id="typeRadio1" type="radio" name="type" value="1"/>
+                                <label style="margin-left: 5px;">商品</label>
+                                <input style="margin-left: 10px;outline: none;display: none;margin-top: 1px;" name="typeInput" type="text" id="typeInput1" value="" placeholder="请填写商品ID" autocomplete="off"/>
+                            </div>
+                            <div style="width: 100%;height: 40px;">
+                                <input style="margin-left: 10px;" id="typeRadio2" type="radio" name="type" value="2"/>
+                                <label style="margin-left: 5px;">店铺</label>
+                                <input style="margin-left: 10px;outline: none;display: none;margin-top: 1px;" name="typeInput" type="text" id="typeInput2" value="" placeholder="请填写店铺ID" autocomplete="off"/>
+                            </div>
+                            <div style="width: 100%;height: 40px;">
+                                <input style="margin-left: 10px;" id="typeRadio3" type="radio" name="type" value="3"/>
+                                <label style="margin-left: 5px;">URL</label>
+                                <input style="margin-left: 10px;outline: none;display: none;margin-top: 1px;" name="typeInput" type="text" id="typeInput3" value="" placeholder="请填写URL地址" autocomplete="off"/>
+                            </div>
+                            <div style="width: 100%;height: 40px;">
+                                <input style="margin-left: 10px;" id="typeRadio4" type="radio" name="type" value="4"/><label style="margin-left: 5px;">无关联</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-12" style="clear: both;">
+                        <div style="width: 20%;float: left;text-align: right;">广告图片:</div>
+                        <div style="width: 80%;float: left;padding-left: 10px;">
+                            <div id="img_div_9" style="width: 100px;height: 120px;border: 1px solid #CCCCCC;position: relative;" onMouseOver="hovershow2(9)">
+                                <img id="img_9" src="" style="width: 100%;height: 100%;" alt=""/>
+                                <input id="logo" data="url_9" style="display: none;" value="">
+                                <div id="div_imgtype_9" style="width: 100%;height: 100%;position: absolute;top: 0;left: 0;">
+                                    <div id="imgup_9" style="text-align: center;">
+                                        <img src="${ctxPath}/static/img/upload.png" style="margin-top: 10px;width: 30px;height: 30px;"/>
+                                        <input type="file" name="" style="display: inline-block;width: 100px;height: 120px;opacity: 0;position: absolute;top:0;left: 0;cursor: pointer;" onchange="getImgURL(9)"/>
+                                    </div>
+                                    <div style="color:#8D939C;font-size: 12px;text-align: center;margin-top: 10px;">点击上传图片</div>
+                                    <div style="color:#8D939C;font-size: 10px;text-align: center;margin-top: 5px;">图片尺寸：750*440</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-12" style="clear: both;">
+                        <div style="width: 80%;float: left;margin-top: 20px;margin-left: 20%;padding-left: 10px;">
+                            <button type="button" class="btn btn-danger-xb" onclick="closePage();" style="width: 100px;height: 34px;color: #FFFFFF;margin-right: 10px;background-color: rgb(179,179,179);">
+                                取消
+                            </button>
+                            <button type="button" class="btn btn-primary" onclick="addSubmit();" style="width: 100px;height: 34px;color: #FFFFFF;">
+                                提交
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="${ctxPath}/static/modular/platform/adInfoManager/homeAdEdit.js"></script>
+@}

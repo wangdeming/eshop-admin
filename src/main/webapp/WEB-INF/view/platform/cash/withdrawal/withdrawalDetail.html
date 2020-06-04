@@ -1,0 +1,58 @@
+@layout("/common/_container.html"){
+<style>
+    .header {
+        background: rgb(242, 242, 242);
+        line-height: 40px;
+        padding-left: 15px;
+        margin-bottom: 15px;
+    }
+
+    .btn-group-space {
+        text-align: center;
+        margin-top: 50px;
+    }
+
+    .left-space {
+        padding-left: 30px;
+    }
+</style>
+<div class="row">
+    <div class="col-sm-12">
+        <div class="ibox float-e-margins">
+            <input type="hidden" id="statusInput" value="${withdrawal.status}">
+            <div class="ibox-title">
+                <h5>提现详情</h5>
+            </div>
+            <div class="ibox-content">
+                <div>
+                    <div class="header">
+                        提现状态
+                    </div>
+                    <div class="col-sm-12 left-space">
+                        <p>${withdrawal.statusName}</p>
+                    </div>
+                </div>
+                <div>
+                    <div class="header">
+                        提现信息
+                    </div>
+                    <div class="col-sm-12 left-space">
+                        <p>提现金额：¥${withdrawal.amount} </p>
+                        <p>提现账号：${withdrawal.drawWay}|${withdrawal.accountName}|${withdrawal.accountNo}</p>
+                        <p>申请时间：${withdrawal.createdTime}</p>
+                        <p>店铺类型：${withdrawal.shopName}</p>
+                        <p>店铺名称：${withdrawal.shopName}</p>
+                    </div>
+                </div>
+                <div class="btn-group-space">
+                    <#button name="同意提现" icon="" id="commitBtn" clickFun="withdrawalDetail.pass()"/>
+                    <#button name="确认打款" icon="" id="surePayBtn" clickFun="withdrawalDetail.confirm()"/>
+                    <#button name="确认" icon="" id="sureBtn" clickFun="withdrawalDetail.close()"/>
+                    <#button btnCss="danger" name="不同意提现" id="cancel" icon="" clickFun="withdrawalDetail.refusePass()"/>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="${ctxPath}/static/modular/platform/cash/withdrawal/withdrawalDetail.js"></script>
+@}

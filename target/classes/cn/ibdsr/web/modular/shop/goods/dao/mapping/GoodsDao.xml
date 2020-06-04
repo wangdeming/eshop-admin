@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.ibdsr.web.modular.shop.goods.dao.GoodsDao">
+    <!--根据goodsId查询goods_intro.id-->
+    <select id="selectGoodsIntroId" resultType="java.lang.Long">
+        SELECT
+        goods_intro.id
+        FROM
+        goods_intro
+        WHERE
+        goods_intro.goods_id = #{goodsId}
+    </select>
+
+    <resultMap id="GoodsResultMap" type="cn.ibdsr.web.modular.shop.goods.transfer.GoodsVO">
+        <id column="id" property="id" />
+        <result column="shop_id" property="shopId" />
+        <result column="category_id" property="categoryId" />
+        <result column="name" property="name" />
+        <result column="status" property="status" />
+        <result column="price" property="price" />
+        <result column="refer_price" property="referPrice" />
+        <result column="stock" property="stock" />
+        <result column="delivery_type" property="deliveryType" />
+        <result column="express_fee" property="expressFee" />
+        <result column="specs_list" property="specsList" />
+        <result column="sequence" property="sequence" />
+        <result column="is_deleted" property="isDeleted" />
+    </resultMap>
+
+    <select id="getGoods"  resultMap="GoodsResultMap"  parameterType="java.lang.Long">
+        SELECT
+            goods.id,
+            goods.shop_id,
+            goods.category_id,
+            goods.`name`,
+            goods.`status`,
+            goods.price,
+            goods.refer_price,
+            goods.stock,
+            goods.delivery_type,
+            goods.express_fee,
+            goods.specs_list,
+            goods.sequence,
+            goods.onshelf_time,
+            goods.offshelf_time,
+            goods.is_deleted
+        FROM
+          goods
+        WHERE
+          goods.is_deleted = 0
+        <if test="goodsId != null ">
+            and goods.id = #{goodsId}
+        </if>
+    </select>
+
+</mapper>

@@ -1,0 +1,37 @@
+@layout("/common/_container.html"){
+<div class="row">
+    <div class="col-sm-12">
+        <div class="ibox float-e-margins">
+            <div class="ibox-title">
+                <h5>店铺服务费管理</h5>
+                &emsp;<i class="fa fa-question-circle" title="首次创建的店铺，服务费默认为0%，店铺服务费变更，可设置生效日期。最早为次日零点生效。"></i>
+            </div>
+            <div class="ibox-content">
+                <div class="row row-lg">
+                    <div class="col-sm-12">
+                        <div class="row">
+                            <div class="col-sm-3  form-inline ">
+                                <label class="control-label">店铺名称：</label>
+                                <input type="text" id="condition" class="form-control" style="width: 65%">
+                            </div>
+                            <div class="col-sm-9  form-inline ">
+                                <#button name="查询" icon="fa-search" clickFun="ShopInfoMgr.search()"/>
+                            </div>
+                            <div class="col-sm-3  form-inline" style="margin-top: 20px;">
+                                <label class="control-label">店铺类型：</label>
+                                <select id="shopType" class="form-control "  style="width: 65%">
+                                    <option value=''>全部</option>
+                                    <option value=1>特产店铺</option>
+                                    <option value=2>酒店店铺</option>
+                                </select>
+                            </div>
+                        </div>
+                        <#table id="ShopInfoMgrTable"/>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="${ctxPath}/static/modular/platform/cash/profitdistribution/profitDistributionList.js"></script>
+@}

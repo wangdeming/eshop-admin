@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.ibdsr.web.modular.shop.goods.dao.GoodsListDao">
+
+    <sql id="Page_Column_List" >
+        g.id,
+        g.name AS goodsName,
+        g.price,
+        g.stock,
+        g.sequence,
+        g.platform_manage AS platformManage,
+        g.created_time AS createdTime,
+        g.main_img AS img,
+        IFNULL(gs.view_num, 0) AS viewNum,
+        IFNULL(gs.visitor_num, 0) AS visitorNum,
+        IFNULL(gs.sale_num, 0) AS saleNum
+    </sql>
+
+    <select id="list" resultType="java.util.Map">
+        SELECT
+            <include refid="Page_Column_List" />
+        FROM
+            goods g
+        LEFT JOIN (
+            SELECT
+                goods_id,
+                SUM(view_num) AS view_num,
+                SUM(visitor_num) AS visitor_num,
+                SUM(sale_num) AS sale_num
+            FROM view_stats
+            GROUP BY goods_id
+        ) gs ON g.id = gs.goods_id
+        WHERE 1 = 1
+        AND g.shop_id = #{queryDTO.shopId}
+        <if test="queryDTO.status != null">
+            <if test="queryDTO.status == 1">/*销售中*/
+                AND (g.platform_manage = 1 AND g.status = 1 AND g.stock > 0)
+            </if>
+            <if test="queryDTO.status == 2">/*已售罄*/
+                AND (g.platform_manage = 1 AND g.status = 1 AND g.stock &lt;= 0)
+            </if>
+            <if test="queryDTO.status == 3">/*仓库中*/
+                AND (g.status = 2 OR g.platform_manage = 0)
+            </if>
+        </if>
+        <if test="(queryDTO.platformManage != null and queryDTO.platformManage != '') or queryDTO.platformManage==0">
+            AND g.platform_manage = #{queryDTO.platformManage}
+        </if>
+        <if test="queryDTO.goodsName != null and queryDTO.goodsName != ''">
+            AND g.name LIKE CONCAT('%', #{queryDTO.goodsName}, '%')
+        </if>
+        <if test="queryDTO.minPrice != null">
+            AND g.price &gt;= #{queryDTO.minPrice}
+        </if>
+        <if test="queryDTO.maxPrice != null">
+            AND g.price &lt;= #{queryDTO.maxPrice}
+        </if>
+        <if test="queryDTO.minSale != null">
+            AND gs.sale_num &gt;= #{queryDTO.minSale}
+        </if>
+        <if test="queryDTO.maxSale != null">
+            AND gs.sale_num &lt;= #{queryDTO.maxSale}
+        </if>
+        AND g.is_deleted = 0
+        <choose>
+            <when test="orderByField != null and orderByField !=''">
+                <choose>
+                    <when test="isAsc == true">
+                        ORDER BY ${orderByField} ASC
+                    </when>
+                    <otherwise>
+                        ORDER BY ${orderByField} DESC
+                    </otherwise>
+                </choose>
+            </when>
+            <otherwise>
+                ORDER BY g.sequence ASC, g.created_time DESC
+            </otherwise>
+        </choose>
+    </select>
+
+    <update id="batchUpdateGoodsStatus">
+        UPDATE goods
+        SET status = #{statusCode},
+        <if test="statusCode == 1">/*上架*/
+            onshelf_time = NOW(),
+        </if>
+        <if test="statusCode == 2">/*下架*/
+            offshelf_time = NOW(),
+        </if>
+        modified_time = NOW(),
+        modified_user = ${loginUserId}
+        WHERE id IN
+        <foreach item="id" collection="goodsIds" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </update>
+
+    <update id="deleteGoods">
+        UPDATE goods g
+        SET g.is_deleted = #{isDelete},
+        g.modified_time = NOW(),
+        g.modified_user = ${loginUserId}
+        WHERE g.id IN
+        <foreach item="id" collection="goodsId" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </update>
+
+
+
+
+
+    <update id="deleteGoodsSku">
+        UPDATE goods_sku
+        SET is_deleted = #{isDelete},
+        modified_time = NOW(),
+        modified_user = ${loginUserId}
+        <where>
+            goods_id = #{goodsId}
+        </where>
+    </update>
+
+
+
+    <select id="selectGoodsIntroId" resultType="java.lang.Long">
+        SELECT
+          goods_intro.id
+        FROM
+          goods_intro
+        WHERE
+          goods_intro.goods_id = #{goodsId}
+    </select>
+
+</mapper>

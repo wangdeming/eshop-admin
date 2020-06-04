@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.ibdsr.web.modular.platform.cash.dao.ProfitDistributionDao">
+
+    <select id="list4Page" resultType="java.util.Map">
+        SELECT
+            pd.id,
+            pd.created_time AS createdTime,
+            pd.service_rate AS serviceRate,
+            pd.change_service_rate AS changeServiceRate,
+            pd.effective_time AS effectiveTime,
+            s.name AS shopName,
+            s.type AS shopType
+        FROM
+            profit_distribution pd
+        LEFT JOIN shop s ON pd.shop_id = s.id
+        WHERE 1 = 1
+        <if test="condition != null and condition != ''">
+            AND s.name LIKE CONCAT('%', #{condition}, '%')
+        </if>
+        <if test="shopType != null and shopType != ''">
+            AND s.type = #{shopType}
+        </if>
+        AND pd.is_deleted = 0
+        <choose>
+            <when test="orderByField != null and orderByField !=''">
+                <choose>
+                    <when test="isAsc == true">
+                        ORDER BY ${orderByField} ASC
+                    </when>
+                    <otherwise>
+                        ORDER BY ${orderByField} DESC
+                    </otherwise>
+                </choose>
+            </when>
+            <otherwise>
+                ORDER BY pd.created_time DESC
+            </otherwise>
+        </choose>
+    </select>
+</mapper>

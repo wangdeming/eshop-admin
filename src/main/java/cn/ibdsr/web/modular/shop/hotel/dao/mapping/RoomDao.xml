@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.ibdsr.web.modular.shop.hotel.dao.RoomDao">
+
+    <resultMap id="RoomResultMap" type="cn.ibdsr.web.modular.shop.hotel.transfer.RoomVO">
+        <id column="id" property="id"/>
+        <result column="shop_id" property="shopId"/>
+        <result column="name" property="name"/>
+        <result column="main_img" property="mainImg"/>
+        <result column="breakfast" property="breakfast"/>
+        <result column="broadband" property="broadband"/>
+        <result column="window" property="window"/>
+        <result column="area" property="area"/>
+        <result column="bed_width" property="bedWidth"/>
+        <result column="person" property="person"/>
+        <result column="price" property="price"/>
+        <result column="can_cancel" property="canCancel"/>
+        <result column="status" property="status"/>
+    </resultMap>
+
+    <sql id="Page_Column_List" >
+        room.id,
+        room.name AS roomName,
+        room.main_img AS mainImg,
+        room.price,
+        room.created_time AS createdTime,
+        room.platform_manage AS platformManage,
+        IFNULL(view_stats.view_num, 0) AS viewNum,
+        IFNULL(view_stats.visitor_num, 0) AS visitorNum
+    </sql>
+
+    <!--查询房间列表-->
+    <select id="list" resultType="java.util.Map">
+        SELECT
+            <include refid="Page_Column_List" />
+        FROM
+            room
+        LEFT JOIN view_stats ON room.id = view_stats.room_id
+        WHERE 1 = 1
+        AND room.shop_id = #{queryDTO.shopId}
+        <if test="(queryDTO.status != null and queryDTO.status != '') or queryDTO.status==0">
+            <if test="queryDTO.status == 0">/*未上架*/
+                AND (room.status = 0 OR room.platform_manage = 0)
+            </if>
+            <if test="queryDTO.status == 1">/*销售中*/
+                AND (room.status = 1 AND room.platform_manage = 1)
+            </if>
+        </if>
+        <if test="(queryDTO.platformManage != null and queryDTO.platformManage != '') or queryDTO.platformManage==0">
+            AND room.platform_manage = #{queryDTO.platformManage}
+        </if>
+        <if test="queryDTO.roomName != null and queryDTO.roomName != ''">
+            AND room.name LIKE CONCAT('%', #{queryDTO.roomName}, '%')
+        </if>
+        <if test="queryDTO.minPrice != null">
+            AND room.price &gt;= #{queryDTO.minPrice}
+        </if>
+        <if test="queryDTO.maxPrice != null">
+            AND room.price &lt;= #{queryDTO.maxPrice}
+        </if>
+        AND room.is_deleted = 0
+        GROUP BY room.id
+        <choose>
+            <when test="orderByField != null and orderByField !=''">
+                <choose>
+                    <when test="isAsc == true">
+                        ORDER BY ${orderByField} ASC
+                    </when>
+                    <otherwise>
+                        ORDER BY ${orderByField} DESC
+                    </otherwise>
+                </choose>
+            </when>
+            <otherwise>
+                ORDER BY room.created_time DESC
+            </otherwise>
+        </choose>
+    </select>
+
+    <!--上架、下架-->
+    <update id="batchUpdateRoomStatus">
+        UPDATE room
+        SET status = #{statusCode},
+        modified_time = NOW(),
+        modified_user = ${loginUserId}
+        WHERE id IN
+        <foreach item="id" collection="roomIds" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </update>
+
+    <!--删除房间-->
+    <update id="deleteRoom">
+        UPDATE
+            room
+        SET
+            room.is_deleted = #{isDelete},
+            room.modified_time = NOW(),
+            room.modified_user = ${loginUserId}
+        WHERE room.id IN
+        <foreach item="id" collection="roomIds" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </update>
+
+    <!--删除房态设置-->
+    <update id="deleteRoomSetting">
+        UPDATE
+            room_setting
+        SET
+            room_setting.is_deleted = #{isDelete},
+            room_setting.modified_time = NOW(),
+            room_setting.modified_user = ${loginUserId}
+        <where>
+            room_setting.room_id = #{roomId}
+        </where>
+    </update>
+
+    <select id="getRoomInfo"  resultMap="RoomResultMap"  parameterType="java.lang.Long">
+        SELECT
+            room.id,
+            room.shop_id,
+            room.`name`,
+            room.main_img,
+            room.breakfast,
+            room.broadband,
+            room.window,
+            room.area,
+            room.bed_width,
+            room.person,
+            room.price,
+            room.can_cancel,
+            room.`status`
+        FROM
+            room
+        WHERE
+            room.is_deleted = 0
+        <if test="roomId != null ">
+            and room.id = #{roomId}
+        </if>
+    </select>
+
+    <resultMap id="roomSettingResultMap" type="cn.ibdsr.web.modular.shop.hotel.transfer.RoomSettingListVO">
+        <result column="room_id" property="roomId"/>
+        <result column="name" property="name"/>
+        <collection property="roomSettingList" ofType="java.util.Map" select="selRoomSettingByRoomId" column="room_id">
+            <result column="date" property="date"/>
+            <result column="number" property="number"/>
+            <result column="price" property="price"/>
+            <result column="status" property="status"/>
+        </collection>
+    </resultMap>
+
+    <!--根据房间Id查找该房间的所有房态设置-->
+    <select id="selRoomSettingByRoomId" resultType="java.util.Map">
+        SELECT
+            date_format(date,'%Y-%m-%d') as date,
+            number,
+            price,
+            (
+		CASE
+		WHEN (status = 1) THEN
+		'开'
+		ELSE
+		'关'
+		END
+		) as status
+        FROM
+            room_setting
+        WHERE
+            room_setting.is_deleted = 0
+        AND room_setting.room_id = #{roomId}
+        ORDER BY room_setting.date
+    </select>
+
+    <select id="roomSettingInfo" resultMap="roomSettingResultMap">
+        SELECT
+            room_setting.room_id AS room_id,
+            room.`name`
+        FROM
+            room_setting
+        LEFT JOIN room ON room_setting.room_id = room.id
+        WHERE room_setting.room_id = #{roomId}
+        AND room_setting.date = #{date}
+        AND room_setting.is_deleted = 0
+        LIMIT 1
+    </select>
+</mapper>

@@ -1,0 +1,68 @@
+@layout("/common/_container.html"){
+<div class="row">
+    <div class="col-sm-12">
+        <div class="ibox float-e-margins">
+            <div class="ibox-title">
+                <h5>商品中心-特产商品管理</h5>
+            </div>
+            <div class="ibox-content">
+                <div class="row row-lg">
+                    <div class="col-sm-12">
+                        <div class="row" style="line-height: 40px">
+                            <div class="col-sm-12" style="margin-top: 20px;">
+                                <div class="col-sm-3 form-inline">
+                                    <label class="control-label">商品名称：</label>
+                                    <input type="text" id="goodsName" class="form-control" />
+                                </div>
+                                <div class="col-sm-3 form-inline">
+                                    <label class="control-label">商&nbsp;&nbsp;品&nbsp;&nbsp;ID：</label>
+                                    <input type="text" id="goodsId" class="form-control" />
+                                </div>
+                                <div class="col-sm-3 form-inline">
+                                    <label class="control-label">店铺名称：</label>
+                                    <input type="text" id="shopName" class="form-control" />
+                                </div>
+                            </div>
+
+                            <div class="col-sm-12" style="margin-top: 20px;">
+                                <div class="col-sm-3 form-inline">
+                                    <label class="control-label">店&nbsp;&nbsp;铺&nbsp;&nbsp;ID：</label>
+                                    <input type="text" id="shopId" class="form-control" />
+                                </div>
+                                <button type="button" class="btn btn-primary" onclick="goodsList.search()" style="margin-left: 20px;margin-bottom: 0;">
+                                    <i class="fa fa-search"></i>&nbsp;查询
+                                </button>
+                            </div>
+
+                            <div class="col-sm-12" style="margin-top: 20px;">
+                                <div class="col-sm-8 form-inline">
+                                    <label class="control-label">商品类目：</label>
+                                    <select class="form-control" id="typeOne" style="margin-right: 50px;max-width: 250px;">
+                                        <option>请选择商品一级类目</option>
+                                    </select>
+                                    <select class="form-control" id="typeTwo" style="max-width: 250px;">
+                                        <option>请选择商品二级类目</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-sm-12" style="margin-top: 20px;">
+                                <div class="col-sm-12 form-inline">
+                                    <div class="btn-group pull-left">
+                                        <input type="hidden" id="status" value="1">
+                                        <button type="button" data="1" class="btn btn-outline mybt btn-default active">销售中</button>
+                                        <button type="button" data="2" class="btn btn-outline mybt btn-default">已售罄</button>
+                                        <button type="button" data="3" class="btn btn-outline mybt btn-default">仓库中</button>
+                                        <button type="button" data="4" class="btn btn-outline mybt btn-default">系统下架</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <#table id="goodsListTable"/>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="${ctxPath}/static/modular/platform/goodscenter/specailgoods/specailGoods.js"></script>
+@}

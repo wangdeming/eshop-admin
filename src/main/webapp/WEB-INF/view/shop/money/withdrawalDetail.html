@@ -1,0 +1,192 @@
+@layout("/common/_container.html"){
+<style>
+    .mypanel {
+        min-height: 120px;
+        padding: 30px;
+        margin-bottom: 30px;
+    }
+    .header {
+        background: rgb(242, 242, 242);
+        line-height: 40px;
+        padding-left: 15px;
+        margin-bottom: 30px;
+    }
+    .statusline {
+        padding-top: 50px;
+        width: 80%;
+        margin: 0 auto;
+    }
+    .time-horizontal {
+        list-style-type: none;
+        border: 1px solid #00bbe0;
+        height: 0;
+        display: flex;
+        padding: 0;
+        margin: 0;
+        justify-content: space-between;
+
+    }
+    .time-horizontal li {
+        position: relative;
+        padding: 0;
+        margin: 0;
+    }
+    .time-horizontal li b.trade_user:before {
+        content: '';
+        position: absolute;
+        top: -15px;
+        left: -5px;
+        width: 25px;
+        height: 25px;
+        border: 2px solid #00bbe0;
+        border-radius: 25px;
+        background: #FFF !important;
+    }
+    .time-horizontal li  b.trade_user:after{
+        content:'';
+        position:absolute;
+        top:-10px;
+        left: 0px;
+        width:15px;
+        height:10px;
+        border:3px solid #00bbe0;
+        border-radius:1px;
+        border-top:none;
+        border-right:none;
+        background:transparent;
+        transform:rotate(-45deg);
+    }
+    .time-horizontal .glyphicon-remove-circle {
+        content: '';
+        position: absolute;
+        top: -15px;
+        left: -5px;
+        width: 25px;
+        color: #00bbe0;
+        font-size: 26px;
+        background: #fff;
+        z-index: 999;
+    }
+    .time-horizontal li b.trade_over:before {
+        content: '';
+        position: absolute;
+        top: -15px;
+        width: 25px;
+        height: 25px;
+        border: 2px solid #00bbe0;
+        border-radius: 25px;
+        background: #00bbe0;
+    }
+
+    .pretext{
+        position: absolute;
+        top: -40px;
+        text-align: center;
+        width: 200px;
+        left: -90px;
+    }
+    .aftertext{
+        position: absolute;
+        top: 40px;
+        text-align: center;
+        width: 200px;
+        left: -90px;
+    }
+</style>
+<div class="row">
+    <div class="col-sm-12">
+        <div class="ibox float-e-margins">
+            <div class="ibox-title">
+                <h5>提现详情</h5>
+            </div>
+            <div class="ibox-content">
+                <div class="mypanel">
+                    <div class="header">
+                        提现进度
+                    </div>
+                    <div class="statusline">
+                        <ul class="time-horizontal" id="process">
+
+                        </ul>
+                    </div>
+                </div>
+                <div class="mypanel">
+                    <div class="header">
+                        提现状态
+                    </div>
+                    <div class="col-sm-12" id="status">
+
+                    </div>
+                </div>
+                <div class="mypanel">
+                    <div class="header">
+                        提现信息
+                    </div>
+                    <div class="col-sm-12" id="info">
+
+                    </div>
+                    <br>
+                    <br>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+<script>
+    $(function () {
+        function getUrlParam(name) {
+            var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)"); //构造一个含有目标参数的正则表达式对象
+            var r = window.location.search.substr(1).match(reg);  //匹配目标参数
+            if (r != null) return unescape(r[2]); return null; //返回参数值
+        }
+        function getfstr(sv){
+            if(sv == "" || sv == null || sv == undefined){
+                return '';
+            }
+            return sv;
+        }
+        var type=['','微信','支付宝'];
+        var statusdesc=['','预计一周内完成审核，实际到账请查收账户。','审核成功后，将于3-5个工作日完成转账。','预计1-3个工作日到账，实际到账请查收账户。','审核不通过，冻结金额已返还至店铺余额，请查收。']
+        var ajax = new $ax(Feng.ctxPath + "/shop/money/withdrawaldetail", function (res) {
+            if(res.code==200){
+                var step2html='<p class="pretext">审核结果</p><b class="trade_over"></b>'
+                var step3html='<p class="pretext">提现结果</p><b class="trade_over"></b>'
+                if(res.data.status==2 ){
+                    step2html='<p class="pretext">审核通过</p><b class="trade_user"></b>'
+                }else if(res.data.status==4){
+                    step2html='<p class="pretext">审核不通过</p><i class="glyphicon glyphicon-remove-circle"></i>'
+                }else if(res.data.status==3){
+                    step2html='<p class="pretext">审核通过</p><b class="trade_user"></b>'
+                    step3html='<p class="pretext">提现成功</p><b class="trade_user"></b>'
+                }
+                $("#process").html('<li><p class="pretext">提交申请</p><b class="trade_user"></b><p class="aftertext">'+getfstr(res.data.createdTime)+'</p></li>\n' +
+                    '               <li>'+step2html+'<p class="aftertext">'+getfstr(res.data.modifiedTime)+'</p></li>\n' +
+                    '               <li>'+step3html+'<p class="aftertext">'+getfstr(res.data.confirmTime)+'</p></li>');
+
+                $("#status").html('<p>'+getfstr(res.data.statusName)+' </p>\n' +
+                    '              <p>'+getfstr(statusdesc[res.data.status])+'</p>');
+                var reviewhtml=''
+                if(res.data.reviewTime){
+                    reviewhtml='            <p>审核时间：'+getfstr(res.data.reviewTime)+'</p>'
+                }
+                var confirmTimehtml=''
+                if(res.data.confirmTime){
+                    confirmTimehtml='            <p>提现时间：'+getfstr(res.data.confirmTime)+'</p>'
+                }
+
+                $("#info").html('<p>提现金额：¥'+getfstr(res.data.amount)+'元 </p>\n' +
+                    '            <p>提现账号：'+getfstr(type[res.data.drawWay])+'|'+getfstr(res.data.accountName)+'|'+getfstr(res.data.accountNo)+'</p>' +
+                    '            <p>申请时间：'+getfstr(res.data.createdTime)+'</p>'+reviewhtml+confirmTimehtml);
+            }else{
+                Feng.error( res.message + "!");
+            }
+        }, function (data) {
+            Feng.error(data.responseJSON.message + "!");
+        });
+        ajax.set({id:getUrlParam('id')});
+        ajax.start();
+    })
+</script>
+@}

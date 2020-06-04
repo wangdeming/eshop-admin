@@ -1,0 +1,351 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.ibdsr.web.modular.shop.order.dao.ShopOrderDao">
+    <resultMap id="ShopOrdersResultMap" type="cn.ibdsr.web.modular.shop.order.transfer.OrderVO">
+        <id column="id" property="id"/>
+        <result column="order_no" property="orderNo"/>
+        <result column="user_id" property="userId"/>
+        <result column="status" property="status"/>
+        <result column="consignee_name" property="consigneeName"/>
+        <result column="consignee_phone" property="consigneePhone"/>
+        <result column="province" property="province"/>
+        <result column="city" property="city"/>
+        <result column="district" property="district"/>
+        <result column="address" property="address"/>
+        <result column="order_price" property="orderPrice"/>
+        <result column="express_fee" property="expressFee"/>
+        <collection property="goods" ofType="cn.ibdsr.web.modular.shop.order.transfer.OrderGoodsVO" column="id" select="listOrderGoods">
+            <id column="order_goods_id" property="id"/>
+            <result column="goods_id" property="goodsId"/>
+            <result column="goods_name" property="goodsName"/>
+            <result column="goods_img" property="goodsImg"/>
+            <result column="nums" property="nums"/>
+            <result column="goods_specs" property="goodsSpecs"/>
+            <result column="unit_price" property="unitPrice"/>
+            <result column="delivery_status" property="deliveryStatus"/>
+            <result column="service_status" property="serviceStatus"/>
+        </collection>
+    </resultMap>
+
+    <resultMap id="GoodsMap" type="cn.ibdsr.web.modular.shop.order.transfer.OrderGoodsVO">
+        <id column="order_goods_id" property="id"/>
+        <result column="goods_id" property="goodsId"/>
+        <result column="goods_name" property="goodsName"/>
+        <result column="goods_img" property="goodsImg"/>
+        <result column="nums" property="nums"/>
+        <result column="goods_specs" property="goodsSpecs"/>
+        <result column="unit_price" property="unitPrice"/>
+        <result column="delivery_status" property="deliveryStatus"/>
+        <result column="service_status" property="serviceStatus"/>
+    </resultMap>
+
+    <resultMap id="OrderDetailMap" type="cn.ibdsr.web.modular.shop.order.transfer.OrderDetailVO" >
+        <id column="id" property="id"/>
+        <result column="order_no" property="orderNo"/>
+        <result column="user_id" property="userId"/>
+        <result column="consignee_name" property="consigneeName"/>
+        <result column="consignee_phone" property="consigneePhone"/>
+        <result column="province" property="province"/>
+        <result column="city" property="city"/>
+        <result column="district" property="district"/>
+        <result column="address" property="address"/>
+        <result column="delivery_type" property="deliveryType"/>
+        <result column="payment_time" property="paymentTime"/>
+        <result column="delivery_time" property="deliveryTime"/>
+        <result column="cancel_time" property="cancelTime"/>
+        <result column="cancel_remark" property="cancelRemark"/>
+        <result column="created_time" property="createdTime"/>
+        <result column="receive_time" property="receiveTime"/>
+        <result column="express_fee" property="expressFee"/>
+        <result column="coupon_amount" property="couponAmount" />
+        <result column="status" property="status"/>
+        <result column="order_price" property="orderPrice"/>
+        <collection property="goods" ofType="cn.ibdsr.web.modular.shop.order.transfer.OrderGoodsVO">
+            <id column="order_goods_id" property="id"/>
+            <result column="goods_id" property="goodsId"/>
+            <result column="goods_name" property="goodsName"/>
+            <result column="goods_img" property="goodsImg"/>
+            <result column="nums" property="nums"/>
+            <result column="goods_specs" property="goodsSpecs"/>
+            <result column="unit_price" property="unitPrice"/>
+            <result column="delivery_status" property="deliveryStatus"/>
+            <result column="service_status" property="serviceStatus"/>
+            <result column="express_company" property="expressCompany"/>
+            <result column="express_no" property="expressNo"/>
+        </collection>
+    </resultMap>
+
+    <sql id="ColumnOrderList">
+        shop_order.order_no,
+        shop_order.shop_id,
+        shop_order.`status`,
+        shop_order.pre_status,
+        shop_order.order_price,
+        shop_order.coupon_amount,
+        shop_order.goods_price,
+        shop_order.express_fee,
+        shop_order.delivery_type,
+        shop_order.consignee_name,
+        shop_order.consignee_phone,
+        shop_order.payment_time,
+        shop_order.cancel_time,
+        shop_order.id,
+        shop_order.user_id,
+        shop_order.province,
+        shop_order.city,
+        shop_order.district,
+        shop_order.address,
+        shop_order.created_user,
+        shop_order.created_time
+    </sql>
+
+    <sql id="ColumnOrderDetail">
+        shop_order.order_no,
+        shop_order.shop_id,
+        shop_order.`status`,
+        shop_order.pre_status,
+        shop_order.order_price,
+        shop_order.coupon_amount,
+        shop_order.goods_price,
+        shop_order.express_fee,
+        shop_order.coupon_amount,
+        shop_order.delivery_type,
+        shop_order.consignee_name,
+        shop_order.consignee_phone,
+        shop_order.payment_time,
+        shop_order.cancel_time,
+        shop_order.cancel_remark,
+        shop_order.id,
+        shop_order.user_id,
+        shop_order.province,
+        shop_order.city,
+        shop_order.district,
+        shop_order.address,
+        shop_order.created_user,
+        shop_order.created_time,
+        shop_order_goods.goods_id,
+        shop_order_goods.id order_goods_id,
+        shop_order_goods.goods_name,
+        shop_order_goods.delivery_time,
+        shop_order_goods.receive_time,
+        shop_order_goods.goods_img,
+        shop_order_goods.nums,
+        shop_order_goods.goods_specs,
+        shop_order_goods.unit_price,
+        shop_order_goods.delivery_status delivery_status,
+        shop_order_goods.service_status service_status,
+        shop_order_goods.express_company,
+        shop_order_goods.express_no
+    </sql>
+
+    <!--订单条件查询-->
+    <select id="orderList" resultMap="ShopOrdersResultMap">
+        SELECT
+            <include refid="ColumnOrderList"/>
+        FROM
+            shop_order
+        WHERE
+            shop_order.is_deleted = 0
+        AND shop_order.shop_id = #{shopId}
+        <if test="orderNo != null and orderNo!=''">
+            AND shop_order.order_no = #{orderNo}
+        </if>
+        <if test="consigneePhone!=null and consigneePhone!=''">
+            AND shop_order.consignee_phone = #{consigneePhone}
+        </if>
+        <if test="consigneeName!=null and consigneeName!=''">
+            AND shop_order.consignee_name = #{consigneeName}
+        </if>
+        <if test="servicePhone!=null and servicePhone!=''">
+            AND shop_order.id IN (
+            SELECT
+            shop_order_refund.order_id
+            FROM
+            shop_order_refund
+            WHERE
+            shop_order_refund.phone = #{servicePhone}
+            GROUP BY
+            shop_order_refund.order_id
+            )
+        </if>
+        <if test="createdTimeStart!= null and createdTimeStart!=''">
+            AND
+            shop_order.created_time &gt;= #{createdTimeStart}
+        </if>
+        <if test="createdTimeEnd!= null and createdTimeEnd!=''">
+            AND shop_order.created_time &lt;= #{createdTimeEnd}
+        </if>
+        <if test="goodsName != null">
+            AND shop_order.id IN (
+            SELECT
+                shop_order_goods.order_id
+            FROM
+                shop_order_goods
+            WHERE
+                shop_order_goods.goods_name like CONCAT('%',#{goodsName},'%')
+            GROUP BY
+                shop_order_goods.order_id
+            )
+        </if>
+        <if test="orderStatus != null and orderStatus != ''">
+            <if test="orderStatus == 0">
+                AND 1 = 1
+            </if>
+            <if test="orderStatus == 4">
+                AND (shop_order.`status` = 4
+                OR shop_order.`status` = 8)
+            </if>
+            <if test="orderStatus == 6">
+                AND shop_order.id IN (
+                SELECT
+                shop_order_goods.order_id
+                FROM
+                shop_order_goods
+                WHERE
+                shop_order_goods.service_status = 2
+                )
+            </if>
+            <if test="orderStatus != 0 and orderStatus != 4 and orderStatus != 6">
+                AND shop_order.`status` = #{orderStatus}
+            </if>
+        </if>
+    </select>
+
+    <!--订单中商品查询-->
+    <select id = "listOrderGoods" resultMap="GoodsMap">
+        SELECT
+            shop_order_goods.goods_id,
+            shop_order_goods.id order_goods_id,
+            shop_order_goods.goods_name,
+            shop_order_goods.delivery_time,
+            shop_order_goods.goods_img,
+            shop_order_goods.nums,
+            shop_order_goods.goods_specs,
+            shop_order_goods.unit_price,
+            shop_order_goods.delivery_status delivery_status,
+            shop_order_goods.service_status service_status
+        FROM
+            shop_order_goods
+        WHERE shop_order_goods.order_id = #{id}
+        ORDER BY shop_order_goods.delivery_status
+    </select>
+
+    <!--订单详情查询-->
+    <select id="orderDetailList" resultMap="OrderDetailMap">
+        SELECT
+            <include refid="ColumnOrderDetail"/>
+        FROM
+            shop_order,
+            shop_order_goods
+        WHERE
+            shop_order.id = shop_order_goods.order_id
+        AND shop_order.id = #{orderId}
+        AND shop_order.is_deleted = 0
+        ORDER BY shop_order_goods.delivery_status
+    </select>
+
+    <!--根据订单id查询该订单下的商品的评价信息-->
+    <select id="listEvalGoods" resultType="java.util.Map">
+        SELECT
+        ge.id AS goodsEvaluateId,
+        ge.content,
+        ge.imgs,
+        ge.goods_score AS goodsScore,
+        ge.service_score AS serviceScore,
+        ge.express_score AS expressScore,
+        sog.goods_id AS goodsId,
+        sog.goods_name AS goodsName,
+        sog.goods_img AS goodsImg,
+        sog.goods_specs AS goodsSpecs,
+        ge.shop_reply AS shopReply,
+        ge.reply_time AS replyTime
+        FROM
+        goods_evaluate ge
+        LEFT JOIN shop_order_goods sog ON ge.order_goods_id = sog.id
+        WHERE 1 = 1
+        AND ge.is_deleted = 0
+        AND ge.order_id = #{orderId}
+        ORDER BY ge.created_time DESC
+    </select>
+
+    <resultMap id="EvaluateListResultMap" type="cn.ibdsr.web.modular.shop.order.transfer.EvaluateDetailVO">
+        <id column="id" property="id"/>
+        <result column="order_no" property="orderNo"/>
+        <result column="service_score" property="serviceScore" />
+        <result column="express_score" property="expressScore" />
+        <collection property="evalGoodsList" ofType="java.util.Map" column="id" select="listEvalGoods">
+            <result column="content" property="content" />
+            <result column="imgs" property="imgs" />
+            <result column="goods_score" property="goodsScore" />
+            <result column="service_score" property="serviceScore" />
+            <result column="express_score" property="expressScore" />
+            <result column="goods_id" property="goodsId" />
+            <result column="goods_name" property="goodsName"/>
+            <result column="goods_img" property="goodsImg"/>
+            <result column="goods_specs" property="goodsSpecs"/>
+            <result column="shop_reply" property="shopReply" />
+            <result column="reply_time" property="replyTime" />
+        </collection>
+    </resultMap>
+
+    <!--根据订单id查询该订单下的商品的评价信息-->
+    <select id="listOrderEvaluate" resultMap="EvaluateListResultMap">
+        SELECT
+            shop_order.id,
+            shop_order.order_no,
+            goods_evaluate.service_score,
+            goods_evaluate.express_score,
+            goods_evaluate.created_time
+        FROM
+            shop_order
+        LEFT JOIN goods_evaluate ON goods_evaluate.order_id = shop_order.id
+        WHERE shop_order.is_deleted = 0
+        AND goods_evaluate.is_deleted = 0
+        AND shop_order.shop_id = #{shopId}
+        <if test="createdTimeStart!=null and createdTimeEnd!=null">
+            AND (
+            shop_order.created_time &gt;= #{createdTimeStart}
+            AND shop_order.created_time &lt;= #{createdTimeEnd}
+            )
+        </if>
+        <if test="orderNo!=null and orderNo!=''">
+            AND shop_order.order_no = #{orderNo}
+        </if>
+        <if test="goodsName != null">
+            AND shop_order.id IN (
+            SELECT
+            shop_order_goods.order_id
+            FROM
+            shop_order_goods
+            WHERE
+            shop_order_goods.goods_name like CONCAT('%',#{goodsName},'%')
+            GROUP BY
+            shop_order_goods.order_id
+            )
+        </if>
+        <if test="evaluateWay != null and evaluateWay != ''">
+            <if test="evaluateWay == 0">
+                AND 1 = 1
+            </if>
+            <if test="evaluateWay == 1">
+                AND goods_evaluate.goods_score = 5
+                AND goods_evaluate.service_score = 5
+                AND goods_evaluate.express_score = 5
+                AND goods_evaluate.content is NULL
+            </if>
+            <if test="evaluateWay == 2">
+                AND goods_evaluate.content is NOT NULL
+            </if>
+        </if>
+        <if test="goodsScore != null and goodsScore != ''">
+            <if test="goodsScore == 0">
+                AND 1 = 1
+            </if>
+            <if test="goodsScore != 0">
+                AND goods_evaluate.goods_score = #{goodsScore}
+            </if>
+        </if>
+        GROUP BY
+        shop_order.order_no
+    </select>
+</mapper>

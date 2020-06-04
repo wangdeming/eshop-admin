@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.ibdsr.web.common.persistence.dao.UserMapper">
+
+	<!-- 通用查询映射结果 -->
+	<resultMap id="BaseResultMap" type="cn.ibdsr.web.common.persistence.model.User">
+		<id column="id" property="id" />
+		<result column="nickname" property="nickname" />
+		<result column="avatar" property="avatar" />
+		<result column="phone" property="phone" />
+		<result column="birthday" property="birthday" />
+		<result column="sex" property="sex" />
+		<result column="status" property="status" />
+		<result column="province_id" property="provinceId" />
+		<result column="province" property="province" />
+		<result column="city_id" property="cityId" />
+		<result column="city" property="city" />
+		<result column="district_id" property="districtId" />
+		<result column="district" property="district" />
+		<result column="wx_open_id" property="wxOpenId" />
+		<result column="wx_union_id" property="wxUnionId" />
+		<result column="country" property="country" />
+		<result column="privilege" property="privilege" />
+		<result column="wechat_login_datetime" property="wechatLoginDatetime" />
+		<result column="created_user" property="createdUser" />
+		<result column="created_time" property="createdTime" />
+		<result column="modified_user" property="modifiedUser" />
+		<result column="modified_time" property="modifiedTime" />
+		<result column="is_deleted" property="isDeleted" />
+	</resultMap>
+
+</mapper>

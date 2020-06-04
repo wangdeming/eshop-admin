@@ -1,0 +1,42 @@
+@layout("/common/_container.html"){
+<style>
+    th,td{
+        text-align: center;
+    }
+
+    .confirm-style{
+        text-align: center;
+    }
+</style>
+<div class="row">
+    <div class="col-sm-12">
+        <div class="ibox float-e-margins">
+            <div class="ibox-title">
+                <h5>店铺信息</h5>
+            </div>
+            <div class="ibox-content">
+                <div class="row row-lg">
+                    <div class="row">
+                        <div class="hidden">
+                            <#input id="profitDistributionId" name="* ID：" underline="true"  placeholder="请输入ID" value="${profitDistributionId}"/>
+                        </div>
+                        <div class="col-sm-12" style="margin-top: 10px;">店铺类型：${shop.shopType}</div>
+                        <div class="col-sm-12" style="margin-top: 10px;">店铺名称：${shop.shopName}</div>
+                    </div>
+                </div>
+            </div>
+            <div class="ibox-title">
+                <h5>操作记录</h5>
+            </div>
+            <div class="ibox-content">
+                <div class="project row">
+                </div>
+                <div class="confirm-style">
+                    <#button name="确认" icon="" clickFun="AdInfoManagerAccount.openAdd()"/>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="${ctxPath}/static/modular/platform/cash/profitdistribution/profitDistributionHistoryList.js"></script>
+@}

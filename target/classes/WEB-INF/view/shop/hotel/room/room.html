@@ -1,0 +1,66 @@
+@layout("/common/_container.html"){
+<style>
+    .active{
+        color: #fff !important;background-color: #adadad !important;outline: none !important;border:1px solid #adadad !important;
+    }
+</style>
+<div class="row">
+    <div class="col-sm-12">
+        <div class="ibox float-e-margins">
+            <div class="ibox-title">
+                <h5>房间管理</h5>
+            </div>
+            <div class="ibox-content">
+                <div class="row row-lg">
+                    <div class="col-sm-12">
+                        <#button name="创建房间" icon="fa-plus" clickFun="roomList.openAddRoom()"/>
+                        <#button name="查看所有房态" icon="fa-search" clickFun="roomList.checkAllRoomManage()" />
+                    </div>
+                    <div class="col-sm-12" style="margin-top: 10px;">
+                        <div class="form-inline">
+                            <label class="control-label">房间名称：</label>
+                            <input type="text" id="roomName" class="form-control" />
+                        </div>
+                    </div>
+                    <div class="col-sm-12" style="margin-top: 20px;">
+                        <div class="form-inline">
+                            <label class="control-label">房间价格：</label>
+                            <div class="input-group" style="margin-right: 20px;">
+                                <span class="input-group-addon">¥</span>
+                                <input type="text" id="minPrice" class="form-control" >
+                                <span class="input-group-addon" style="border: none">-</span>
+                                <span class="input-group-addon">¥</span>
+                                <input type="text" id="maxPrice" class="form-control" >
+                            </div>
+                            <div class="input-group" style="display: inline-block;margin-top: 5px;">
+                                <#button name="查询" icon="fa-search" clickFun="roomList.search()"/>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-12" style="margin-top: 20px;">
+                        <div class="form-inline">
+                            <div class="btn-group pull-left" id="orderStatus">
+                                <input type="hidden" id="status" value="1">
+                                <button type="button" data="1" class="btn btn-outline mybt btn-default active">销售中</button>
+                                <button type="button" data="0" class="btn btn-outline mybt btn-default">未上架</button>
+                                <button type="button" data="2" class="btn btn-outline mybt btn-default">系统下架</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-12">
+                        <#table id="RoomListTable"/>
+                    </div>
+                    <div class="col-sm-12" style="margin-top: 20px;">
+                        <#button name="下架" icon="" id="shelf" clickFun="roomList.shelf(this)"/>
+                        <#button name="上架" icon="" id="shelves" clickFun="roomList.shelves(this)"/>
+                        <button type="button" class="btn btn-primary"  shelf="delete" id="deletebtn" style="display: none" onclick="roomList.shelf(this)">
+                            删除
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="${ctxPath}/static/modular/shop/hotel/room/room.js"></script>
+@}

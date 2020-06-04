@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.ibdsr.web.modular.platform.cash.dao.WithdrawalDao">
+
+    <select id="listWithdrawals4Page" resultType="java.util.Map">
+        SELECT
+            cw.id,
+            cw.created_time AS createdTime,
+            cw.amount,
+            cw.status,
+            s.name AS shopName,
+            s.type AS shopType
+        FROM
+            cash_withdrawal cw
+        LEFT JOIN shop s ON cw.shop_id = s.id
+        WHERE 1 = 1
+        <if test="queryDTO.condition != null and queryDTO.condition != ''">
+            AND s.name LIKE CONCAT('%', #{queryDTO.condition}, '%')
+        </if>
+        <if test="queryDTO.timeType == 1">  /* 今日 */
+            AND TO_DAYS(cw.created_time) = TO_DAYS(NOW())
+        </if>
+        <if test="queryDTO.timeType == 2">  /* 昨日 */
+            AND DATEDIFF(cw.created_time, NOW()) = -1
+        </if>
+        <if test="queryDTO.timeType == 3">  /* 近7日 */
+            AND DATEDIFF(cw.created_time, NOW()) &lt;= 0 AND DATEDIFF(cw.created_time, NOW()) &gt; -7
+        </if>
+        <if test="queryDTO.timeType == 4">  /* 自定义 */
+            AND TO_DAYS(cw.created_time) &gt;= TO_DAYS(#{queryDTO.startDate})
+            AND TO_DAYS(cw.created_time) &lt;= TO_DAYS(#{queryDTO.endDate})
+        </if>
+        <if test="queryDTO.wdStatus != null">
+            AND cw.status = #{queryDTO.wdStatus}
+        </if>
+        AND cw.is_deleted = 0
+        ORDER BY cw.created_time DESC
+    </select>
+</mapper>

@@ -1,0 +1,93 @@
+@layout("/common/_container.html"){
+<link href="${ctxPath}/static/css/main.css" rel="stylesheet"/>
+<link href="${ctxPath}/static/css/account-manage.css" rel="stylesheet">
+<style>
+    .tab-bg{
+        background-color: #23c6c8;
+    }
+    .form-control{
+        display: inline-block;
+        margin: 0;
+        padding: 0;
+        background-color: #fff;
+        border: none;
+        height: 36px;
+        width: 225px;
+        padding-right: 30px;
+        /*padding-left: 5px;*/
+        outline-width: 0px;
+        line-height: 36px;
+        box-shadow: none;
+    }
+</style>
+<form id="changePhoneForm" action="#" class="form-horizontal">
+    <div class="ibox float-e-margins" style="font-size: 16px;">
+        <div class="ibox-content">
+            <div class="form-horizontal">
+                <div class="row my-row form-group" style="text-align: center;border-bottom: 1px solid #ccc;">
+                    <div id="step1" style="float: left;width: 33.33%;text-align: center;color: #FF7D32;">
+                        <img id="image1" src="" alt="">
+                        <span style="display: inline-block;vertical-align: middle;font-size: 14px;">验证身份</span>
+                    </div>
+                    <div id="step2" style="float: left;width: 33.33%;text-align: center;color: #999999;">
+                        <img id="image2" src="" alt="">
+                        <span style="display: inline-block;vertical-align: middle;font-size: 14px;">修改已验证手机</span>
+                    </div>
+                    <div id="step3" style="float: left;width: 33.33%;text-align: center;color: #999999;">
+                        <img id="image3" src="" alt="">
+                        <span style="display: inline-block;vertical-align: middle;font-size: 14px;">完成</span>
+                    </div>
+                </div>
+                <div id="modifyPhone1" class="login-list" style="display: block;">
+                    <li class="form-group login-input" style="border: 1px solid #e5e6e7;margin:20px auto;">
+                        <span style="margin-left: 10px;vertical-align: middle;">原手机</span>
+                        <input class="form-control" id="phoneNumber_old" type="text" name="phoneNumber_old" placeholder="请输入原手机号" >
+                    </li>
+                    <li class="form-group" style="height: 36px;width: 320px;margin: 30px auto;">
+                        <div class="form-control" style="border: 1px solid #e5e6e7;background-color: #fff;border-radius: 4px;float: left;position: relative;">
+                            <span style="margin-left: 10px;vertical-align: middle;">验证码</span>
+                            <input id="verifyCode_old" name="verifyCode_old" type="text" style="width: 110px;padding-right: 20px;height: 28px;outline: none;" placeholder="请输入验证码">
+                        </div>
+                        <button onclick="getVerifyCode(event, 1)" class="not-send" type="button" style="border: 1px solid #e5e6e7;background-color: #fff;border-radius: 4px;float: left;height: 36px;width: 75px;margin-left: 20px;">发送</button>
+                    </li>
+                    <div class="row btn-group-m-t">
+                        <div class="col-sm-12">
+                            <button type="button" onclick="next(1)" id="ensure1" class="btn btn-info center-block" style="width: 320px;">下一步</button>
+                        </div>
+                    </div>
+                </div>
+                <div id="modifyPhone2" class="login-list" style="display: none;">
+                    <li class="form-group login-input" style="border: 1px solid #e5e6e7;margin:20px auto;">
+                        <span style="margin-left: 10px;vertical-align: middle;">新手机</span>
+                        <input class="form-control" id="phoneNumber_new" type="text" name="phoneNumber_new" placeholder="请输入新手机号">
+                    </li>
+                    <li class="form-group" style="height: 36px;width: 320px;margin: 30px auto;">
+                        <div class="form-control" style="border: 1px solid #e5e6e7;background-color: #fff;border-radius: 4px;float: left;position: relative;">
+                            <span style="margin-left: 10px;vertical-align: middle;">验证码</span>
+                            <input id="verifyCode_new" name="verifyCode_new" type="text" style="width: 110px;padding-right: 20px;height: 28px;outline: none;" placeholder="请输入验证码">
+                        </div>
+                        <button onclick="getVerifyCode(event, 2)" class="not-send" type="button" style="border: 1px solid #e5e6e7;background-color: #fff;border-radius: 4px;float: left;height: 36px;width: 75px;margin-left: 20px;">发送</button>
+                    </li>
+                    <div class="row btn-group-m-t">
+                        <div class="col-sm-12">
+                            <button type="button" onclick="next(2)" id="ensure2" class="btn btn-info center-block" style="width: 320px;">下一步</button>
+                        </div>
+                    </div>
+                </div>
+                <div id="modifyPhone3" class="login-list" style="display: none;">
+                    <div class="col-sm-12" style="text-align: center;margin: 30px auto;">
+                        <h3>恭喜您成功修改手机号码！</h3>
+                    </div>
+                    <div class="row btn-group-m-t">
+                        <div class="col-sm-12">
+                            <button type="button" onclick="next(3)" id="ensure3" class="btn btn-info center-block">完成</button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</form>
+<script src="${ctxPath}/static/modular/shop/account/updatePhone.js"></script>
+@}

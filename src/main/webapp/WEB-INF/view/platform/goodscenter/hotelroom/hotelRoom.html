@@ -1,0 +1,51 @@
+@layout("/common/_container.html"){
+<div class="row">
+    <div class="col-sm-12">
+        <div class="ibox float-e-margins">
+            <div class="ibox-title">
+                <h5>商品中心-酒店房间管理</h5>
+            </div>
+            <div class="ibox-content">
+                <div class="row row-lg">
+                    <div class="col-sm-12" style="margin-top: 20px;">
+                        <div class="col-sm-3 form-inline">
+                            <label class="control-label">房间名称：</label>
+                            <input type="text" id="roomName" class="form-control" />
+                        </div>
+                        <div class="col-sm-3 form-inline">
+                            <label class="control-label">房&nbsp;&nbsp;间&nbsp;&nbsp;ID：</label>
+                            <input type="text" id="roomId" class="form-control" />
+                        </div>
+                        <div class="col-sm-3 form-inline">
+                            <label class="control-label">酒店名称：</label>
+                            <input type="text" id="shopName" class="form-control" />
+                        </div>
+                    </div>
+
+                    <div class="col-sm-12" style="margin-top: 20px;">
+                        <div class="col-sm-3 form-inline">
+                            <label class="control-label">店&nbsp;&nbsp;铺&nbsp;&nbsp;ID：</label>
+                            <input type="text" id="shopId" class="form-control" />
+                        </div>
+                        <div class="col-sm-4 form-inline">
+                            <#button name="查询" icon="fa-search" clickFun="roomList.search()"/>
+                        </div>
+                    </div>
+                    <div class="col-sm-12 form-inline" style="margin-top: 20px;">
+                        <div class="btn-group pull-left">
+                            <input type="hidden" id="status" value="1">
+                            <button type="button" data="1" class="btn btn-outline mybt btn-default active">销售中</button>
+                            <button type="button" data="0" class="btn btn-outline mybt btn-default">未上架</button>
+                            <button type="button" data="4" class="btn btn-outline mybt btn-default">系统下架</button>
+                        </div>
+                    </div>
+                    <div class="col-sm-12">
+                        <#table id="RoomListTable"/>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="${ctxPath}/static/modular/platform/goodscenter/hotelroom/hotelRoom.js"></script>
+@}

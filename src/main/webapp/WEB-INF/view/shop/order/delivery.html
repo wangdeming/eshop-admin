@@ -1,0 +1,79 @@
+@layout("/common/_container.html"){
+<style>
+    th{
+        text-align: center;
+    }
+    .itemDiv{
+        height: 40px;line-height: 40px;
+    }
+    .itemLabel{
+        display: inline-block;
+        width:100px;
+        height:40px;
+        line-height: 40px;
+        text-align: right;
+        margin-right: 10px;
+    }
+</style>
+<div class="row right-content" xmlns="http://www.w3.org/1999/html" style="background-color: #ffffff;height: 100%;">
+    <div class="col-sm-12" style="margin-top: 20px;">
+        <div class="col-sm-12">
+            <h3 class="pull-left" >订单发货</h3>
+        </div>
+    </div>
+    <div class="col-sm-12" style="margin-top: 10px;">
+        <div class="col-sm-6 form-inline">
+            <div>
+                <span>选择商品</span>
+                <span id="orderStatusAndNums"></span>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-12" style="margin-top: 10px;">
+        <div class="col-sm-6 form-inline">
+            <table style="width:100%;table-layout: fixed;" border="1">
+                <thead style="background: #eeeeee;height: 40px;line-height: 40px;">
+                    <th width="50px"><input id="selectAll" type="checkbox"></th>
+                    <th width="200px">商品</th>
+                    <th width="100px">数量</th>
+                    <th width="100px">状态</th>
+                    <th width="100px">物流状态</th>
+                </thead>
+                <tbody id="orderTbody"></tbody>
+            </table>
+            </div>
+        </div>
+    <div class="col-sm-12" style="margin-top: 10px;">
+        <div class="col-sm-6 form-inline" style="padding-left: 0;padding-right: 15px;">
+            <div style="width: 100%;height: 40px;line-height: 40px;background: #eeeeee;padding-left: 20px;">配送信息</div>
+            <div class="itemDiv"><span class="itemLabel">配送方式:</span><span>快递发货</span></div>
+            <div class="itemDiv"><span class="itemLabel">收货人姓名:</span><span id="consigneeName"></span></div>
+            <div class="itemDiv"><span class="itemLabel">收货人手机号:</span><span id="consigneePhone"></span></div>
+            <div class="itemDiv"><span class="itemLabel">收货人地址:</span><span id="consigneeAddress"></span></div>
+        </div>
+    </div>
+    <div class="col-sm-12" style="margin-top: 10px;">
+        <div class="col-sm-6 form-inline" style="padding-left: 0;padding-right: 15px;">
+            <div style="width: 100%;height: 40px;line-height: 40px;background: #eeeeee;padding-left: 20px;">发货信息</div>
+            <div class="itemDiv"><span class="itemLabel">发货方式:</span><span>商家自己联系物流</span></div>
+            <div class="itemDiv"><span class="itemLabel">物流公司:</span><select id="newExpressCompany" class="form-control" style="width: 200px;"></select></div>
+            <div class="itemDiv">
+                <span class="itemLabel">物流单号:</span>
+                <input id="newExpressNo" type="text" class="form-control"/>
+                <span style="display: inline-block;height:40px;line-height: 40px;color: red;margin-left: 10px;">注：为确认订单可以有效追踪。请务必输入正确的物流信息。</span>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-12" style="margin-top: 30px;margin-bottom: 20px;">
+        <div class="col-sm-6 form-inline">
+            <button type="button" class="btn btn-danger-xb" onclick="closePage();" style="width: 120px;height: 34px;color: #FFFFFF;margin-right: 20px;">
+                返回
+            </button>
+            <button type="button" class="btn btn-primary" onclick="sendGoods()" style="width: 120px;height: 34px;color: #FFFFFF;">
+                发货
+            </button>
+        </div>
+    </div>
+</div>
+<script src="${ctxPath}/static/modular/shop/order/delivery.js"></script>
+@}

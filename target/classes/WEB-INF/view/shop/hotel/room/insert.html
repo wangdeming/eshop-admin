@@ -1,0 +1,135 @@
+@layout("/common/_container.html"){
+<link href="${ctxPath}/static/css/insert.css" rel="stylesheet">
+<form id="insertRoomForm" action="#" class="form-horizontal">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h5>新增房间</h5>
+                </div>
+                <div class="ibox-content">
+                    <div class="row" style="margin-left: 10px;">
+                        <div class="form-group">
+                            <div class="col-sm-12"><label class="control-label">*房间名称：</label></div>
+                            <div class="col-sm-6" style="margin-top: 10px;">
+                                <input type="text" class="form-control" name="roomName" id="roomName" placeholder="请输入房间名称">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-12"><label class="control-label">*房间图片：</label></div>
+                            <div class="col-sm-12" id="img_3">
+                                <div class="addImg">
+                                    <div class="addImgDiv">
+                                        <div class="addImgDivItem" id="imgupimg">
+                                            <img src="${ctxPath}/static/img/upload.png" class="addImage"/>
+                                            <input class="opt addImageInput" type="file" name="" onchange="addImg()" style="cursor: pointer;"/>
+                                        </div>
+                                        <div class="addImageInfo1" style="margin-top: 10px;">点击上传图片</div>
+                                        <div class="addImageInfo2">文件不大于3M</div>
+                                        <div class="addImageInfo3">尺寸:750x500像素</div>
+                                    </div>
+                                </div>
+                                <ul id="uliImg" class="uliImg"></ul>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-12"><label class="control-label">*房间明细：</label></div>
+                            <div class="col-sm-6" style="margin-top: 10px;">
+                                <div style="border: 1px solid #CCCCCC;height: 160px;width: 100%;">
+                                    <div style="width: 100%;height: 40px;border-bottom: 1px solid #CCCCCC;line-height: 40px;">
+                                        <label style="margin-left: 20px;">早餐</label>
+                                        <input type="radio" name="breakfast" value="0" style="margin-left: 50px;">
+                                        <span style="margin-left: 5px;">无早餐</span>
+                                        <input type="radio" name="breakfast" value="1" style="margin-left: 50px;">
+                                        <span style="margin-left: 5px;">单人早餐</span>
+                                        <input type="radio" name="breakfast" value="2" style="margin-left: 50px;">
+                                        <span style="margin-left: 5px;">双人早餐</span>
+                                    </div>
+                                    <div style="width: 100%;height: 40px;border-bottom: 1px solid #CCCCCC;line-height: 40px;">
+                                        <label style="margin-left: 20px;">宽带</label>
+                                        <input type="radio" name="broadband" value="0" style="margin-left: 50px;">
+                                        <span style="margin-left: 5px;">无宽带</span>
+                                        <input type="radio" name="broadband" value="1" style="margin-left: 50px;">
+                                        <span style="margin-left: 5px;">有线宽带</span>
+                                        <input type="radio" name="broadband" value="2" style="margin-left: 50px;">
+                                        <span style="margin-left: 5px;">WIFI</span>
+                                        <input type="radio" name="broadband" value="3" style="margin-left: 50px;">
+                                        <span style="margin-left: 5px;">WIFI、有线宽带</span>
+                                    </div>
+                                    <div style="width: 100%;height: 40px;border-bottom: 1px solid #CCCCCC;line-height: 40px;">
+                                        <label style="margin-left: 20px;">窗户</label>
+                                        <input type="radio" name="window" value="0" style="margin-left: 50px;">
+                                        <span style="margin-left: 5px;">无窗</span>
+                                        <input type="radio" name="window" value="1" style="margin-left: 50px;">
+                                        <span style="margin-left: 5px;">有窗</span>
+                                    </div>
+                                    <div style="width: 100%;height: 40px;line-height: 40px;">
+                                        <span style="margin-left: 20px;float: left;">面积</span>
+                                        <input type="text" name="roomArea" id="roomArea" number="true" style="margin-left: 20px;width: 80px;height: 24px;line-height:24px;margin-top: 8px;float: left;">
+                                        <span style="margin-left: 5px;float: left;">㎡</span>
+                                        <span style="margin-left: 50px;float: left;">床宽</span>
+                                        <input type="text" name="bedWidth" id="bedWidth" number="true" style="margin-left: 20px;width: 80px;height: 24px;line-height:24px;margin-top: 8px;float: left;">
+                                        <span style="margin-left: 5px;float: left;">m</span>
+                                        <span style="margin-left: 50px;float: left;">可住</span>
+                                        <input type="text" name="peopleNum" id="peopleNum" number="true" style="margin-left: 20px;width: 80px;height: 24px;line-height:24px;margin-top: 8px;float: left;">
+                                        <span style="margin-left: 5px;float: left;">人</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-12"><label class="control-label">*房间价格：</label></div>
+                            <div class="col-sm-6" style="position: relative;margin-top: 10px;">
+                                <span style="position: absolute;top: 10px;left: 30px;">¥</span>
+                                <input type="text" class="form-control" name="roomPrice" id="roomPrice" value="" style="text-indent: 20px;" max="100000" min="0" number="true"/>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-12"><label class="control-label">*取消方式：</label></div>
+                            <div class="col-sm-6" style="margin-top: 10px;">
+                                <input type="radio" name="cancelMethods" value="0">
+                                <span style="margin-left: 5px;">不可取消</span>
+                                <input type="radio" name="cancelMethods" value="1" style="margin-left: 40px;">
+                                <span style="margin-left: 5px;">免费取消（当天14：00点前可取消）</span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-12 "><label class="control-label">房间详情：</label></div>
+                            <div class="col-sm-6" style="margin-top: 10px;">
+                                <div id="div1" class="toolbar">
+                                </div>
+                                <div id="div2" class="text">
+
+                                </div>
+                            </div>
+                            <div class="col-sm-3" style="height: 600px;border: 1px solid #CCCCCC;margin-top: 10px;">
+                                <div style="height: 40px;text-align: center;color: white;background-color: rgb(174,174,174);line-height: 40px;font-size: 20px;margin: 0 -15px;">房间详情效果预览</div>
+                                <div id="previewDiv" style="height: 560px;overflow-y: scroll;margin: 0 -15px;padding: 0 15px;">
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group">
+                            <div class="col-sm-12">
+                                <button type="button" class="btn btn-danger-xb" onclick="closePage();" style="width: 120px;height: 34px;color: #FFFFFF;margin-right: 20px;margin-left: 25px;background-color: rgb(179,179,179);">
+                                    取消
+                                </button>
+                                <button type="button" class="btn btn-primary" onclick="addSubmit();" style="width: 120px;height: 34px;color: #FFFFFF;">
+                                    提交
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+<script src="${ctxPath}/static/js/jquery.dragsort-0.5.1.min.js"></script>
+<script src="${ctxPath}/static/js/jquery-migrate-1.1.1.js"></script>
+<script src="${ctxPath}/static/js/plugins/wangEditor/wangEditor.js"></script>
+<script src="${ctxPath}/static/modular/shop/hotel/room/roomInsert.js"></script>
+@}
+

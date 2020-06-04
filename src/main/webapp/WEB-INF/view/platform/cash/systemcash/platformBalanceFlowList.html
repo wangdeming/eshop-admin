@@ -1,0 +1,54 @@
+@layout("/common/_container.html"){
+<style>
+    .gun-btn-active{
+        background-color: #bababa;
+        border-color: #bababa;
+        color: #FFFFFF;
+    }
+</style>
+<div class="row">
+    <div class="col-sm-12">
+        <div class="ibox float-e-margins">
+            <div class="ibox-title">
+                <h5>平台余额流水列表</h5>
+            </div>
+            <div class="ibox-content">
+                <div class="row row-lg">
+                    <div class="col-sm-12" style="margin-top: 20px;">
+                        <div class="col-sm-3  form-inline">
+                            <label class="control-label">店铺名称：</label>
+                            <input type="text" id="condition" class="form-control" style="width: 65%">
+                        </div>
+                        <div class="col-sm-3 form-inline">
+                            <#button name="查询" icon="fa-search" clickFun="ShopInfoMgr.search()"/>
+                        </div>
+                    </div>
+                    <div class="col-sm-12" style="margin-top: 20px;">
+                        <div class="col-sm-12 form-inline" id="data_5" >
+                            <label class="control-label">时&emsp;&emsp;间：</label>
+                            <div class="input-group input-daterange">
+                                <input type="text" class="form-control" id="createStartTime" placeholder="选择开始时间" autocomplete="off">
+                                <div class="input-group-addon"> ~ </div>
+                                <input type="text" class="form-control" id="createEndTime" placeholder="选择结束时间" autocomplete="off">
+                            </div>
+                            <div class="btn-group hidden-xs" id="timeType" role="group" style="display: inline-block;margin-left: 20px;margin-bottom: -5px;">
+                                <#button clickFun="ShopInfoMgr.search(4)" name="自定义" icon="" btnCss="outline btn-default" id="4"/>
+                                <#button clickFun="ShopInfoMgr.search(1)" name="今日" icon="" btnCss="outline btn-default gun-btn-active" id="1"/>
+                                <#button clickFun="ShopInfoMgr.search(2)" name="昨日" icon="" btnCss="outline btn-default" id="2"/>
+                                <#button clickFun="ShopInfoMgr.search(3)" name="近7日" icon="" btnCss="outline btn-default" id="3"/>
+                                <#button clickFun="ShopInfoMgr.search(0)" name="全部" icon="" btnCss="outline btn-default" id="0"/>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-12">
+                        <#table id="BalanceFlowTable"/>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<link href="${ctxPath}/static/css/plugins/datapicker/datepicker3.css" rel="stylesheet">
+<script src="${ctxPath}/static/js/plugins/datapicker/bootstrap-datepicker.js"></script>
+<script src="${ctxPath}/static/modular/platform/cash/systemcash/platformBalanceFlowList.js"></script>
+@}

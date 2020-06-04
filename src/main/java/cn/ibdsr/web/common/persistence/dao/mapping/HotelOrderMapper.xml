@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.ibdsr.web.common.persistence.dao.HotelOrderMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="cn.ibdsr.web.common.persistence.model.HotelOrder">
+        <id column="id" property="id"/>
+        <result column="order_no" property="orderNo"/>
+        <result column="shop_id" property="shopId"/>
+        <result column="user_id" property="userId"/>
+        <result column="room_id" property="roomId"/>
+        <result column="room_number" property="roomNumber"/>
+        <result column="price" property="price"/>
+        <result column="total_amount" property="totalAmount"/>
+        <result column="mobile" property="mobile"/>
+        <result column="check_in_date" property="checkInDate"/>
+        <result column="check_out_date" property="checkOutDate"/>
+        <result column="can_cancel" property="canCancel"/>
+        <result column="status" property="status"/>
+        <result column="pay_datetime" property="payDatetime"/>
+        <result column="confirm_datetime" property="confirmDatetime"/>
+        <result column="confirm_in_datetime" property="confirmInDatetime"/>
+        <result column="cancel_reason" property="cancelReason"/>
+        <result column="created_user" property="createdUser"/>
+        <result column="created_time" property="createdTime"/>
+        <result column="modified_user" property="modifiedUser"/>
+        <result column="modified_time" property="modifiedTime"/>
+        <result column="is_deleted" property="isDeleted"/>
+    </resultMap>
+
+</mapper>

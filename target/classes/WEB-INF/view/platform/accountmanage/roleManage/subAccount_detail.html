@@ -1,0 +1,45 @@
+@layout("/common/_container.html"){
+<style>html{min-width: 300px;}</style>
+<div class="ibox float-e-margins">
+    <div id="x_iframeTitle" data-page="viewRole"></div>
+    <div class="ibox-content">
+        <div class="form-horizontal" id="userInfoForm">
+        
+            <input type="hidden" id="roleId" value="${roleId}">
+
+            <div class="row" style="margin-top: 15px;">
+                <div class="col-sm-12">
+                    <#input2 id="account" name="账户名" value="${account}" readonly="true"/>
+                    <#input2 id="name" name="角色名称" value="${roleName}" readonly="true"/>
+
+                    <div class="form-group has-feedback">
+                        <div class="col-sm-12">
+                        <label class="col-sm-6 control-label" style="text-align: left;padding: 0px;margin-bottom: 5px;">查看权限</label>
+                        </div>
+                        <div class="col-sm-12">
+                            <!-- 这是部门选择的下拉框 -->
+                            <div style="position: relative;">
+                                <div id="menuContent" class="menuContent"
+                                    style="display: none;position: absolute;z-index: 200;left: 0;right: 0;">
+                                    <ul id="treeDemo" class="ztree tree-box" style="width: 100% !important;"></ul>
+                                </div>
+                                <input class="form-control" type="hidden" id="ids" name="ids" value="">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <br/><br/><br/><br/><br/><br/><br/><br/>
+
+            <div class="row btn-group-m-t">
+                <!-- <div class="col-sm-10">
+                    <#button2 btnCss="danger-xb" name="取消" id="cancel" icon="fa-eraser" clickFun="RoleManagerInfoDlg.close()" style="margin-right: 20px;"/>
+                    <#button2 btnCss="info" name="确定" id="ensure" icon="fa-check" clickFun="RoleManagerInfoDlg.close()"/>
+                </div> -->
+            </div>
+        </div>
+
+    </div>
+</div>
+<script src="${ctxPath}/static/modular/accountmanage/roleManager/roleManager_info.js"></script>
+@}

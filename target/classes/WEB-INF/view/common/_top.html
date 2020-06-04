@@ -1,0 +1,38 @@
+﻿<div class="row" style="margin-top: -18px;">
+    <nav class="navbar navbar-static-top" role="navigation">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="">
+                @if(isEmpty(session.shiroUser.areaThemeLogo)){
+                <h3 style="color: #00bbe0; margin-top: 14px">在线商城</h3>
+                @}else{
+                <img src="${session.shiroUser.areaThemeLogo}" alt="logo"/>
+                @}
+            </a>
+        </div>
+        <div class="nav-header">
+            <div class="navbar-header navbar-right">
+                @if(session.shiroUser.platformType == 2){
+                <a onclick="toMyaccount()" class="bar-adminlogo" style="margin-right: 10px;">
+                    ${session.username}
+                </a>
+                <a href="logout" title="退出" class="roll-nav roll-right J_tabExit"><img src="${ctxPath}/static/img/quit.svg" alt="#" ></a>
+                @}else{
+                <a onclick="toPersonal()"  class="bar-adminlogo">
+                    <img alt="image" id="avatar" class="img-circle"
+                         @if(isEmpty(session.avatar)){
+                         src="${ctxPath}/static/img/adminlogo.svg"
+                         @}else{
+                         src="${session.avatar}"
+                         @}
+                         width="24px" height="24px"/>
+                    <span id="username" style="font-size: 16px; color: #fff;margin: 0px 6px;">${session.username}</span>
+                </a>
+                <a href="${session.indexUrl}" title="平台主页">
+                    <img src="${ctxPath}/static/img/home.svg" alt="#" style="margin: 0 20px;">
+                </a>
+                <a href="logout" title="退出" class="roll-nav roll-right J_tabExit"><img src="${ctxPath}/static/img/quit.svg" alt="#" ></a>
+                @}
+            </div>
+        </div>
+    </nav>
+</div>

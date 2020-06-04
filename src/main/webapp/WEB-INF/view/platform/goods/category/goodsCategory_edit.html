@@ -1,0 +1,49 @@
+@layout("/common/_container.html"){
+<div class="ibox float-e-margins">
+    <div class="ibox-content">
+        <div class="form-horizontal">
+            <form id="talentForm" action="#" class="form-horizontal" >
+            <input type="hidden" id="id" value="${category.id!}">
+            <div class="row">
+                <div class="col-sm-10">
+                    <#input id="name" name="* 类目名称：" value="${category.name!}"  placeholder="请输入类目名称"/>
+                    <#input id="frontName" name="* 类目前台名称：" value="${category.frontName!}" placeholder="请输入类目前台名称"/>
+                    <#input id="pidname" name="* 上级类目：" value="顶层" disabled="disabled"/>
+                    <#select id="pid" name=" * 上级类目：" data='${category.pid!}'>
+                        <option value="0">请选择上级类目</option>
+                    </#select>
+
+                    <div class="form-group" id="img_img" style="display: none">
+                        <label class="col-sm-3 control-label">图标：</label>
+                        <div id="img_div_9" class=" col-sm-6 img_div" onMouseOver="hovershow2(9)">
+                            <img id="img_9" src="${category.iconImg!}" class="imgIcon" alt=""  />
+                            <input id="iconImg" data="url_9" style="display: none;" value="${category.iconImg!}">
+                            <div id="div_imgtype_9" class="div_imgtype" style="position: absolute;">
+                                <div class="imgup"  id="imgup_9">
+                                    <img src="${ctxPath}/static/img/upload.png" style="text-align: center;"/>
+                                    <input class="opt img_up" type="file" name=""
+                                           
+                                           onchange="GoodsCategoryInfoDlg.getImgURL(9,100,100)"/>
+                                </div>
+                                <div class="imgbox" style="color:#8D939C;">点击上传图片</div>
+                                <div class="imgtype" style="color:#C9CCD1;">只支持JPG、PNG、svg格式大小不超过3M</div>
+                                <div class="imgtype" style="color:#C9CCD1;">推荐尺寸100*100</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row btn-group-m-t">
+                <div class="col-sm-10">
+                    <#button btnCss="danger" name="取消" id="cancel" icon="fa-eraser" clickFun="GoodsCategoryInfoDlg.close()"/>
+                    <#button name="提交" id="ensure" icon="fa-check" clickFun="GoodsCategoryInfoDlg.editSubmit()"/>
+                </div>
+            </div>
+            </form>
+        </div>
+    </div>
+</div>
+<link href="${ctxPath}/static/css/shoplist.css" rel="stylesheet">
+<script src="${ctxPath}/static/modular/platform/goods/category/goodsCategory_info.js"></script>
+@}
+

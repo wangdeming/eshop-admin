@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.ibdsr.web.modular.platform.ordercenter.goodsorder.dao.GoodsOrderDao">
+
+    <resultMap id="ShopOrdersResultMap" type="cn.ibdsr.web.modular.shop.order.transfer.OrderVO">
+        <id column="id" property="id"/>
+        <result column="shop_id" property="shopId"/>
+        <result column="shopName" property="shopName"/>
+        <result column="order_no" property="orderNo"/>
+        <result column="user_id" property="userId"/>
+        <result column="status" property="status"/>
+        <result column="consignee_name" property="consigneeName"/>
+        <result column="consignee_phone" property="consigneePhone"/>
+        <result column="province" property="province"/>
+        <result column="city" property="city"/>
+        <result column="district" property="district"/>
+        <result column="address" property="address"/>
+        <result column="order_price" property="orderPrice"/>
+        <result column="express_fee" property="expressFee"/>
+        <collection property="goods" ofType="cn.ibdsr.web.modular.shop.order.transfer.OrderGoodsVO" column="id" select="listOrderGoods">
+            <id column="order_goods_id" property="id"/>
+            <result column="goods_id" property="goodsId"/>
+            <result column="goods_name" property="goodsName"/>
+            <result column="goods_img" property="goodsImg"/>
+            <result column="nums" property="nums"/>
+            <result column="goods_specs" property="goodsSpecs"/>
+            <result column="unit_price" property="unitPrice"/>
+            <result column="delivery_status" property="deliveryStatus"/>
+            <result column="service_status" property="serviceStatus"/>
+        </collection>
+    </resultMap>
+
+    <resultMap id="GoodsMap" type="cn.ibdsr.web.modular.shop.order.transfer.OrderGoodsVO">
+        <id column="order_goods_id" property="id"/>
+        <result column="goods_id" property="goodsId"/>
+        <result column="goods_name" property="goodsName"/>
+        <result column="goods_img" property="goodsImg"/>
+        <result column="nums" property="nums"/>
+        <result column="goods_specs" property="goodsSpecs"/>
+        <result column="unit_price" property="unitPrice"/>
+        <result column="delivery_status" property="deliveryStatus"/>
+        <result column="service_status" property="serviceStatus"/>
+    </resultMap>
+
+    <sql id="ColumnOrderList">
+        shop_order.order_no,
+        shop_order.shop_id,
+        shop.`name` AS shopName,
+        shop_order.`status`,
+        shop_order.pre_status,
+        shop_order.order_price,
+        shop_order.coupon_amount,
+        shop_order.goods_price,
+        shop_order.express_fee,
+        shop_order.delivery_type,
+        shop_order.consignee_name,
+        shop_order.consignee_phone,
+        shop_order.payment_time,
+        shop_order.cancel_time,
+        shop_order.id,
+        shop_order.user_id,
+        shop_order.province,
+        shop_order.city,
+        shop_order.district,
+        shop_order.address,
+        shop_order.created_user,
+        shop_order.created_time
+    </sql>
+
+    <!--订单条件查询-->
+    <select id="orderList" resultMap="ShopOrdersResultMap">
+        SELECT
+            <include refid="ColumnOrderList"/>
+        FROM
+            shop, shop_order
+        WHERE
+            shop_order.is_deleted = 0
+        AND shop.id = shop_order.shop_id
+        <if test="queryDTO.orderNo != null and queryDTO.orderNo!=''">
+            AND shop_order.order_no = #{queryDTO.orderNo}
+        </if>
+        <if test="queryDTO.consigneePhone != null and queryDTO.consigneePhone != ''">
+            AND shop_order.consignee_phone = #{queryDTO.consigneePhone}
+        </if>
+        <if test="queryDTO.consigneeName != null and queryDTO.consigneeName != ''">
+            AND shop_order.consignee_name = #{queryDTO.consigneeName}
+        </if>
+        <if test="queryDTO.servicePhone != null and queryDTO.servicePhone != ''">
+            AND shop_order.id IN (
+            SELECT
+            shop_order_refund.order_id
+            FROM
+            shop_order_refund
+            WHERE
+            shop_order_refund.phone = #{queryDTO.servicePhone}
+            GROUP BY
+            shop_order_refund.order_id
+            )
+        </if>
+        <if test="queryDTO.createdTimeStart!= null and queryDTO.createdTimeStart!=''">
+            AND
+            shop_order.created_time &gt;= #{queryDTO.createdTimeStart}
+        </if>
+        <if test="queryDTO.createdTimeEnd!= null and queryDTO.createdTimeEnd!=''">
+            AND shop_order.created_time &lt;= #{queryDTO.createdTimeEnd}
+        </if>
+        <if test="queryDTO.shopId != null and queryDTO.shopId != ''">
+            AND shop_order.shop_id = #{queryDTO.shopId}
+        </if>
+        <if test="queryDTO.shopName != null">
+            AND shop.`name` like CONCAT('%',#{queryDTO.shopName},'%')
+        </if>
+        <if test="queryDTO.goodsName != null">
+            AND shop_order.id IN (
+            SELECT
+            shop_order_goods.order_id
+            FROM
+            shop_order_goods
+            WHERE
+            shop_order_goods.goods_name like CONCAT('%',#{queryDTO.goodsName},'%')
+            GROUP BY
+            shop_order_goods.order_id
+            )
+        </if>
+        <if test="queryDTO.goodsId != null and queryDTO.goodsId != ''">
+            AND shop_order.id IN (
+            SELECT
+            shop_order_goods.order_id
+            FROM
+            shop_order_goods
+            WHERE
+            shop_order_goods.goods_id = #{queryDTO.goodsId}
+            GROUP BY
+            shop_order_goods.order_id
+            )
+        </if>
+        <if test="queryDTO.orderStatus != null and queryDTO.orderStatus != ''">
+            <if test="queryDTO.orderStatus == 0">
+                AND 1 = 1
+            </if>
+            <if test="queryDTO.orderStatus == 4">
+                AND (shop_order.`status` = 4
+                OR shop_order.`status` = 8)
+            </if>
+            <if test="queryDTO.orderStatus == 6">
+                AND shop_order.id IN (
+                SELECT
+                shop_order_goods.order_id
+                FROM
+                shop_order_goods
+                WHERE
+                shop_order_goods.service_status = 2
+                )
+            </if>
+            <if test="queryDTO.orderStatus != 0 and queryDTO.orderStatus != 4 and queryDTO.orderStatus != 6">
+                AND shop_order.`status` = #{queryDTO.orderStatus}
+            </if>
+        </if>
+        GROUP BY shop_order.order_no
+    </select>
+
+    <!--订单中商品查询-->
+    <select id = "listOrderGoods" resultMap="GoodsMap">
+        SELECT
+        shop_order_goods.goods_id,
+        shop_order_goods.id order_goods_id,
+        shop_order_goods.goods_name,
+        shop_order_goods.delivery_time,
+        shop_order_goods.goods_img,
+        shop_order_goods.nums,
+        shop_order_goods.goods_specs,
+        shop_order_goods.unit_price,
+        shop_order_goods.delivery_status delivery_status,
+        shop_order_goods.service_status service_status
+        FROM
+        shop_order_goods
+        WHERE shop_order_goods.order_id = #{id}
+        ORDER BY shop_order_goods.delivery_status
+    </select>
+</mapper>

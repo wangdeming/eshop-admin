@@ -1,0 +1,89 @@
+@layout("/common/_container.html"){
+<style>
+    .layerDivItem{
+        width: 100%;height: 40px;line-height: 40px;font-size: 14px;
+    }
+    .layerDivItemTitle{
+        float: left;width: 120px;text-align: right;height: 40px;line-height: 40px;
+    }
+    .layerDivItemContent{
+        margin-left: 10px;float: left;width: 300px;height: 40px;line-height: 40px;
+    }
+</style>
+<div class="row">
+    <div class="col-sm-12">
+        <div class="ibox float-e-margins">
+            <div class="ibox-content">
+                <div class="row row-lg">
+                    <div class="col-sm-12" style="margin-top: 10px;">
+                        <div class="layerDivItem">
+                            <div class="layerDivItemTitle">*日期:</div>
+                            <div class="layerDivItemContent" id="data_5">
+                                <div class="input-daterange input-group">
+                                    <input type="text" class="input-sm form-control" id="startTime" placeholder="开始时间" autocomplete="off"/>
+                                    <span class="input-group-addon">至</span>
+                                    <input type="text" class="input-sm form-control" id="endTime" placeholder="结束时间" autocomplete="off"/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="layerDivItem">
+                            <div class="layerDivItemTitle">*每周:</div>
+                            <div class="layerDivItemContent">
+                                <input type="checkbox" name="allweekDay" value=""><label style="margin-left: 5px;">全选</label>
+                                <input style="margin-left: 30px;" type="checkbox" name="weekDay" value="1"><label style="margin-left: 10px;">周一</label>
+                                <input style="margin-left: 30px;" type="checkbox" name="weekDay" value="2"><label style="margin-left: 10px;">周二</label>
+                                <input style="margin-left: 30px;" type="checkbox" name="weekDay" value="3"><label style="margin-left: 10px;">周三</label>
+                            </div>
+                        </div>
+                        <div class="layerDivItem">
+                            <div class="layerDivItemTitle"></div>
+                            <div class="layerDivItemContent">
+                                <input type="checkbox" name="weekDay" value="4"><label style="margin-left: 5px;">周四</label>
+                                <input style="margin-left: 30px;" type="checkbox" name="weekDay" value="5"><label style="margin-left: 10px;">周五</label>
+                                <input style="margin-left: 30px;" type="checkbox" name="weekDay" value="6"><label style="margin-left: 10px;">周六</label>
+                                <input style="margin-left: 30px;" type="checkbox" name="weekDay" value="7"><label style="margin-left: 10px;">周日</label>
+                            </div>
+                        </div>
+                        <div class="layerDivItem">
+                            <div class="layerDivItemTitle">*房间数量:</div>
+                            <div class="layerDivItemContent"><input type="text" id="roomNum" style="width: 300px;height: 30px;line-height: 30px;font-size: 12px;" placeholder="请填写数量"></div>
+                        </div>
+                        <div class="layerDivItem">
+                            <div class="layerDivItemTitle">*房间价格:</div>
+                            <div class="layerDivItemContent" style="position: relative;">
+                                <span style="position: absolute;left: 0;top: 5px;display: inline-block;width: 30px;height: 31px;line-height: 31px;text-align: center;background-color: #CCCCCC;">¥</span>
+                                <input type="text" id="roomPrice" value="" style="width: 300px;height: 30px;line-height: 30px;font-size: 12px;text-indent: 30px;" placeholder="请填写价格">
+                            </div>
+                        </div>
+                        <div class="layerDivItem">
+                            <div class="layerDivItemTitle">*状态:</div>
+                            <div class="layerDivItemContent">
+                                <input type="radio" name="roomStatus" value="1" checked="checked"><label style="margin-left: 5px;">开</label>
+                                <input style="margin-left: 40px;" type="radio" name="roomStatus" value="0"><label style="margin-left: 5px;">关</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-12" style="margin-top: 20px;text-align: center;">
+                        <button type="button" class="btn btn-danger-xb" onclick="closePage();" style="width: 120px;height: 34px;color: #FFFFFF;margin-right: 20px;margin-left: 25px;background-color: rgb(179,179,179);">
+                            取消
+                        </button>
+                        <button type="button" class="btn btn-primary" onclick="addSubmit();" style="width: 120px;height: 34px;color: #FFFFFF;">
+                            确定
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<link href="${ctxPath}/static/css/plugins/datapicker/datepicker3.css" rel="stylesheet">
+<script src="${ctxPath}/static/js/plugins/datapicker/bootstrap-datepicker.js"></script>
+<script src="${ctxPath}/static/modular/shop/hotel/room/batchSetup.js"></script>
+<script>
+    $('#data_5 .input-daterange').datepicker({
+        keyboardNavigation: false,
+        forceParse: false,
+        autoclose: true
+    });
+</script>
+@}

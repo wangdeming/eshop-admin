@@ -1,0 +1,61 @@
+@layout("/common/_container.html"){
+<style>
+    .form-horizontal .control-label{
+        padding-top:0px
+    }
+
+</style>
+<div class="ibox float-e-margins">
+    <div class="ibox-title">
+        <h5>查看店铺账号</h5>
+    </div>
+    <div class="ibox-content">
+        <div class="row row-lg">
+            <form class="form-horizontal col-sm-12">
+                <h5 class="htit">账户信息</h5>
+                <div class="col-sm-8">
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">账户名：</label>
+                        <div class="col-sm-2">${acct.account!}</div>
+                        <div class="col-sm-7"><a  onclick="shopAccountInfo.torecord()">查看操作记录</a></div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">电话：</label>
+                        <div class="col-sm-9">${acct.phone!}</div>
+                    </div>
+                </div>
+
+                <div class="clearfix"></div>
+                <h5 class="htit ">店铺信息</h5>
+
+                <div class="col-sm-8">
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">店铺名称：</label>
+                        <div class="col-sm-3">${acct.shopName!}</div>
+                        <div class="col-sm-6"><a href="${ctxPath}/platformshop/shopInfo/toEdit/${acct.shopId!}">查看店铺及法人详细信息</a></div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">法人：</label>
+                        <div class="col-sm-9">${acct.legalPerson!}</div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">店铺类型：</label>
+                        <div class="col-sm-9">${acct.shopType!}</div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">店铺地址：</label>
+                        <div class="col-sm-9">${acct.address!}</div>
+                    </div>
+                </div>
+                <div class="col-sm-10">
+                    <#button name="确定" id="确定" icon="fa-check" clickFun="shopAccountInfo.close()"/>
+                </div>
+            </form>
+
+        </div>
+    </div>
+</div>
+
+
+<script src="${ctxPath}/static/modular/platform/shop/account/shopAccountInfo.js"></script>
+@}

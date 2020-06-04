@@ -1,0 +1,117 @@
+@layout("/common/_container.html"){
+<style>
+    .data-today{
+        width: 14.2%;
+        display: inline;
+        float: left;
+    }
+    .mypanel{
+        min-height: 120px;
+        background: #e7eaec;
+        padding: 30px;
+        margin-bottom: 30px;
+    }
+    .mt30{
+        margin-left: 30px;
+    }
+    .w600{
+        font-weight: 600;
+    }
+</style>
+<div class="row">
+    <div class="col-sm-12">
+        <div class="ibox float-e-margins">
+            <div class="ibox-title">
+                <h5>平台账号概览</h5>
+            </div>
+            <div class="ibox-content">
+                <div class="mypanel">
+                    <div class="col-sm-2">
+                        <p>平台余额&emsp;<i class="fa fa-question-circle" title="平台余额：历史累计余额-历史总完成提现的金额"></i></p>
+                        <p id="platformBalance" class="w600"></p>
+                    </div>
+                    <div class="col-sm-2">
+                        <p>店铺总余额&emsp;<i class="fa fa-question-circle" title="店铺总余额=所有店铺当前余额的总和"></i></p>
+                        <p id="shopBalance" class="w600"></p>
+                    </div>
+                    <div class="col-sm-2">
+                        <p>服务费余额&emsp;<i class="fa fa-question-circle" title="服务费余额=平台收取的订单服务费的总和"></i></p>
+                        <p id="serviceAmount" class="w600"></p>
+                    </div>
+                    <div class="col-sm-2">
+                        <p>历史累计余额&emsp;<i class="fa fa-question-circle" title="历史累计余额=平台历史订单付款总额-平台历史订单退款总额"></i></p>
+                        <p id="totalBalance" class="w600"></p>
+                    </div>
+                    <div class="col-sm-2">
+                        <p>历史累计提现&emsp;<i class="fa fa-question-circle" title="历史累计提现=所有店铺提现成功的总金额"></i></p>
+                        <p id="withdrawalAmount" class="w600"></p>
+                    </div>
+                </div>
+            </div>
+            <div class="ibox-title">
+                <h5>今日实时数据</h5>
+            </div>
+            <div class="ibox-content">
+                <div class="mypanel">
+                    <div class="data-today">
+                        <p>余额变化</p>
+                        <p id="changeBalance" class="w600"></p>
+                    </div>
+                    <div class="data-today">
+                        <p>订单成交额</p>
+                        <p id="orderAmount" class="w600"></p>
+                    </div>
+                    <div class="data-today">
+                        <p>成交笔数</p>
+                        <p id="orderNum" class="w600"></p>
+                    </div>
+                    <div class="data-today">
+                        <p>退款金额</p>
+                        <p id="refundAmount" class="w600"></p>
+                    </div>
+                    <div class="data-today">
+                        <p>退款笔数</p>
+                        <p id="refundNum" class="w600"></p>
+                    </div>
+                    <div class="data-today">
+                        <p>提现金额</p>
+                        <p id="withdrawalAmount2" class="w600"></p>
+                    </div>
+                    <div class="data-today">
+                        <p>提现笔数</p>
+                        <p id="withdrawalNum" class="w600"></p>
+                    </div>
+                 </div>
+             </div>
+            <div class="ibox-title">
+                <h5>今日余额收支明细</h5>
+                <a href="${ctxPath}/platform/cash/systemCash/toFlowList" style="margin-left: 50px">查看更多</a>
+            </div>
+            <div class="ibox-content">
+                <div class="row row-lg">
+                    <div class="col-sm-12">
+                        <div class="row">
+                            <table class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>时间</th>
+                                        <th>类型</th>
+                                        <th>余额变化</th>
+                                        <th>店铺名称</th>
+                                        <th>店铺类型</th>
+                                        <th>店铺ID</th>
+                                        <th>操作</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="project">
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="${ctxPath}/static/modular/platform/cash/systemcash/systemCashInfo.js"></script>
+@}

@@ -1,0 +1,20 @@
+@layout("/common/_container.html"){
+<link href="${ctxPath}/static/css/account-manage.css" rel="stylesheet">
+<div class="row right-content">
+    <div class="col-sm-12">
+        <div class="ibox float-e-margins" style="margin-left: 10px;margin-right: 10px;">
+            <div class="ibox-content">
+                <div class="row row-lg">
+                    <div class="col-sm-12">
+                        <div class="hidden-xs" id="SubAccountTableToolbar" role="group" style="margin-bottom: 10px;margin-top: 10px;">
+                             <button  class="btn"  style="outline:none;width:120px;height: 34px;margin-bottom:20px;background-color: #FF7D32;color: #fff;font-size: 16px;" onclick="SubAccount.openAddSubAccount()"/>添加
+                        </div>
+                        <#table id="SubAccountTable"/>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="${ctxPath}/static/modular/shop/account/subAccount.js"></script>
+@}

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.ibdsr.web.modular.platform.shop.account.dao.ShopAccountDao">
+
+    <select id="list" resultType="cn.ibdsr.web.modular.platform.shop.account.transfer.ShopAccountVO">
+        SELECT
+            su.id,
+            su.pid,
+            su.account,
+            su.`name`,
+            su.phone,
+            (SELECT r.name FROM role r WHERE r.id = su.roleid) AS role,
+            su.account_type AS level,
+            DATE_FORMAT(su.created_time, '%Y-%m-%d') AS createdTime,
+            su.`status`,
+            s.`name` AS shopName,
+            s.type AS shopType,
+            (
+                CASE
+                WHEN (su.pid = 0) THEN
+                    'true'
+                ELSE
+                    'false'
+                END
+            ) AS isOpen
+        FROM
+            shop_user su
+        LEFT JOIN shop s ON su.shop_id = s.id
+        WHERE 1 = 1
+        AND su.is_deleted = 0
+        <if test="condition != null and condition !=''">
+            AND (
+                s.name LIKE CONCAT('%', #{condition}, '%')
+                OR su.account LIKE CONCAT('%', #{condition}, '%')
+                OR su.phone LIKE CONCAT('%', #{condition}, '%')
+            )
+        </if>
+        <if test="shopType != null">
+            AND s.type = #{shopType}
+        </if>
+        ORDER BY su.status DESC, su.created_time DESC
+    </select>
+
+</mapper>

@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.ibdsr.web.modular.platform.ordercenter.hotelorder.dao.HotelDao">
+
+    <resultMap id="HotelOrdersResultMap" type="cn.ibdsr.web.modular.shop.hotel.transfer.HotelOrderListVO">
+        <id column="id" property="id"/>
+        <result column="order_no" property="orderNo"/>
+        <result column="room_number" property="roomNumber"/>
+        <result column="mobile" property="mobile"/>
+        <result column="check_in_date" property="checkInDate"/>
+        <result column="check_out_date" property="checkOutDate"/>
+        <result column="created_time" property="createdTime"/>
+        <result column="status" property="status"/>
+        <result column="realname" property="realname"/>
+        <result column="shop_id" property="shopId"/>
+        <result column="room_id" property="roomId"/>
+        <result column="shopName" property="shopName"/>
+        <result column="roomName" property="roomName"/>
+    </resultMap>
+
+    <!--订单条件查询-->
+    <select id="hotelOrderList" resultMap="HotelOrdersResultMap">
+        SELECT
+            hotel_order.id,
+            hotel_order.order_no,
+            hotel_order.room_number,
+            hotel_order.mobile,
+            hotel_order.check_in_date,
+            hotel_order.check_out_date,
+            hotel_order.created_time,
+            hotel_order.`status`,
+            room.`name` AS roomName,
+            hotel_order.shop_id,
+            hotel_order.room_id,
+            shop.`name` AS shopName,
+            GROUP_CONCAT(hotel_order_user.realname) AS realname
+        FROM
+            shop, hotel_order
+        LEFT JOIN room ON hotel_order.room_id = room.id
+        LEFT JOIN hotel_order_user ON hotel_order.id = hotel_order_user.order_id
+        WHERE hotel_order.is_deleted = 0
+        AND hotel_order.shop_id = shop.id
+        <if test="queryDTO.realname != null and queryDTO.realname !=''">
+            AND hotel_order_user.realname = #{queryDTO.realname}
+        </if>
+        <if test="queryDTO.roomId != null and queryDTO.roomId != ''">
+            AND hotel_order.room_id = #{queryDTO.roomId}
+        </if>
+        <if test="queryDTO.roomName != null">
+            AND room.`name` like CONCAT('%',#{queryDTO.roomName},'%')
+        </if>
+        <if test="queryDTO.shopId != null and queryDTO.shopId != ''">
+            AND hotel_order.shop_id = #{queryDTO.shopId}
+        </if>
+        <if test="queryDTO.shopName != null">
+            AND shop.`name` like CONCAT('%',#{queryDTO.shopName},'%')
+        </if>
+        <if test="queryDTO.orderNo !=null and queryDTO.orderNo !=''">
+            AND hotel_order.order_no = #{queryDTO.orderNo}
+        </if>
+        <if test="queryDTO.checkInDate != null and queryDTO.checkInDate !=''">
+            AND hotel_order.check_in_date = #{queryDTO.checkInDate}
+        </if>
+        <if test="queryDTO.createdTimeStart!= null and queryDTO.createdTimeStart!=''">
+            AND
+            hotel_order.created_time &gt;= #{queryDTO.createdTimeStart}
+        </if>
+        <if test="queryDTO.createdTimeEnd!= null and queryDTO.createdTimeEnd!=''">
+            AND hotel_order.created_time &lt;= #{queryDTO.createdTimeEnd}
+        </if>
+        <if test="queryDTO.status != null and queryDTO.status != ''">
+            <if test="queryDTO.status == 0">
+                AND 1 = 1
+            </if>
+            <if test="queryDTO.status != 0">
+                AND hotel_order.`status` = #{queryDTO.status}
+            </if>
+        </if>
+        GROUP BY hotel_order.id
+        ORDER BY
+        find_in_set(hotel_order.`status`,'2,3,1,4,6,7,5')
+    </select>
+</mapper>

@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.ibdsr.web.modular.platform.accountmanage.dao.MenuManagerDao">
+
+    <sql id="Base_Column_List">
+        id, code, pcode, name, icon, url, num, levels,pcodes,
+        tips, status,isopen,ismenu
+    </sql>
+
+    <!--根据条件查询菜单-->
+    <select id="getMenuIdsByRoleId" resultType="Long">
+        select menuid from
+        relation where roleid = #{roleId}
+    </select>
+
+    <!--获取菜单列表树-->
+    <select id="menuTreeList" resultType="cn.ibdsr.core.node.ZTreeNode">
+        SELECT
+        m1.id AS id,
+        (
+        CASE
+        WHEN (m2.id = 0 OR m2.id IS NULL) THEN
+        0
+        ELSE
+        m2.id
+        END
+        ) AS pId,
+        m1. NAME
+        AS NAME,
+        (
+        CASE
+        WHEN (m2.id = 0 OR m2.id IS NULL) THEN
+        'true'
+        ELSE
+        'false'
+        END
+        ) as isOpen
+        FROM
+        menu m1
+        LEFT JOIN menu m2 ON m1.pcode = m2. CODE
+        where (m1.shop_type = 3 OR m1.shop_type = #{platformType})
+        ORDER BY
+        m1.id ASC
+    </select>
+
+    <!--根据条件获取菜单列表树-->
+    <select id="menuTreeListByMenuIds" resultType="cn.ibdsr.core.node.ZTreeNode">
+        SELECT
+        m1.id AS id,
+        (
+        CASE
+        WHEN (m2.id = 0 OR m2.id IS NULL) THEN
+        0
+        ELSE
+        m2.id
+        END
+        ) AS pId,
+        m1. NAME AS NAME,
+        (
+        CASE
+        WHEN (m2.id = 0 OR m2.id IS
+        NULL) THEN
+        'true'
+        ELSE
+        'false'
+        END
+        ) as isOpen,
+        (
+        CASE
+        WHEN (m3.ID = 0 OR m3.ID
+        IS NULL) THEN
+        'false'
+        ELSE
+        'true'
+        END
+        ) "checked"
+        FROM
+        menu m1
+        LEFT JOIN
+        menu m2
+        ON m1.pcode = m2. CODE
+        left join (
+        SELECT
+        ID
+        FROM
+        menu
+        WHERE
+        ID IN
+        <foreach collection="list" index="index" item="i" open="("
+                 separator="," close=")">
+            #{i}
+        </foreach>
+        ) m3 on m1.id = m3.id
+        where (m1.shop_type = 3 OR m1.shop_type = #{platformType})
+        ORDER BY
+        m1.id ASC
+    </select>
+
+</mapper>

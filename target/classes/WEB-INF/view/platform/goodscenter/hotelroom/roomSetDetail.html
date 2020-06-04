@@ -1,0 +1,65 @@
+@layout("/common/_container.html"){
+<link href="${ctxPath}/static/css/dialog.css" rel="stylesheet">
+<style>
+    body{
+        min-width: 1400px;
+    }
+    .layerDivItem{
+        width: 100%;height: 40px;line-height: 40px;font-size: 14px;
+    }
+    .layerDivItemTitle{
+        float: left;width: 100px;text-align: right;height: 40px;line-height: 40px;
+    }
+    .layerDivItemContent{
+        margin-left: 10px;float: left;width: 200px;height: 40px;line-height: 40px;
+    }
+</style>
+<div class="row">
+    <div class="col-sm-12">
+        <div class="ibox float-e-margins">
+            <div class="ibox-title">
+                <h5>房态管理</h5>
+            </div>
+            <div class="ibox-content">
+                <div class="row row-lg">
+                    <div class="col-sm-12">
+                        <div class="form-group">
+                            <label class="control-label">店铺名称：</label><span id="shopName" style="margin-right: 80px;">灵山</span>
+                            <label class="control-label">店铺ID：</label><span id="shopId">2</span>
+                        </div>
+                    </div>
+                    <div class="col-sm-12">
+                        <div><label class="control-label">说明：</label>用户端房间单价显示为时间段内房间价格的均价（例：5.3号价格100,5月4号价格200,用户端单价显示为150），如有小数，则舍弃。</div>
+                        <div style="float: right;">
+                            <button type="button" class="btn btn-primary" onclick="foreDaysSetup()" style="float: left;margin-right: 10px;">
+                                前15天
+                            </button>
+                            <div class="input-daterange input-group" style="display: inline-block;float: left;margin-right: 10px;">
+                                <input type="text" class="input-sm form-control" id="createStartTime" placeholder="选择时间" style="height: 34px;" autocomplete="off"/>
+                            </div>
+                            <button type="button" class="btn btn-primary" onclick="afterDaysSetup()" style="float: left;">
+                                后15天
+                            </button>
+                        </div>
+                    </div>
+                    <div class="col-sm-12" style="margin-top: 10px;">
+                        <table style="width:100%;table-layout: fixed;" border="1">
+                            <thead id="roomManageThead" style="height: 40px;line-height: 40px;"></thead>
+                            <tbody id="roomManageTbody"></tbody>
+                        </table>
+                    </div>
+                    <div class="col-sm-12" style="margin-top: 30px;">
+                        <button type="button" class="btn btn-primary" onclick="confirm()">
+                            确定
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<link href="${ctxPath}/static/css/plugins/datapicker/datepicker3.css" rel="stylesheet">
+<script src="${ctxPath}/static/js/plugins/datapicker/bootstrap-datepicker.js"></script>
+<script src="${ctxPath}/static/js/jquery.dialog.js"></script>
+<script src="${ctxPath}/static/modular/platform/goodscenter/hotelroom/roomSetDetail.js"></script>
+@}

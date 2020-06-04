@@ -1,0 +1,65 @@
+@layout("/common/_container.html"){
+<div class="row" xmlns="http://www.w3.org/1999/html">
+    <div class="col-sm-12">
+        <div class="ibox float-e-margins">
+            <div class="ibox-title">
+                <h5 id="platformstr">平台报表</h5>
+            </div>
+            <div class="ibox-content">
+                <div class="row row-lg">
+                    <div class="col-sm-12">
+                        <div class="row">
+
+                            <#rc_datepicker clickFun="DataCount.search()" name="时间周期："/>
+                            <div class="col-sm-12 form-inline" style="margin-top: 20px;">
+                                <label class="control-label" >报表维度：</label>
+                                <div class="btn-group" style="margin-right: 20px;">
+                                    <input type="hidden" id="status" value="1">
+                                    <button type="button" data="1" class="btn btn-outline mybt btn-default active">日报</button>
+                                    <button type="button" data="2" class="btn btn-outline mybt btn-default">周报</button>
+                                    <button type="button" data="3" class="btn btn-outline mybt btn-default">月报</button>
+                                </div>
+                            </div>
+                            <div style="margin-top: 20px;display:none" id="shoptyperow">
+                                <div class="col-sm-3 form-inline" >
+                                    <label class="control-label" >店铺类型：</label>
+                                     <select class="form-control" id="shopType">
+                                         <option value="">全部</option>
+                                         <option value="1" >特产店铺</option>
+                                         <option value="2" >酒店店铺</option>
+                                     </select>
+                                </div>
+                                <div class="col-sm-4 form-inline" >
+                                    <label class="control-label" >店铺ID：</label>
+                                    <input class="form-control" id="shopId">
+                                    <button   style="margin-bottom:0" class="btn btn-primary" onclick="DataCount.search()"/>查询</button>
+                                </div>
+                            </div>
+
+                            <div class="col-sm-12 form-inline" style="margin-top: 20px;text-align: right">
+                                <a href="javascript:;" onclick="DataCount.showdesc()">数据指标说明</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                <#button name="导出" btnCss="danger" icon="" clickFun="DataCount.export()"/>
+
+                            </div>
+                        </div>
+                        <div class="columns columns-right btn-group pull-right" style="margin-top: 20px;">
+                            <button type="button" class="btn btntab btn-outline btn-default active" onclick="totable(this);">表格</button>
+                            <button type="button" class="btn btntab btn-outline btn-default" onclick="tochart(this);" id="closesub">折线图</button>
+                        </div>
+                        <div id="table" style="margin-top: 20px;">
+                            <#table id="DataCountTable"/>
+                        </div>
+                        <div  id="chart" style="height: 600px;">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="${ctxPath}/static/modular/platform/data/count.js"></script>
+<link href="${ctxPath}/static/css/plugins/datapicker/datepicker3.css" rel="stylesheet">
+<script src="${ctxPath}/static/js/plugins/datapicker/bootstrap-datepicker.js"></script>
+<script src="${ctxPath}/static/js/plugins/echarts/echarts-all.js"></script>
+
+@}

@@ -1,0 +1,26 @@
+<!--特产首页轮播广告管理-->
+@layout("/common/_container.html"){
+<link href="${ctxPath}/static/css/Adindex.css" rel="stylesheet">
+<div class="row">
+    <div class="col-sm-12">
+        <div class="ibox float-e-margins">
+            <div class="ibox-title">
+                <h5>特产页面广告位管理</h5>
+            </div>
+            <div class="ibox-content">
+                <div class="row row-lg">
+                    <div class="col-sm-12" style="margin-bottom: 20px;">
+                        <#button name="添加广告" icon="fa-plus" clickFun="AdInfoManagerAccount.openAdd()"/>
+                    </div>
+                    <div class="col-sm-6" style="max-width: 250px;">广告总数量：<span id="adAmount"></span></div>
+                    <div class="col-sm-6" style="max-width: 250px;">已发布广告数：<span id="publishAmount"></span></div>
+                    <div class="col-sm-12">
+                        <#table id="AdInfoManagerTable"/>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="${ctxPath}/static/modular/platform/adInfoManager/shopGoodsAdIndex.js"></script>
+@}

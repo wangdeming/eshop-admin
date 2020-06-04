@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.ibdsr.web.modular.platform.cash.dao.SystemCashDao">
+
+    <select id="getShopBalance" resultType="java.math.BigDecimal">
+        SELECT
+	        SUM(balance)
+        FROM
+        (
+            SELECT
+                *
+            FROM
+                (
+                    SELECT
+                        shop_id,
+                        balance
+                    FROM
+                        shop_balance_flow
+                    ORDER BY
+                        shop_id,
+                        created_time DESC
+                    LIMIT 100000000
+                ) a
+            GROUP BY
+                a.shop_id
+	    ) b
+    </select>
+
+    <select id="getServiceAmount" resultType="java.math.BigDecimal">
+        SELECT SUM(sos.service_fee) FROM shop_order_settlement sos
+    </select>
+
+    <select id="getPlatformTotalBalance" resultType="java.math.BigDecimal">
+        SELECT SUM(pbf.credit_amount) FROM platform_balance_flow pbf
+    </select>
+
+    <select id="getWithdrawalAmount" resultType="java.math.BigDecimal">
+        SELECT
+            SUM(cw.amount)
+        FROM cash_withdrawal cw
+        WHERE
+            cw.`status` = 3
+        AND cw.is_deleted = 0
+    </select>
+
+    <select id="getTodayChangeBalance" resultType="java.math.BigDecimal">
+        SELECT
+            SUM(pbf.credit_amount - pbf.debit_amount)
+        FROM platform_balance_flow pbf
+        WHERE DATE_FORMAT(pbf.created_time, '%Y-%m-%d') = DATE_FORMAT(NOW(), '%Y-%m-%d')
+    </select>
+
+    <select id="getTodayOrderAmountAndNum" resultType="java.util.Map">
+        SELECT
+            COUNT(1) AS orderNum,
+            SUM(
+                sos.order_amount - sos.refund_amount
+            ) AS orderAmount
+        FROM
+            shop_order_settlement sos
+        WHERE
+            DATE_FORMAT(sos.created_time, '%Y-%m-%d') = DATE_FORMAT(NOW(), '%Y-%m-%d')
+    </select>
+
+    <select id="getTodayRefundAmountAndNum" resultType="java.util.Map">
+        SELECT
+            COUNT(1) AS refundNum,
+            SUM(sor.refund_amount) AS refundAmount
+        FROM
+            shop_order_refund sor
+        WHERE
+            sor.`status` = 4
+        AND DATE_FORMAT(sor.expected_time, '%Y-%m-%d') = DATE_FORMAT(NOW(), '%Y-%m-%d')
+    </select>
+    <select id="getTodayHotelRefundAmountAndNum" resultType="java.util.Map">
+        SELECT
+            COUNT( 1 ) AS refundNum,
+            SUM( sor.refund_amount ) AS refundAmount
+        FROM
+            hotel_order_refund sor
+        WHERE
+            DATE_FORMAT( sor.expected_time, '%Y-%m-%d' ) = DATE_FORMAT(
+            NOW(),
+            '%Y-%m-%d')
+    </select>
+
+    <select id="getTodayWithdrawalAmountAndNum" resultType="java.util.Map">
+        SELECT
+            COUNT(1) AS withdrawalNum,
+            SUM(cw.amount) AS withdrawalAmount
+        FROM
+            cash_withdrawal cw
+        WHERE
+            cw.`status` = 3
+        AND DATE_FORMAT(cw.confirm_time, '%Y-%m-%d') = DATE_FORMAT(NOW(), '%Y-%m-%d')
+    </select>
+
+    <sql id="List_PlatformBalanceFlow" >
+        SELECT
+            A.*,
+            s.`name` AS shopName,
+            s.type AS shopType
+        FROM
+            (
+                SELECT
+                    pbf.trans_src AS transSrc,
+                    (
+                        CASE
+                        WHEN (pbf.debit_amount = 0) THEN
+                            pbf.credit_amount
+                        ELSE
+                            pbf.debit_amount
+                        END
+                    ) AS amount,
+                    pbf.trade_id AS tradeId,
+                    DATE_FORMAT(pbf.created_time, '%Y-%m-%d %H:%i:%s') AS createdTime,
+                    (
+                        CASE
+                        WHEN (so.order_no IS NOT NULL) THEN
+                            so.order_no
+                        ELSE
+                            ho.order_no
+                        END
+                    ) AS orderNo,
+                    (
+                        CASE
+                        WHEN (so.shop_id IS NOT NULL) THEN
+                            so.shop_id
+                        ELSE
+                            (
+                                CASE
+                                WHEN (ho.shop_id IS NOT NULL) THEN
+                                    ho.shop_id
+                                ELSE
+                                    cw.shop_id
+                                END
+                            )
+                        END
+                    ) AS shopId
+                FROM
+                    platform_balance_flow pbf
+                LEFT JOIN shop_order so ON pbf.trade_id = CONCAT(so.id, '') AND pbf.trans_src != 3
+                LEFT JOIN hotel_order ho ON pbf.trade_id = CONCAT(ho.id, '') AND pbf.trans_src != 3
+                LEFT JOIN cash_withdrawal cw ON pbf.trade_id = CONCAT(cw.id, '')
+                AND pbf.trans_src = 3
+            ) A
+        LEFT JOIN shop s ON A.shopId = s.id
+    </sql>
+
+    <select id="listTodayPlatformBalanceFlow" resultType="cn.ibdsr.web.modular.platform.cash.transfer.PlatformBalanceFlowVO">
+        <include refid="List_PlatformBalanceFlow"/>
+        WHERE
+            TO_DAYS(A.createdTime) = TO_DAYS(NOW())
+	    ORDER BY A.createdTime DESC
+    </select>
+
+    <select id="listPlatformBalanceFlow4Page" resultType="cn.ibdsr.web.modular.platform.cash.transfer.PlatformBalanceFlowVO">
+        <include refid="List_PlatformBalanceFlow"/>
+        WHERE 1 = 1
+            <if test="queryDTO.condition != null and queryDTO.condition != ''">
+                AND s.name LIKE CONCAT('%', #{queryDTO.condition}, '%')
+            </if>
+            <if test="queryDTO.timeType == 1">  /* 今日 */
+                AND TO_DAYS(A.createdTime) = TO_DAYS(NOW())
+            </if>
+            <if test="queryDTO.timeType == 2">  /* 昨日 */
+                AND DATEDIFF(A.createdTime, NOW()) = -1
+            </if>
+            <if test="queryDTO.timeType == 3">  /* 近7日 */
+                AND DATEDIFF(A.createdTime, NOW()) &lt;= 0 AND DATEDIFF(A.createdTime, NOW()) &gt; -7
+            </if>
+            <if test="queryDTO.timeType == 4">  /* 自定义 */
+                AND TO_DAYS(A.createdTime) &gt;= TO_DAYS(#{queryDTO.startDate})
+                AND TO_DAYS(A.createdTime) &lt;= TO_DAYS(#{queryDTO.endDate})
+            </if>
+        ORDER BY A.createdTime DESC
+    </select>
+
+    <select id="getOrderRefundAmount" resultType="java.math.BigDecimal">
+        SELECT
+            SUM(sor.refund_amount)
+        FROM shop_order_refund sor
+        WHERE
+            sor.`status` = 4
+        AND sor.order_id = #{orderId}
+        AND sor.is_deleted = 0
+    </select>
+</mapper>

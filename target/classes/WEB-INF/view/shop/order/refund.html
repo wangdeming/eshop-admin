@@ -1,0 +1,95 @@
+@layout("/common/_container.html"){
+<link href="${ctxPath}/static/css/dialog.css" rel="stylesheet">
+<style>
+    body{
+        min-width: 1400px;
+        position: relative;
+    }
+    h4{
+        text-align: left;
+    }
+    .goodsDiv{
+        width:100%;
+        height:80px;
+        background-color: #f4f4f4;
+        position: relative;
+    }
+    .itemDiv{
+        width:100%;
+        /*height:30px;*/
+        line-height: 30px;
+    }
+    .active{
+        color: #fff !important;background-color: #adadad !important;outline: none !important;border:1px solid #adadad !important;
+    }
+</style>
+<div class="row right-content" xmlns="http://www.w3.org/1999/html" style="background-color: #ffffff;">
+    <div class="col-sm-12" style="margin-top: 20px;">
+        <div class="col-sm-12">
+            <h3 class="pull-left">售后订单详情</h3>
+        </div>
+    </div>
+    <div class="col-sm-12" style="margin-top: 10px;">
+        <div class="col-sm-6 form-inline">
+            <h4>退款状态</h4>
+            <div id="refundStatusDetails">
+
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-12" style="margin-top: 10px;">
+        <div class="col-sm-3 form-inline">
+            <h4>退款信息</h4>
+            <div class="goodsDiv">
+                <img style="width: 60px;height: 60px;float: left;margin-top: 10px;margin-left:10px;margin-right: 10px;" id="goodsImg" src="">
+                <div style="height: 30px;line-height: 30px;position: absolute;top: 10px;left: 80px;white-space: nowrap;overflow: hidden;text-overflow: ellipsis;width: 75%;" id="goodsName"></div>
+                <div style="height: 30px;line-height: 30px;position: absolute;bottom: 10px;left: 80px;" id="goodsSpecs"></div>
+                <div style="height: 30px;line-height: 30px;position: absolute;right: 10px;bottom: 10px;" id="num"></div>
+            </div>
+            <div class="itemDiv">
+                <span>退还方式:</span>
+                <span id="refundType"></span>
+            </div>
+            <div class="itemDiv">
+                <span>退款原因:</span>
+                <span id="reason"></span>
+            </div>
+            <div class="itemDiv">
+                <span>退款金额:￥</span>
+                <span id="amount" style="color: red;"></span>
+                <span>（含运费¥<i id="expressFee"></i>）</span>
+            </div>
+            <div class="itemDiv">
+                <span>退款单号:</span>
+                <span id="refundOrderNo"></span>
+            </div>
+            <div class="itemDiv">
+                <span>联系电话:</span>
+                <span id="consigneePhone"></span>
+            </div>
+            <h4>订单信息</h4>
+            <div class="itemDiv">
+                <span>订单编号:</span>
+                <a onclick="goToOrderDetails()" id="expressNo"></a>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-12" style="margin-top: 10px;">
+        <div class="col-sm-6 form-inline">
+            <h4>详细记录</h4>
+            <div>当前为第<span id="applyNumTime"></span>次申请，同1笔订单下的1件商品，用户最多发起5次申请。</div>
+            <div class="btn-group pull-left" id="applyNumTimeDiv" style="margin-top: 10px;">
+
+            </div>
+            <div style="clear: both;margin-top: 10px;" id="refundDetailsDiv">
+
+            </div>
+        </div>
+    </div>
+</div>
+<div onclick="zoomOutImage()" id="zoomInImageDiv" style="width: 100%;height: 100%;position:absolute;background-color: rgba(0,0,0,0.6);z-index: 1000;top: 0;left: 0;text-align: center;cursor: zoom-out;">
+    <img id="zoomInImage" style="margin-top: 15%;width: 500px;">
+</div>
+<script src="${ctxPath}/static/js/jquery.dialog.js"></script>
+<script src="${ctxPath}/static/modular/shop/order/refund.js"></script>
+@}

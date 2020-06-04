@@ -1,0 +1,110 @@
+
+@layout("/common/_container.html"){
+<style>
+    body{
+        min-width: 1400px;
+    }
+    th{
+        text-align: center;
+    }
+    .itemDiv{
+        height: 40px;line-height: 40px;
+    }
+    .itemLabel{
+        display: inline-block;
+        height:40px;
+        line-height: 40px;
+        text-align: right;
+        margin: 0 10px 0 48px;
+    }
+    .statusDiv{
+        font-size: 20px;
+        margin-bottom: 5px;
+    }
+    .orderStatus{
+        padding-left: 20px;
+        margin-top: 10px;
+    }
+    .priceDiv{
+        text-align: right;
+        margin-bottom: 10px;
+    }
+    .scheduleTitileDiv{
+        width: 100%;
+        height: 40px;
+        line-height: 40px;
+    }
+    .circleSpan{
+        display: inline-block;width: 40px;height: 40px;line-height:40px;text-align: center;border-radius: 20px;border: 2px solid #CCCCCC;
+    }
+    .lineSpan{
+        display: inline-block;width: 146px;height: 15px;border: 1px solid #CCCCCC;background-color: #CCCCCC;margin-left: -4px;margin-right: -4px;margin-bottom: -2px;
+    }
+</style>
+<div class="row right-content" xmlns="http://www.w3.org/1999/html">
+    <div class="col-sm-12">
+        <div class="col-sm-12">
+            <h3 class="pull-left" >订单详情</h3>
+        </div>
+    </div>
+    <div class="col-sm-12" style="margin-top: 10px;" id="orderSchedule">
+        <div class="col-sm-6 form-inline" style="padding-left: 0;padding-right: 15px;">
+            <div style="width: 100%;height: 40px;line-height: 40px;background: #eeeeee;padding-left: 20px;">订单进度</div>
+            <div style="width: 100%;height: 120px;">
+                <div class="scheduleTitileDiv">
+                    <span style="display: inline-block;width: 80px;height: 40px;margin-left: 40px;text-align: center;">买家下单</span>
+                    <span style="display: inline-block;width: 80px;height: 40px;margin-left: 100px;text-align: center;">买家付款</span>
+                    <span style="display: inline-block;width: 80px;height: 40px;margin-left: 100px;text-align: center;">商家确认</span>
+                    <span style="display: inline-block;width: 80px;height: 40px;margin-left: 100px;text-align: center;">确认入住</span>
+                </div>
+                <div class="scheduleTitileDiv">
+                    <span id="circle1" class="circleSpan" style="margin-left: 60px;">1</span>
+                    <span id="line1" class="lineSpan"></span>
+                    <span id="circle2" class="circleSpan">2</span>
+                    <span id="line2" class="lineSpan"></span>
+                    <span id="circle3" class="circleSpan">3</span>
+                    <span id="line3" class="lineSpan"></span>
+                    <span id="circle4" class="circleSpan">4</span>
+                </div>
+                <div class="scheduleTitileDiv">
+                    <span id="time1" style="display: inline-block;width: 80px;height: 40px;line-height:20px;margin-left: 40px;text-align: center;"></span>
+                    <span id="time2" style="display: inline-block;width: 80px;height: 40px;line-height:20px;margin-left: 100px;text-align: center;"></span>
+                    <span id="time3" style="display: inline-block;width: 80px;height: 40px;line-height:20px;margin-left: 100px;text-align: center;"></span>
+                    <span id="time4" style="display: inline-block;width: 80px;height: 40px;line-height:20px;margin-left: 100px;text-align: center;"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-12" style="margin-top: 10px;display : none;" id="cancel">
+        <div class="col-sm-6 form-inline" style="padding-left: 0;padding-right: 15px;">
+            <div style="width: 100%;height: 40px;line-height: 40px;background: #eeeeee;padding-left: 20px;">退款成功</div>
+            <div class="itemDiv" style="color: #00bbe0;"><span class="itemLabel">退款金额</span>￥<span id="refundAmount"></span></div>
+            <div class="itemDiv"><span class="itemLabel">已退回到支付的微信账户</span></div>
+        </div>
+    </div>
+    <div class="col-sm-12" style="margin-top: 10px;">
+        <div class="col-sm-6 form-inline" style="padding-left: 0;padding-right: 15px;">
+            <div style="width: 100%;height: 40px;line-height: 40px;background: #eeeeee;padding-left: 20px;">订单状态</div>
+            <div class="orderStatus" id="orderStatus"></div>
+        </div>
+    </div>
+    <div class="col-sm-12" style="margin-top: 10px;">
+        <div class="col-sm-6 form-inline" style="padding-left: 0;padding-right: 15px;">
+            <div style="width: 100%;height: 40px;line-height: 40px;background: #eeeeee;padding-left: 20px;">订单信息</div>
+            <div class="itemDiv"><span class="itemLabel">订单编号:</span><span id="orderNo"></span></div>
+            <div class="itemDiv"><span class="itemLabel">下单时间:</span><span id="createdTime"></span></div>
+        </div>
+    </div>
+    <div class="col-sm-12" style="margin-top: 10px;">
+        <div class="col-sm-6 form-inline" style="padding-left: 0;padding-right: 15px;">
+            <div style="width: 100%;height: 40px;line-height: 40px;background: #eeeeee;padding-left: 20px;">房间信息</div>
+            <div class="itemDiv"><span id="checkInDate" class="itemLabel"></span>-<span id="checkOutDate" style="margin-left: 10px;"></span>&emsp;共<span id="days"></span>晚</div>
+            <div class="itemDiv"><span class="itemLabel">入住人:</span><span id="realname"></span></div>
+            <div class="itemDiv"><span class="itemLabel">联系电话:</span><span id="mobile"></span></div>
+            <div class="itemDiv"><span class="itemLabel">合计:</span><span style="color: red;">￥</span><span id="totalAmount" style="color: red;"></span></div>
+        </div>
+    </div>
+</div>
+</div>
+<script src="${ctxPath}/static/modular/shop/hotel/order/hotelOrderDetail.js"></script>
+@}

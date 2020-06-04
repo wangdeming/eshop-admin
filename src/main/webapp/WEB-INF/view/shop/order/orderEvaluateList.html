@@ -1,0 +1,102 @@
+
+@layout("/common/_container.html"){
+<style>
+    body{
+        overflow-x: scroll !important;
+    }
+    .setTimeBtn{
+        background: white;outline: none;width: 60px;height: 28px;box-sizing: border-box;margin-left: 5px;border:1px solid #999999;
+    }
+    .btnActive{
+        color: #fff !important;background-color: #FF7D32 !important;border-color:#FF7D32 !important;
+    }
+    .active{
+        color: #fff !important;background-color: #adadad !important;outline: none !important;border:1px solid #adadad !important;
+    }
+    th{
+        text-align: center;
+    }
+    .page_div{margin:20px 10px 20px 0;color:#000000;text-align: center;}
+    .page_div>button{display:inline-block;min-width:30px;height:28px;cursor:pointer;color:#000000;font-size:13px;background-color:transparent;border:1px solid #adadad;text-align:center;margin:0 4px;}
+    #firstPage,#lastPage,#nextPage,#prePage{width:50px;color:#0073A9;border:1px solid #0073A9}
+    #nextPage,#prePage{width:70px}
+    .page_div>.current{background-color:#00bbe0;border-color:#00bbe0;color:#FFF}
+    .totalPages{margin:0 10px}
+    .totalPages span,.totalSize span{color:#0073A9;margin:0 5px}
+    .page_div button:disabled{opacity:.5;cursor:no-drop}
+     .gun-btn-active{
+         background-color: #bababa;
+         border-color: #bababa;
+         color: #FFFFFF;
+     }
+
+</style>
+<div class="row right-content">
+    <div class="col-sm-12">
+        <div class="col-sm-12">
+            <h3 class="pull-left" >评价管理</h3>
+        </div>
+    </div>
+    <div class="col-sm-12" style="margin-top: 20px;">
+        <div class="col-sm-3 form-inline">
+            <label class="control-label">订单编号：</label>
+            <input type="text" id="orderNo" class="form-control" style="width: 55%;"/>
+        </div>
+        <div class="col-sm-3 form-inline">
+            <label class="control-label">商品名称：</label>
+            <input type="text" id="goodsName" class="form-control"  style="width: 55%;"/>
+        </div>
+        <div class="col-sm-3 form-inline">
+            <#button name="筛选" icon="fa-search" clickFun="orderSearch()"/>
+        </div>
+    </div>
+    <div class="col-sm-12" style="margin-top: 20px;">
+        <div class="col-sm-3 form-inline">
+            <label class="control-label">评价方式：</label>
+            <select class="form-control" id="evaluateWay" style="width: 55%;">
+                <option value="0">全部</option>
+                <option value="1">默认好评</option>
+                <option value="2">用户自评</option>
+            </select>
+        </div>
+        <div class="col-sm-3 form-inline">
+            <label class="control-label">商品星级：</label>
+            <select class="form-control" id="goodsScore" style="width: 55%;">
+                <option value="0">全部</option>
+                <option value="1">一星</option>
+                <option value="2">二星</option>
+                <option value="3">三星</option>
+                <option value="4">四星</option>
+                <option value="5">五星</option>
+            </select>
+        </div>
+    </div>
+    <div class="col-sm-12" style="margin-top: 20px;">
+        <#rc_datepicker clickFun="getOrderList()" name="评价时间："/>
+    </div>
+    <div class="col-sm-12" style="margin-top: 20px;">
+        <div class="col-sm-12 form-inline">
+            <table style="width:100%;table-layout: fixed;min-width: 1400px;font-size: 13px;" border="1">
+                <thead style="background: #eeeeee;height: 40px;line-height: 40px;">
+                <th>商品</th>
+                <th>评价内容</th>
+                <th>商品星级</th>
+                <th>服务星级</th>
+                <th>评价时间</th>
+                <th>回复</th>
+                </thead>
+                <tbody id="orderTbody"></tbody>
+            </table>
+        </div>
+    </div>
+    <div class="col-sm-12" style="margin-top: 10px;margin-bottom: 20px;">
+        <div class="col-sm-12 form-inline">
+            <div id="page" class="page_div"></div>
+        </div>
+    </div>
+</div>
+<link href="${ctxPath}/static/css/plugins/datapicker/datepicker3.css" rel="stylesheet">
+<script src="${ctxPath}/static/js/plugins/datapicker/bootstrap-datepicker.js"></script>
+<script src="${ctxPath}/static/js/pageMe.js"></script>
+<script src="${ctxPath}/static/modular/shop/order/orderEvaluateList.js"></script>
+@}

@@ -1,0 +1,123 @@
+
+@layout("/common/_container.html"){
+<style>
+    body{
+        min-width: 1400px;
+    }
+    th{
+        text-align: center;
+    }
+    .itemDiv{
+        height: 40px;line-height: 40px;
+    }
+    .itemLabel{
+        display: inline-block;
+        width:100px;
+        height:40px;
+        line-height: 40px;
+        text-align: right;
+        margin-right: 10px;
+    }
+    .statusDiv{
+        font-size: 20px;
+        margin-bottom: 5px;
+    }
+    .orderStatus{
+        padding-left: 20px;
+        margin-top: 10px;
+    }
+    .priceDiv{
+        text-align: right;
+        margin-bottom: 10px;
+    }
+    .scheduleTitileDiv{
+        width: 100%;
+        height: 40px;
+        line-height: 40px;
+    }
+    .circleSpan{
+        display: inline-block;width: 40px;height: 40px;line-height:40px;text-align: center;border-radius: 20px;border: 2px solid #CCCCCC;
+    }
+    .lineSpan{
+        display: inline-block;width: 146px;height: 15px;border: 1px solid #CCCCCC;background-color: #CCCCCC;margin-left: -4px;margin-right: -4px;margin-bottom: -2px;
+    }
+</style>
+<div class="row right-content" xmlns="http://www.w3.org/1999/html" style="background-color: #ffffff;">
+    <div class="col-sm-12" style="margin-top: 20px;">
+        <div class="col-sm-12">
+            <h3 class="pull-left" >订单详情</h3>
+        </div>
+    </div>
+    <div class="col-sm-12" style="margin-top: 10px;" id="orderSchedule">
+        <div class="col-sm-6 form-inline" style="padding-left: 0;padding-right: 15px;">
+            <div style="width: 100%;height: 40px;line-height: 40px;background: #eeeeee;padding-left: 20px;">订单进度</div>
+            <div style="width: 100%;height: 120px;">
+                <div class="scheduleTitileDiv">
+                    <span style="display: inline-block;width: 80px;height: 40px;margin-left: 40px;text-align: center;">买家下单</span>
+                    <span style="display: inline-block;width: 80px;height: 40px;margin-left: 100px;text-align: center;">买家付款</span>
+                    <span style="display: inline-block;width: 80px;height: 40px;margin-left: 100px;text-align: center;">商家发货</span>
+                    <span style="display: inline-block;width: 80px;height: 40px;margin-left: 100px;text-align: center;">交易完成</span>
+                </div>
+                <div class="scheduleTitileDiv">
+                    <span id="circle1" class="circleSpan" style="margin-left: 60px;">1</span>
+                    <span id="line1" class="lineSpan"></span>
+                    <span id="circle2" class="circleSpan">2</span>
+                    <span id="line2" class="lineSpan"></span>
+                    <span id="circle3" class="circleSpan">3</span>
+                    <span id="line3" class="lineSpan"></span>
+                    <span id="circle4" class="circleSpan">4</span>
+                </div>
+                <div class="scheduleTitileDiv">
+                    <span id="time1" style="display: inline-block;width: 80px;height: 40px;line-height:20px;margin-left: 40px;text-align: center;"></span>
+                    <span id="time2" style="display: inline-block;width: 80px;height: 40px;line-height:20px;margin-left: 100px;text-align: center;"></span>
+                    <span id="time3" style="display: inline-block;width: 80px;height: 40px;line-height:20px;margin-left: 100px;text-align: center;"></span>
+                    <span id="time4" style="display: inline-block;width: 80px;height: 40px;line-height:20px;margin-left: 100px;text-align: center;"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-12" style="margin-top: 10px;">
+        <div class="col-sm-6 form-inline" style="padding-left: 0;padding-right: 15px;">
+            <div style="width: 100%;height: 40px;line-height: 40px;background: #eeeeee;padding-left: 20px;">订单状态</div>
+            <div class="orderStatus" id="orderStatus"></div>
+        </div>
+    </div>
+    <div class="col-sm-12" style="margin-top: 10px;">
+        <div class="col-sm-6 form-inline" style="padding-left: 0;padding-right: 15px;">
+            <div style="width: 100%;height: 40px;line-height: 40px;background: #eeeeee;padding-left: 20px;">订单信息</div>
+            <div class="itemDiv"><span class="itemLabel">订单编号:</span><span id="orderNo"></span></div>
+            <div class="itemDiv"><span class="itemLabel">用户账号:</span><span id="userId"></span></div>
+            <div class="itemDiv"><span class="itemLabel">收货人姓名:</span><span id="consigneeName"></span></div>
+            <div class="itemDiv"><span class="itemLabel">收货人手机号:</span><span id="consigneePhone"></span></div>
+            <div class="itemDiv"><span class="itemLabel">收货人地址:</span><span id="address"></span></div>
+        </div>
+    </div>
+    <div class="col-sm-12" style="margin-top: 10px;">
+        <div class="col-sm-6 form-inline" style="padding-left: 0;padding-right: 15px;">
+            <div style="width: 100%;height: 40px;line-height: 40px;background: #eeeeee;padding-left: 20px;margin-bottom: 10px;">商品信息</div>
+            <table style="width:100%;table-layout: fixed;" border="1">
+                <thead style="background: #eeeeee;height: 40px;line-height: 40px;">
+                <th width="40%">商品</th>
+                <th width="15%">单价（元）</th>
+                <th width="15%">数量</th>
+                <th width="15%">小计(元)</th>
+                <th width="15%">状态</th>
+                </thead>
+                <tbody id="orderTbody"></tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<div class="col-sm-12" style="margin-top: 10px;">
+    <div class="col-sm-6 form-inline">
+        <div class="priceDiv">商品总价:¥<span id="goodsAmountPrice"></span></div>
+        <div class="priceDiv">运费:¥<span id="expressFee"></span></div>
+        <div class="priceDiv">优惠:¥<span id="couponAmount"></span></div>
+        <div class="priceDiv">实付金额:¥<span id="orderPrice"></span></div>
+        <div style="display: none;" id="refundAmountDiv" class="priceDiv">退款金额:¥<span id="refundAmount"></span></div>
+        <div style="display: none;" id="settleAmountDiv" class="priceDiv">结算金额:¥<span id="settleAmount"></span></div>
+    </div>
+</div>
+</div>
+<script src="${ctxPath}/static/modular/platform/ordercenter/goodsorder/goodsOrderDetail.js"></script>
+@}

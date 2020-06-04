@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.ibdsr.web.modular.shop.account.dao.SubAccountDao">
+
+    <select id="listRole" parameterType="com.alibaba.fastjson.JSONObject" resultType="com.alibaba.fastjson.JSONObject">
+        SELECT
+        m1.id,
+        ( CASE m1.isopen WHEN 1 THEN TRUE ELSE FALSE END ) isOpen,
+        m1.`name`,
+        ( CASE m1.isopen WHEN 1 THEN TRUE ELSE FALSE END ) `open`,
+        IFNULL( ( SELECT m2.id FROM menu m2 WHERE m2.`code` = m1.pcode ), 0 ) pId,
+        FALSE checked
+        FROM
+        menu m1
+        WHERE
+        `status` = 1
+        <if test="sql != null">
+            ${sql}
+        </if>
+    </select>
+
+</mapper>

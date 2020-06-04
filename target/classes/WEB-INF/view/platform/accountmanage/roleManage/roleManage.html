@@ -1,0 +1,41 @@
+@layout("/common/_container.html"){
+<div class="row">
+    <div class="col-sm-12">
+        <div class="ibox float-e-margins">
+            <div class="ibox-title">
+                <h5>商家端角色管理</h5>
+            </div>
+            <div class="ibox-content">
+                <div class="row row-lg">
+                    <div class="col-sm-12">
+                        <div class="row">
+                            <div class="col-sm-3 form-inline ">
+                                <label class="control-label">店铺类型：</label>
+                                <select id="shopType" class="form-control"  style="width: 65%">
+                                    <option value="0">全部店铺</option>
+                                    <option value="1">特产店铺</option>
+                                    <option value="2">酒店店铺</option>
+                                </select>
+                            </div>
+                            <div class="col-sm-3 form-inline ">
+                                <label class="control-label">角色名称：</label>
+                                <input type="text" id="condition" class="form-control" style="width: 65%" placeholder="请输入角色名称">
+                            </div>
+                            <div class="col-sm-3 form-inline ">
+                                <#button name="查询" icon="fa-search" clickFun="Accountmanage.search()"/>
+                            </div>
+                            <div class="col-sm-12">
+                                <br>
+                                <#button name="新增角色" icon="fa-plus" clickFun="Accountmanage.openAddShopInfoMgr()"/>
+                            </div>
+                        </div>
+                        <div class="hidden-xs" id="AccountmanageTableToolbar" role="group"></div>
+                        <#table id="AccountmanageTable"/>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="${ctxPath}/static/modular/accountmanage/accountmanage/accountmanage.js"></script>
+@}

@@ -1,0 +1,41 @@
+@layout("/common/_container.html"){
+<div class="ibox float-e-margins">
+    <div class="ibox-content">
+        <div class="form-horizontal">
+            <input type="hidden" id="roleId" value="${roleId}">
+            <div class="row" style="margin-top: 15px;">
+                <div class="col-sm-12">
+                    <div class="col-sm-12 form-inline ">
+                        <label class="control-label">店铺类型：</label>
+                        <select id="shopType" class="form-control" style="width: 20%;" disabled="disabled" data-shopType="${shopType}">
+                            <option value="1">特产店铺</option>
+                            <option value="2">酒店店铺</option>
+                        </select>
+                    </div>
+                    <div class="col-sm-12 form-inline" style="margin-top: 30px;">
+                        <label class="control-label">角色名称：</label>
+                        <input class="form-control" id="name" name="name" placeholder="请输入角色名称" value="${roleName}" style="width: 60%;" disabled="disabled"/>
+                    </div>
+                    <div class="col-sm-12 form-inline" style="margin-top: 30px;">
+                        <label class="control-label">配置权限：</label>
+                        <div class="form-control" style="width: 60%;height: 150px;overflow-y: scroll;">
+                            <ul id="deptZtree" class="ztree"></ul>
+                            <input class="form-control" type="hidden" id="ids" name="ids" value="">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row btn-group-m-t">
+                <div class="col-sm-12">
+                    <div class="col-sm-12 form-inline">
+                        <button type="button" class="btn btn-primary" onclick="AccountmanageInfoDlg.close()" style="width: 120px;height: 34px;color: #FFFFFF;">
+                            确定
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="${ctxPath}/static/modular/accountmanage/accountmanage/accountmanage_info.js"></script>
+@}

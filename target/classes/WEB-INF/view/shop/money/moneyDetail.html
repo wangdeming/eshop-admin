@@ -1,0 +1,91 @@
+@layout("/common/_container.html"){
+<style>
+    .mypanel{
+        min-height: 120px;
+        background: rgb(242,242,242);;
+        padding: 30px;
+        margin-bottom: 30px;
+    }
+    .mt30{
+        margin-left: 30px;
+    }
+    .w600{
+        font-weight: 600;
+    }
+    .glyphicon-question-sign{
+        font-size: 18px;
+        cursor: pointer;
+    }
+    .tipsdiv{
+        display: none;
+        position: absolute;
+        background: #fff;
+        padding: 15px;
+    }
+</style>
+<div class="row">
+    <div class="col-sm-12">
+        <div class="ibox float-e-margins">
+            <div class="ibox-title">
+                <h5>账户概览</h5>
+            </div>
+            <div class="ibox-content">
+                <div class="mypanel">
+                    <div class="col-sm-4">
+                        <div class="mytit">
+                            店铺可用余额
+                            <div class="tipsdiv" id="tip1">店铺可用余额=店铺余额-不可用店铺余额</div>
+                            <i class="glyphicon glyphicon-question-sign" data="tip1" ></i>
+                            <a href="${ctxPath}/shop/money/towithdrawalrecord" class="mt30">提现记录</a>
+                        </div>
+                        <p class="w600" ><span id="availableBalance"></span>&nbsp;&nbsp;&nbsp;<a href="${ctxPath}/shop/money/towithdrawal" class="btn btn-primary">提现</a></p>
+
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="mytit">店铺不可用余额 <div class="tipsdiv" id="tip2">提现中冻结的店铺余额</div> <i class="glyphicon glyphicon-question-sign" data="tip2" ></i></div>
+                        <p class="w600"><span id="unavailableBalance"></span> </p>
+
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="mytit">历史累计余额  <div class="tipsdiv" id="tip3">店铺历史累计获得的订单的余额</div> <i class="glyphicon glyphicon-question-sign" data="tip3" ></i></div>
+                        <p class="w600"><span id="historyBalanceSum"></span></p>
+
+                    </div>
+                </div>
+                <div class="mypanel">
+                    <div class="col-sm-4">
+                        <div class="mytit">待到账金额 <div class="tipsdiv" id="tip4">当前订单状态为交易完成，但订单仍在有效售后期内（含服务费）。<br>
+                            结算时钱会从待到账中扣除进入店铺余额<br>
+                            结算：有效售后期间截止时结算，<br><span style="color: red;">结算时扣除平台服务费（当前服务费率<span id="serviceRate">0%</span>）。</span></div> <i class="glyphicon glyphicon-question-sign" data="tip4" ></i> </div>
+                        <p class="w600"><span id="ddzAmount"></span> </p>
+
+                    </div>
+                    <div class="col-sm-4">
+
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="mytit">待出账金额  <div class="tipsdiv" id="tip5">当前订单状态为用户已支付但未结算的钱款总额（含服务费）。<br>
+                            结算时钱会从待结出账中扣除进入待到账金额。<br>
+                            结算：交易成功后结算。</div> <i class="glyphicon glyphicon-question-sign" data="tip5" ></i></div>
+                        <p class="w600"><span id="dczAmount"></span></p>
+
+                    </div>
+                </div>
+            </div>
+            <div class="ibox-title">
+                <h5>今日余额收支明细</h5>
+                <a href="${ctxPath}/shop/money/tobalancelist" style="margin-left: 50px">查看更多</a>
+            </div>
+            <div class="ibox-content">
+                <div class="row row-lg">
+                    <div class="col-sm-12">
+                        <#table id="detailTable"/>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<script src="${ctxPath}/static/modular/shop/money/detail.js"></script>
+@}

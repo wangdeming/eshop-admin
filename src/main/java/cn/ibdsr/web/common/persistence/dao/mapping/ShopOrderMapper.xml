@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.ibdsr.web.common.persistence.dao.ShopOrderMapper">
+
+	<!-- 通用查询映射结果 -->
+	<resultMap id="BaseResultMap" type="cn.ibdsr.web.common.persistence.model.ShopOrder">
+		<id column="id" property="id" />
+		<result column="order_no" property="orderNo" />
+		<result column="shop_id" property="shopId" />
+		<result column="user_id" property="userId" />
+		<result column="status" property="status" />
+		<result column="pre_status" property="preStatus" />
+		<result column="order_price" property="orderPrice" />
+		<result column="coupon_amount" property="couponAmount" />
+		<result column="goods_price" property="goodsPrice" />
+		<result column="express_fee" property="expressFee" />
+		<result column="delivery_type" property="deliveryType" />
+		<result column="consignee_name" property="consigneeName" />
+		<result column="consignee_phone" property="consigneePhone" />
+		<result column="province" property="province" />
+		<result column="city" property="city" />
+		<result column="district" property="district" />
+		<result column="address" property="address" />
+		<result column="payment_time" property="paymentTime" />
+		<result column="cancel_time" property="cancelTime" />
+		<result column="cancel_remark" property="cancelRemark" />
+		<result column="is_evaluated" property="isEvaluated" />
+		<result column="created_user" property="createdUser" />
+		<result column="created_time" property="createdTime" />
+		<result column="modified_user" property="modifiedUser" />
+		<result column="modified_time" property="modifiedTime" />
+		<result column="is_deleted" property="isDeleted" />
+	</resultMap>
+
+</mapper>

@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.ibdsr.web.modular.platform.adinfomanager.dao.AdInfoManagerDao">
+
+    <resultMap id="homeAdListResultMap" type="cn.ibdsr.web.modular.platform.adinfomanager.transfer.AdInfoVO">
+        <id column="id" property="id" />
+        <result column="position_id" property="positionId" />
+        <result column="type" property="type" />
+        <result column="relation_val" property="relationVal" />
+        <result column="img" property="img" />
+        <result column="sequence" property="sequence" />
+        <result column="status" property="status" />
+        <result column="publish_time" property="publishTime" />
+        <result column="created_time" property="createdTime" />
+    </resultMap>
+
+    <!--首页广告信息列表查询-->
+    <select id="homeAdList" resultMap="homeAdListResultMap">
+        SELECT
+            ad_info.id,
+            ad_info.position_id,
+            ad_info.type,
+            ad_info.relation_val,
+            ad_info.img,
+            ad_info.sequence,
+            ad_info.`status`,
+            ad_info.created_time,
+            ad_info.publish_time
+        FROM
+            ad_info,
+            ad_position
+        WHERE
+            ad_position.en_name = #{adPosition}
+        AND ad_info.position_id = ad_position.id
+        AND ad_info.is_deleted = 0
+        ORDER BY
+            ad_info.`status` ASC,
+            (
+                CASE ad_info.sequence
+                WHEN 0 THEN
+                    1
+                ELSE
+                    0
+                END
+            ),
+            ad_info.sequence,
+            ad_info.created_time DESC
+    </select>
+
+    <!--推荐店铺广告信息列表查询-->
+    <select id="shopAdList" resultMap="homeAdListResultMap">
+        SELECT
+            ad_info.id,
+            ad_info.position_id,
+            ad_info.type,
+            ad_info.relation_val,
+            ad_info.img,
+            ad_info.sequence,
+            ad_info.`status`,
+            ad_info.created_time,
+            ad_info.publish_time
+        FROM
+            ad_info,
+            ad_position
+        WHERE
+            ad_position.en_name = "recommendShopAd"
+        AND ad_info.position_id = ad_position.id
+        AND ad_info.is_deleted = 0
+        ORDER BY
+            ad_info.sequence ASC
+    </select>
+
+</mapper>

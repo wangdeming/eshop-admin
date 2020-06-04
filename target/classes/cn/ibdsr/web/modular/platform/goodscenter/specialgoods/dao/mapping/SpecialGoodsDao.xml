@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.ibdsr.web.modular.platform.goodscenter.specialgoods.dao.SpecialGoodsDao">
+
+    <sql id="Page_Column_List" >
+        g.id,
+        g.name AS goodsName,
+        g.price,
+        g.category_id AS secondCategoryId,
+        gc.pid as fistCategoryId,
+        g.shop_id AS shopId,
+        s.`name` AS shopName,
+        g.stock,
+        g.platform_manage AS platformManage,
+        g.created_time AS createdTime,
+        g.main_img AS img,
+        IFNULL(gs.view_num, 0) AS viewNum,
+        IFNULL(gs.visitor_num, 0) AS visitorNum,
+        IFNULL(gs.sale_num, 0) AS saleNum
+    </sql>
+
+    <select id="goodsList" resultType="java.util.Map">
+        SELECT
+        <include refid="Page_Column_List" />
+        FROM
+        goods_category gc, shop s, goods g
+        LEFT JOIN view_stats gs ON g.id = gs.goods_id
+        WHERE 1 = 1
+        AND s.id = g.shop_id
+        AND g.category_id = gc.id
+        <if test="queryDTO.goodsName != null and queryDTO.goodsName != ''">
+            AND g.`name` LIKE CONCAT('%', #{queryDTO.goodsName}, '%')
+        </if>
+        <if test="queryDTO.goodsId != null and queryDTO.goodsId != ''">
+            AND g.id = #{queryDTO.goodsId}
+        </if>
+        <if test="queryDTO.shopName != null and queryDTO.shopName != ''">
+            AND s.`name` LIKE CONCAT('%', #{queryDTO.shopName}, '%')
+        </if>
+        <if test="queryDTO.shopId != null and queryDTO.shopId != ''">
+            AND g.shop_id = #{queryDTO.shopId}
+        </if>
+        <if test="queryDTO.firstCategoryId != null and queryDTO.firstCategoryId != ''">
+            AND gc.pid = #{queryDTO.firstCategoryId}
+        </if>
+        <if test="queryDTO.secondCategoryId != null and queryDTO.secondCategoryId != ''">
+            AND g.category_id = #{queryDTO.secondCategoryId}
+        </if>
+        <if test="queryDTO.status != null">
+            <if test="queryDTO.status == 1">/*销售中*/
+                AND (g.platform_manage = 1 AND g.status = 1 AND g.stock > 0)
+            </if>
+            <if test="queryDTO.status == 2">/*已售罄*/
+                AND (g.platform_manage = 1 AND g.status = 1 AND g.stock &lt;= 0)
+            </if>
+            <if test="queryDTO.status == 3">/*仓库中*/
+                AND (g.status = 2 OR g.platform_manage = 0)
+            </if>
+        </if>
+        <if test="(queryDTO.platformManage != null and queryDTO.platformManage != '') or queryDTO.platformManage==0">
+            AND g.platform_manage = #{queryDTO.platformManage}
+        </if>
+        AND g.is_deleted = 0
+        GROUP BY g.id
+    </select>
+</mapper>

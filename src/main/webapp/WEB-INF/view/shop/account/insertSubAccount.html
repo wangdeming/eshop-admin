@@ -1,0 +1,56 @@
+@layout("/common/_container.html"){
+<link href="${ctxPath}/static/css/account-manage.css" rel="stylesheet">
+<form id="insertSubAccountForm" action="#" class="form-horizontal">
+    <div class="ibox float-e-margins">
+        <div class="ibox-content">
+            <div class="form-horizontal" id="addSubAccount">
+                <div class="row" style="margin-top: 15px;">
+                    <div class="col-sm-8">
+                        <#input type="text" id="account" name="账户名" placeholder="请输入账户名"/>
+                        <#select id="role" name="账号角色">
+
+                        </#select>
+                        <div class="form-group">
+                            <div class="col-sm-12">
+                                <label class="col-sm-6 control-label" style="text-align: left;padding: 0px;margin-bottom: 5px;">查看权限</label>
+                                <div class="form-control" style="height: 150px;overflow-y: scroll;">
+                                    <ul id="pNameZtree" class="ztree"></ul>
+                                    <input class="form-control" type="hidden" id="ids" name="ids" value="">
+                                </div>
+                            </div>
+                        </div>
+                        <#input type="text" id="name" name="姓名" placeholder="请输入姓名"/>
+                        <#select id="sex" name="性别">
+                            <option value="1">男</option>
+                            <option value="2">女</option>
+                        </#select>
+                        <div class="form-group has-feedback">
+                            <label class="col-sm-3 control-label">*密码</label>
+                            <div class="col-sm-9">
+                                <input class="form-control" id="passwd" name="passwd" placeholder="请输入密码" type="type" onfocus="this.type='password'">
+                            </div>
+                        </div>
+                        <div class="form-group has-feedback">
+                            <label class="col-sm-3 control-label">*确认密码</label>
+                            <div class="col-sm-9">
+                                <input class="form-control" id="confirmPasswd" name="confirmPasswd" placeholder="请再次输入密码" type="type" onfocus="this.type='password'">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row btn-group-m-t">
+                    <div class="col-sm-10">
+                        <button type="button" class="btn btn-danger-xb" onclick="closePage();" style="width: 120px;height: 34px;color: #FFFFFF;margin-right: 20px;">
+                            取消
+                        </button>
+                        <button type="button" class="btn btn-primary" onclick="addSubmit();" style="width: 120px;height: 34px;color: #FFFFFF;">
+                            提交
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+<script src="${ctxPath}/static/modular/shop/account/subAccount_info.js"></script>
+@}

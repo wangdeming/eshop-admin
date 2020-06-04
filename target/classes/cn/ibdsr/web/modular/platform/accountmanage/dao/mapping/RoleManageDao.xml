@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.ibdsr.web.modular.platform.accountmanage.dao.RoleManageDao">
+    <sql id="Base_Column_List">
+        id, name, tips, shop_type
+    </sql>
+
+    <!--查询角色列表-->
+    <select id="selectRoles" resultType="map">
+        <if test="shopType != null and shopType == 0">
+            select r1.id, r1.name, r1.shop_type, r2.userNum from role r1 left join (select roleid,count(roleid) as userNum from shop_user where is_deleted=0 group by roleid) r2 on r1.id=r2.roleid
+            <if test="condition != null">
+                WHERE (r1.name like CONCAT('%',#{condition},'%') or r1.tips like CONCAT('%',#{condition},'%'))
+            </if>
+            ORDER BY r1.id desc
+        </if>
+        <if test="shopType != null and shopType == 1">
+            select r1.id, r1.name, r1.shop_type, r2.userNum from role r1 left join (select roleid,count(roleid) as userNum from shop_user where is_deleted=0 group by roleid) r2 on r1.id=r2.roleid
+            WHERE r1.shop_type = #{shopType}
+            <if test="condition != null">
+                and (r1.name like CONCAT('%',#{condition},'%') or r1.tips like CONCAT('%',#{condition},'%'))
+            </if>
+            ORDER BY r1.id desc
+        </if>
+        <if test="shopType != null and shopType == 2">
+            select r1.id, r1.name, r1.shop_type, r2.userNum from role r1 left join (select roleid,count(roleid) as userNum from shop_user where is_deleted=0 group by roleid) r2 on r1.id=r2.roleid
+            WHERE r1.shop_type = #{shopType}
+            <if test="condition != null">
+                and (r1.name like CONCAT('%',#{condition},'%') or r1.tips like CONCAT('%',#{condition},'%'))
+            </if>
+            ORDER BY r1.id desc
+        </if>
+
+    </select>
+
+    <!--统计角色的用户数量-->
+    <select id="countUserNum" resultType="Integer">
+        select count(*)  from shop_user
+        where roleid=#{roleId} and is_deleted=0
+    </select>
+
+    <select id="isUsed" resultType="Integer">
+        select count(*)  from shop_user
+        where roleid=#{roleId} and is_deleted=0
+    </select>
+
+    <!--删除角色的所有权限-->
+    <delete id="deleteRoleAuthById">
+        delete from relation where roleid = #{roleId}
+    </delete>
+
+    <!--删除角色-->
+    <delete id="deleteRoleById">
+        delete from role where id = #{roleId}
+    </delete>
+
+    <!--查询角色列表-->
+    <select id="selectRoleList" resultType="map">
+        select id, name from role
+        where platform_type = 2 and shop_type = #{shopType}
+    </select>
+
+    <!--判断角色是否已经存在-->
+    <select id="isRoleExist" resultType="Integer">
+        select count(*)  from role
+        where name = #{name} and  platform_type=2
+        <if test="roleId != null ">
+            and id!=#{roleId}
+        </if>
+    </select>
+
+</mapper>

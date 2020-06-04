@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.ibdsr.web.modular.platform.goodscenter.hotelroom.dao.HotelRoomDao">
+
+    <resultMap id="RoomResultMap" type="cn.ibdsr.web.modular.shop.hotel.transfer.RoomVO">
+        <id column="id" property="id"/>
+        <result column="shop_id" property="shopId"/>
+        <result column="name" property="name"/>
+        <result column="main_img" property="mainImg"/>
+        <result column="breakfast" property="breakfast"/>
+        <result column="broadband" property="broadband"/>
+        <result column="window" property="window"/>
+        <result column="area" property="area"/>
+        <result column="bed_width" property="bedWidth"/>
+        <result column="person" property="person"/>
+        <result column="price" property="price"/>
+        <result column="can_cancel" property="canCancel"/>
+        <result column="status" property="status"/>
+        <result column="platform_manage" property="platformManage"/>
+    </resultMap>
+
+    <sql id="Page_Column_List" >
+        room.id,
+        room.`name` AS roomName,
+        room.main_img AS mainImg,
+        room.price,
+        room.created_time AS createdTime,
+        IFNULL(view_stats.view_num, 0) AS viewNum,
+        IFNULL(view_stats.visitor_num, 0) AS visitorNum,
+        room.shop_id AS shopId,
+        room.`status`,
+        room.platform_manage AS platformManage,
+        shop.`name` AS shopName
+    </sql>
+
+    <!--查询房间列表-->
+    <select id="roomList" resultType="java.util.Map">
+        SELECT
+        <include refid="Page_Column_List" />
+        FROM
+            shop,
+            room
+        LEFT JOIN view_stats ON room.id = view_stats.room_id
+        WHERE
+            room.is_deleted = 0
+        AND shop.id = room.shop_id
+        <if test="queryDTO.roomName != null and queryDTO.roomName != ''">
+            AND room.`name` LIKE CONCAT('%', #{queryDTO.roomName}, '%')
+        </if>
+        <if test="queryDTO.roomId != null and queryDTO.roomId != ''">
+            AND room.id = #{queryDTO.roomId}
+        </if>
+        <if test="queryDTO.shopName != null and queryDTO.shopName != ''">
+            AND shop.`name` LIKE CONCAT('%', #{queryDTO.shopName}, '%')
+        </if>
+        <if test="(queryDTO.platformManage != null and queryDTO.platformManage != '') or queryDTO.platformManage==0">
+            AND room.platform_manage = #{queryDTO.platformManage}
+        </if>
+        <if test="queryDTO.shopId != null and queryDTO.shopId != ''">
+            AND room.shop_id = #{queryDTO.shopId}
+        </if>
+        <if test="(queryDTO.status != null and queryDTO.status != '') or queryDTO.status==0">
+            <if test="queryDTO.status == 0">/*未上架*/
+                AND (room.status = 0 OR room.platform_manage = 0)
+            </if>
+            <if test="queryDTO.status == 1">/*销售中*/
+                AND (room.status = 1 AND room.platform_manage = 1)
+            </if>
+        </if>
+        GROUP BY room.id
+    </select>
+</mapper>

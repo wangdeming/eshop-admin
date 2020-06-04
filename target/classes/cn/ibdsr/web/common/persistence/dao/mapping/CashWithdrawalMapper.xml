@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.ibdsr.web.common.persistence.dao.CashWithdrawalMapper">
+
+	<!-- 通用查询映射结果 -->
+	<resultMap id="BaseResultMap" type="cn.ibdsr.web.common.persistence.model.CashWithdrawal">
+		<id column="id" property="id" />
+		<result column="shop_id" property="shopId" />
+		<result column="draw_way" property="drawWay" />
+		<result column="amount" property="amount" />
+		<result column="account_name" property="accountName" />
+		<result column="account_no" property="accountNo" />
+		<result column="status" property="status" />
+		<result column="review_user_id" property="reviewUserId" />
+		<result column="review_time" property="reviewTime" />
+		<result column="review_remark" property="reviewRemark" />
+		<result column="confirm_time" property="confirmTime" />
+		<result column="created_user" property="createdUser" />
+		<result column="created_time" property="createdTime" />
+		<result column="modified_user" property="modifiedUser" />
+		<result column="modified_time" property="modifiedTime" />
+		<result column="is_deleted" property="isDeleted" />
+	</resultMap>
+
+</mapper>

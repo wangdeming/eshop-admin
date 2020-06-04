@@ -1,0 +1,16 @@
+.my-row{
+    min-height: 48px;
+    line-height: 48px;
+}
+.row-key{
+    color: #666666;
+}
+.row-value{
+    color: #333333;
+}
+.row-link{
+    border: none;
+    background-color: transparent;
+    color: #47ABA2;
+    cursor: pointer;
+}

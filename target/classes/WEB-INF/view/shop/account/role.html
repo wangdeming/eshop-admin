@@ -1,0 +1,33 @@
+@layout("/common/_container.html"){
+<link href="${ctxPath}/static/css/account-manage.css" rel="stylesheet">
+<div class="ibox float-e-margins">
+    <div class="ibox-content">
+        <div class="form-horizontal">
+            <div class="row" style="margin-top: 15px;">
+                <div class="col-sm-12">
+                    <#input id="account" name="店铺类型" value="" readonly="true"/>
+                    <#input id="name" name="角色名称" value="" readonly="true"/>
+                    <div class="form-group">
+                        <div class="col-sm-12">
+                            <label class="col-sm-6 control-label" style="text-align: left;padding: 0px;margin-bottom: 5px;">查看权限</label>
+                            <div class="form-control" style="height: 150px;overflow-y: scroll;">
+                                <ul id="pNameZtree" class="ztree"></ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row btn-group-m-t">
+                <div class="col-sm-12">
+                    <div class="col-sm-12 form-inline">
+                        <button type="button" class="btn btn-primary" onclick="closePage()" style="width: 120px;height: 34px;color: #FFFFFF;">
+                            确定
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="${ctxPath}/static/modular/shop/account/role.js"></script>
+@}

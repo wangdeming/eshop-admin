@@ -1,0 +1,53 @@
+@layout("/common/_container.html"){
+<div class="row">
+    <div class="col-sm-12">
+        <div class="ibox float-e-margins">
+            <div class="ibox-title">
+                <h5>店铺账号管理</h5>
+            </div>
+            <div class="ibox-content">
+                <div class="row row-lg">
+                    <div class="col-sm-12">
+                        <div class="row">
+                            <div class="col-sm-3  form-inline ">
+                                <label class="control-label">店铺类型：</label>
+                                <select id="shopType" class="form-control "  style="width: 65%">
+                                    <option value=''>请选择店铺类型</option>
+                                    <option value=1>特产店铺</option>
+                                    <option value=2>酒店店铺</option>
+                                </select>
+                            </div>
+                            <div class="col-sm-3  form-inline ">
+                                <label class="control-label">店铺名称：</label>
+                                <input type="text" id="condition" class="form-control" style="width: 65%">
+                            </div>
+                            <div class="col-sm-3  form-inline ">
+
+                                <#button name="查询" icon="fa-search" clickFun="ShopAccount.search()"/>
+                            </div>
+                            <div class="col-sm-12  ">
+                                <br>
+                                <#button name="新增账号" icon="fa-plus" clickFun="ShopAccount.openAddShopAccount()"/>
+
+                            </div>
+                        </div>
+                        <div class="hidden-xs" id="ShopAccountTableToolbar" role="group">
+                            @if(shiro.hasPermission("/shopAccount/add")){
+                                <#button name="添加" icon="fa-plus" clickFun="ShopAccount.openAddShopAccount()"/>
+                            @}
+                            @if(shiro.hasPermission("/shopAccount/update")){
+                                <#button name="修改" icon="fa-plus" clickFun="ShopAccount.openShopAccountDetail()" space="true"/>
+                            @}
+                            @if(shiro.hasPermission("/shopAccount/delete")){
+                                <#button name="删除" icon="fa-plus" clickFun="ShopAccount.delete()" space="true"/>
+                            @}
+                        </div>
+                        <#table id="ShopAccountTable"/>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="${ctxPath}/static/modular/platform/shop/account/shopAccountList.js"></script>
+@}

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="91px" height="40px" viewBox="0 0 91 40" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 52.1 (67048) - http://www.bohemiancoding.com/sketch -->
+    <title>logo</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <linearGradient x1="4.21499767%" y1="95.7850023%" x2="100%" y2="0%" id="linearGradient-1">
+            <stop stop-color="#24D6D3" offset="0%"></stop>
+            <stop stop-color="#6A93ED" offset="100%"></stop>
+        </linearGradient>
+    </defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" font-family="Arial-Black, Arial Black" font-size="40" font-weight="700" letter-spacing="-0.960000038">
+        <text id="logo" fill="url(#linearGradient-1)">
+            <tspan x="0.740312576" y="30">logo</tspan>
+        </text>
+    </g>
+</svg>

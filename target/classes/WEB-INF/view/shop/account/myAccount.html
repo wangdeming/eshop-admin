@@ -1,0 +1,39 @@
+@layout("/common/_container.html"){
+<link href="${ctxPath}/static/css/account.css" rel="stylesheet">
+<div class="row">
+    <div class="col-sm-12">
+        <div class="ibox float-e-margins">
+            <div class="ibox-title">
+                <h5>账户信息</h5>
+            </div>
+            <div class="ibox-content">
+                <div>
+                    <div class="row my-row">
+                        <div class="col-sm-3 row-key">账户级别:</div>
+                        <div class="col-sm-3 row-value">${account.accountTypeName}</div>
+                    </div>
+                    <div class="row my-row">
+                        <div class="col-sm-3 row-key">账户角色:</div>
+                        <div class="col-sm-3 row-value">${account.roleNames}</div>
+                    </div>
+                    <div class="row my-row">
+                        <div class="col-sm-3 row-key">账户名:</div>
+                        <div class="col-sm-3 row-value">${account.account}</div>
+                        <button class="col-sm-3 row-link" onclick="openChangePwd();">更换密码</button>
+                    </div>
+                    <div class="row my-row">
+                        <div class="col-sm-3 row-key">姓名:</div>
+                        <div class="col-sm-3 row-value">${account.name}</div>
+                    </div>
+                    <div class="row my-row">
+                        <div class="col-sm-3 row-key">绑定手机:</div>
+                        <div id="phoneNum" class="col-sm-3 row-value">${account.phone}</div>
+                        <button id="changePhone" class="col-sm-3 row-link" onclick="openModifyPhone()">修改手机</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="${ctxPath}/static/modular/shop/account/myAccount.js"></script>
+@}

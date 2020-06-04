@@ -1,0 +1,41 @@
+@layout("/common/_container.html"){
+<style>
+    .mypanel{
+        min-height: 120px;
+        background: #e7eaec;
+        padding: 30px;
+        margin-bottom: 30px;
+    }
+    .mt30{
+        margin-left: 30px;
+    }
+    .w600{
+        font-weight: 600;
+    }
+</style>
+<div class="row">
+    <div class="col-sm-12">
+        <div class="ibox float-e-margins">
+
+            <div class="ibox-title">
+                <h5>提现记录</h5>
+            </div>
+
+            <div class="ibox-content">
+                <div class="row row-lg">
+                    <#rc_datepicker clickFun="balance.search()" name="时间："/>
+                    <div class="col-sm-12">
+                        <#table id="balanceTable"/>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<link href="${ctxPath}/static/css/plugins/datapicker/datepicker3.css" rel="stylesheet">
+<script src="${ctxPath}/static/js/plugins/datapicker/bootstrap-datepicker.js"></script>
+<script src="${ctxPath}/static/modular/shop/money/record.js"></script>
+
+
+@}

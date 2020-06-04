@@ -1,0 +1,72 @@
+
+@layout("/common/_container.html"){
+<style>
+    table>tbody>tr>td{
+        word-wrap: break-word;
+        word-break: break-all;
+    }
+    .gun-btn-active{
+        background-color: #bababa;
+        border-color: #bababa;
+        color: #FFFFFF;
+    }
+</style>
+<div class="row right-content" xmlns="http://www.w3.org/1999/html">
+    <div class="col-sm-12">
+        <div class="col-sm-12">
+            <h3 class="pull-left" >订单列表</h3>
+        </div>
+    </div>
+    <div class="col-sm-12" style="margin-top: 20px;">
+        <div class="col-sm-3 form-inline">
+            <label class="control-label">订&nbsp;&nbsp;单&nbsp;&nbsp;号：</label>
+            <input type="text" id="orderNo" class="form-control" />
+        </div>
+        <div class="col-sm-3 form-inline">
+            <label class="control-label">入&nbsp;&nbsp;住&nbsp;&nbsp;人：</label>
+            <input type="text" id="realname" class="form-control" />
+        </div>
+        <div class="col-sm-3 form-inline">
+            <label class="control-label">房间名称：</label>
+            <input type="text" id="roomName" class="form-control" />
+        </div>
+        <div class="col-sm-3 form-inline">
+            <#button name="查询" icon="fa-search" clickFun="orderList.search()"/>
+        </div>
+    </div>
+
+    <div class="col-sm-12" style="margin-top: 20px;">
+        <#rc_datepicker clickFun="orderList.search()" name="下单时间："/>
+    </div>
+
+    <div class="col-sm-12" style="margin-top: 20px;">
+        <div class="col-sm-12 form-inline" id="data_6">
+            <label class="control-label">入住时间：</label>
+            <div class="input-daterange input-group">
+                <input type="text" class="input-sm form-control" id="checkInDate" placeholder="选择入住时间" autocomplete="off"/>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-sm-12" style="margin-top: 20px;">
+        <div class="col-sm-12 form-inline">
+            <div class="btn-group pull-left" id="orderStatus">
+                <input type="hidden" id="stateType" value="0">
+                <button type="button" data-calType="0" class="btn btn-outline btn-default active">全部</button>
+                <button type="button" data-calType="1"  class="btn btn-outline btn-default">待付款</button>
+                <button type="button" data-calType="2" class="btn btn-outline btn-default">待确认</button>
+                <button type="button" data-calType="3"  class="btn btn-outline btn-default">待使用</button>
+                <button type="button" data-calType="4"  class="btn btn-outline btn-default">已消费</button>
+                <button type="button" data-calType="5"  class="btn btn-outline btn-default">已取消</button>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-12">
+        <#table id="orderListTable"/>
+    </div>
+</div>
+<link href="${ctxPath}/static/css/plugins/datapicker/datepicker3.css" rel="stylesheet">
+<script src="${ctxPath}/static/js/plugins/datapicker/bootstrap-datepicker.js"></script>
+<script src="${ctxPath}/static/js/pageMe.js"></script>
+<script src="${ctxPath}/static/modular/shop/hotel/order/hotelOrderList.js"></script>
+@}

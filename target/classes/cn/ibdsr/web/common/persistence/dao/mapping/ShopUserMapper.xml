@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.ibdsr.web.common.persistence.dao.ShopUserMapper">
+
+	<!-- 通用查询映射结果 -->
+	<resultMap id="BaseResultMap" type="cn.ibdsr.web.common.persistence.model.ShopUser">
+		<id column="id" property="id" />
+		<result column="shop_id" property="shopId" />
+		<result column="name" property="name" />
+		<result column="avatar" property="avatar" />
+		<result column="account" property="account" />
+		<result column="account_type" property="accountType" />
+		<result column="password" property="password" />
+		<result column="salt" property="salt" />
+		<result column="sex" property="sex" />
+		<result column="phone" property="phone" />
+		<result column="roleid" property="roleid" />
+		<result column="status" property="status" />
+		<result column="pid" property="pid" />
+		<result column="platform_type" property="platformType" />
+		<result column="created_user" property="createdUser" />
+		<result column="created_time" property="createdTime" />
+		<result column="modified_user" property="modifiedUser" />
+		<result column="modified_time" property="modifiedTime" />
+		<result column="is_deleted" property="isDeleted" />
+	</resultMap>
+
+</mapper>

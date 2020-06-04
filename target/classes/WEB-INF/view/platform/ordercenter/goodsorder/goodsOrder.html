@@ -1,0 +1,175 @@
+
+@layout("/common/_container.html"){
+<style>
+    .setTimeBtn{
+        background: white;outline: none;width: 60px;height: 28px;box-sizing: border-box;margin-left: 5px;border:1px solid #999999;
+    }
+    .btnActive{
+        color: #fff !important;background-color: #FF7D32 !important;border-color:#FF7D32 !important;
+    }
+    .active{
+        color: #fff !important;background-color: #adadad !important;outline: none !important;border:1px solid #adadad !important;
+    }
+    th{
+        text-align: center;
+    }
+    .page_div{margin:20px 10px 20px 0;color:#000000;text-align: center;}
+    .page_div>button{display:inline-block;min-width:30px;height:28px;cursor:pointer;color:#000000;font-size:13px;background-color:transparent;border:1px solid #adadad;text-align:center;margin:0 4px;}
+    #firstPage,#lastPage,#nextPage,#prePage{width:50px;color:#0073A9;border:1px solid #0073A9}
+    #nextPage,#prePage{width:70px}
+    .page_div>.current{background-color:#00bbe0;border-color:#00bbe0;color:#FFF}
+    .totalPages{margin:0 10px}
+    .totalPages span,.totalSize span{color:#0073A9;margin:0 5px}
+    .page_div button:disabled{opacity:.5;cursor:no-drop}
+
+    .gun-btn-active{
+        background-color: #bababa;
+        border-color: #bababa;
+        color: #FFFFFF;
+    }
+</style>
+<div class="row right-content" xmlns="http://www.w3.org/1999/html" style="background-color: #ffffff;">
+    <div class="col-sm-12" style="margin-top: 20px;">
+        <div class="col-sm-12">
+            <h3 class="pull-left" >订单中心-特产订单管理</h3>
+        </div>
+    </div>
+    <div class="col-sm-12" style="margin-top: 20px;">
+        <div class="col-sm-6 form-inline">
+            <label class="control-label">订单搜索：</label>
+            <select class="form-control" id="chooseOrderForKey" style="width: 20%;">
+                <option value="1">订单号</option>
+                <option value="2">收件人手机号</option>
+                <option value="3">收件人姓名</option>
+                <option value="4">售后人手机号</option>
+            </select>
+            <input type="text" id="orderKey" class="form-control" style="margin-left: 10px;"/>
+        </div>
+    </div>
+    <div class="col-sm-12" style="margin-top: 20px;">
+        <div class="col-sm-3 form-inline">
+            <label class="control-label">商品名称：</label>
+            <input type="text" id="goodsName" class="form-control" />
+        </div>
+        <div class="col-sm-3 form-inline">
+            <label class="control-label">商&nbsp;&nbsp;品&nbsp;&nbsp;ID：</label>
+            <input type="text" id="goodsId" class="form-control" />
+        </div>
+    </div>
+    <div class="col-sm-12" style="margin-top: 20px;">
+        <div class="col-sm-3 form-inline">
+            <label class="control-label">店铺名称：</label>
+            <input type="text" id="shopName" class="form-control" />
+        </div>
+        <div class="col-sm-3 form-inline">
+            <label class="control-label">店&nbsp;&nbsp;铺&nbsp;&nbsp;ID：</label>
+            <input type="text" id="shopId" class="form-control" />
+        </div>
+        <div class="col-sm-4 form-inline">
+            <#button name="查询" icon="fa-search" clickFun="orderSearch()"/>
+        </div>
+    </div>
+
+    <div class="col-sm-12" style="margin-top: 20px;">
+        <div class="col-sm-12 form-inline">
+            <label class="control-label">下单时间：</label>
+            <div class="input-group input-daterange">
+                <input type="text" class="form-control" id="createStartTime" placeholder="选择开始时间" autocomplete="off">
+                <div class="input-group-addon"> ~ </div>
+                <input type="text" class="form-control" id="createEndTime" placeholder="选择结束时间" autocomplete="off">
+            </div>
+            <div class="btn-group hidden-xs" id="timeType" role="group" style="display: inline-block;margin-left: 20px;margin-bottom: -5px;">
+                <#button clickFun="getOrderList(5)" name="自定义" icon="" btnCss="outline btn-default gun-btn-active" id="5"/>
+                <#button clickFun="getOrderList(1)" name="今日" icon="" btnCss="outline btn-default" id="1"/>
+                <#button clickFun="getOrderList(2)" name="昨日" icon="" btnCss="outline btn-default" id="2"/>
+                <#button clickFun="getOrderList(3)" name="近7日" icon="" btnCss="outline btn-default" id="3"/>
+                <#button clickFun="getOrderList(4)" name="近30日" icon="" btnCss="outline btn-default" id="4"/>
+                <#button clickFun="getOrderList(0)" name="全部" icon="" btnCss="outline btn-default" id="0"/>
+            </div>
+        </div>
+    </div>
+
+<!--    <div class="col-sm-12" style="margin-top: 20px;">-->
+<!--        <div class="col-sm-12 form-inline" id="data_5">-->
+<!--            <label class="control-label">下单时间：</label>-->
+<!--            <div class="input-daterange input-group">-->
+<!--                <input type="text" class="input-sm form-control" id="createStartTime" placeholder="选择开始时间" autocomplete="off"/>-->
+<!--                <span class="input-group-addon">~</span>-->
+<!--                <input type="text" class="input-sm form-control" id="createEndTime" placeholder="选择结束时间" autocomplete="off"/>-->
+<!--            </div>-->
+<!--            <button type="button" datas="0" datae="0" class="btn btn-outline mybt btn-default active">今日</button>-->
+<!--            <button type="button" datas="1" datae="1" class="btn btn-outline mybt btn-default">昨日</button>-->
+<!--            <button type="button" datas="6" datae="0" class="btn btn-outline mybt btn-default">近7日</button>-->
+<!--        </div>-->
+<!--    </div>-->
+    <div class="col-sm-12" style="margin-top: 20px;">
+        <div class="col-sm-12 form-inline">
+            <div class="btn-group pull-left" id="orderStatus">
+                <button type="button" data-calType="0" class="btn btn-outline btn-default active">全部</button>
+                <button type="button" data-calType="1"  class="btn btn-outline btn-default">待付款</button>
+                <button type="button" data-calType="2" class="btn btn-outline btn-default">待发货</button>
+                <button type="button" data-calType="3"  class="btn btn-outline btn-default">待收货</button>
+                <button type="button" data-calType="4"  class="btn btn-outline btn-default">交易完成</button>
+                <button type="button" data-calType="5"  class="btn btn-outline btn-default">已取消</button>
+                <button type="button" data-calType="6"  class="btn btn-outline btn-default">售后中</button>
+                <button type="button" data-calType="7"  class="btn btn-outline btn-default">交易关闭</button>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-12" style="margin-top: 20px;">
+        <div class="col-sm-12 form-inline">
+            <table style="width:100%;table-layout: fixed;min-width: 1400px;" border="1">
+                <thead style="background: #eeeeee;height: 40px;line-height: 40px;">
+                <th>商品</th>
+                <th>单价/数量</th>
+                <th>售后</th>
+                <th>买家</th>
+                <th>下单时间</th>
+                <th>订单状态</th>
+                <th>实付金额</th>
+                </thead>
+                <tbody id="orderTbody" style="background: rgb(239,247,248);"></tbody>
+            </table>
+        </div>
+    </div>
+    <div class="col-sm-12" style="margin-top: 10px;margin-bottom: 20px;">
+        <div class="col-sm-12 form-inline">
+            <div id="page" class="page_div"></div>
+        </div>
+    </div>
+</div>
+<link href="${ctxPath}/static/css/plugins/datapicker/datepicker3.css" rel="stylesheet">
+<script src="${ctxPath}/static/js/plugins/datapicker/bootstrap-datepicker.js"></script>
+<script src="${ctxPath}/static/js/pageMe.js"></script>
+<script src="${ctxPath}/static/modular/platform/ordercenter/goodsorder/goodsOrder.js"></script>
+<script>
+    // $('#data_5 .input-daterange').datepicker({
+    //     keyboardNavigation: false,
+    //     forceParse: false,
+    //     autoclose: true
+    // });
+    // function atcbtn() {
+    //     $(".mybt").removeClass('active');
+    //     if($("#createEndTime").val()==getDate(0) && $("#createStartTime").val()==getDate(0)){
+    //         $("button[datas='0']").addClass('active')
+    //     }
+    //     if($("#createEndTime").val()==getDate(-1) && $("#createStartTime").val()==getDate(-1)){
+    //         $("button[datas='1']").addClass('active')
+    //     }
+    //     if($("#createEndTime").val()==getDate(0) && $("#createStartTime").val()==getDate(-6)){
+    //         $("button[datas='6']").addClass('active')
+    //     }
+    // };
+    // $(function () {
+    //     atcbtn()
+    // });
+    // $("#createEndTime").datepicker({keyboardNavigation: false,forceParse: false,autoclose: true,endDate:getDate(0)}).on("changeDate",function(e){
+    //     atcbtn()
+    //     $("#createStartTime").datepicker("setEndDate",e.date);
+    // });
+    // $("#createStartTime").datepicker({keyboardNavigation: false,forceParse: false,autoclose: true,endDate:getDate(0)}).on("changeDate",function(e) {
+    //     atcbtn()
+    //     $("#createEndTime").datepicker("setStartDate", e.date);
+    // });
+</script>
+@}

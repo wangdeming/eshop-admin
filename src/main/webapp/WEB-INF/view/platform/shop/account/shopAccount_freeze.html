@@ -1,0 +1,74 @@
+@layout("/common/_container.html"){
+<style>
+    .form-horizontal .control-label{
+        padding-top:0px
+    }
+
+    .img_div{
+        margin-left: 0px !important;
+    }
+</style>
+<div class="ibox float-e-margins">
+    <div class="ibox-title">
+        <h5>填写冻结账户原因</h5>
+    </div>
+    <div class="ibox-content">
+        <div class="row row-lg">
+            <form class="form-horizontal col-sm-12" id="talentForm">
+
+                <input type="hidden" id="accountId" value="${acct.accountId!}">
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">店铺名称：</label>
+                    <div class="col-sm-9">${acct.shopName!}</div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">账户名：</label>
+                    <div class="col-sm-2">${acct.account!}</div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">冻结原因描述：</label>
+                    <div class="col-sm-9">
+                        <textarea class="form-control" id="reason" rows="10" name="reason" placeholder="请描述账户违规情况，500字以内。"></textarea>
+                    </div>
+
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">上传证据：</label>
+
+
+
+                        <div class="col-sm-9" id="img_3"  >
+
+                            <div class="img_div col-sm-4" style=" margin-right: 0px;margin-top: 0px;height: 181px;">
+                                <div class="div_imgtype" style="padding-left: 0px;">
+                                    <div class="imgbox" id="imgupimg" style="padding-top: 30px">
+                                        <img src="${ctxPath}/static/img/upload.png" style="text-align: center;"/>
+                                        <input class="opt img_up" type="file" name="" style ="position:absolute;display: inline-block;margin-left: -36px;z-index: 99999;" onchange="ShopIDListInfoDlg.addImg()" style="width:60px;left: 100px;"/>
+                                    </div>
+                                    <div class="imgbox" style="color: #8D939C;padding-top: 30px">点击上传图片</div>
+                                    <div class="imgtype" style="color: #C9CCD1;" >文件不大于2M</div>
+                                </div>
+                            </div>
+                            <ul id="uliImg"></ul>
+                        </div>
+
+
+                     
+
+                </div>
+
+                <div class="row btn-group-m-t">
+                    <div class="col-sm-10">
+                        <#button btnCss="danger" name="取消" id="cancel" icon="fa-eraser" clickFun="ShopListInfoDlg.close()"/>
+                        <#button  name="提交" id="ensure" icon="fa-check" clickFun="ShopListInfoDlg.addSubmit()"/>
+                    </div>
+                </div>
+            </form>
+
+        </div>
+    </div>
+</div>
+
+<link href="${ctxPath}/static/css/shoplist.css" rel="stylesheet">
+<script src="${ctxPath}/static/modular/platform/shop/account/shopAccountfree.js"></script>
+@}

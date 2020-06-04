@@ -1,0 +1,70 @@
+@layout("/common/_container.html"){
+
+<div class="ibox float-e-margins">
+    <div class="ibox-title">
+        创建店铺主账号
+    </div>
+    <div class="ibox-content">
+        <div class="row row-lg">
+            <form class="form-horizontal bv-form col-sm-12" action="#" id="talentForm">
+                <h5 class="htit">选择店铺</h5>
+                <div class="col-sm-8">
+
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">店铺名称：</label>
+                        <div class="col-sm-6">
+                            <select id="shopId" class="form-control"></select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">法人：</label>
+                        <div class="col-sm-8" id="legalPerson">
+
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">店铺类型：</label>
+                        <div class="col-sm-8" id="shopType">
+
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">地址：</label>
+                        <div class="col-sm-8" id="address">
+
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="clearfix"></div>
+                <h5 class="htit ">账户信息</h5>
+
+                <div class="col-sm-8">
+
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">账 户 名：</label>
+                        <div class="col-sm-6" >
+                            <input type="text" class="form-control" id="account" name="account">
+                            <span class="help-block m-b-none">密码默认为法人身份证后6位，x采用大写X</span>
+
+                        </div>
+
+                    </div>
+
+
+                </div>
+                <div class="row btn-group-m-t">
+                    <div class="col-sm-10">
+                        <#button btnCss="danger" name="取消" id="cancel" icon="fa-eraser" clickFun="ShopListInfoDlg.close()"/>
+                        <#button  name="提交" id="ensure" icon="fa-check" clickFun="ShopListInfoDlg.addSubmit()"/>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<script src="${ctxPath}/static/modular/platform/shop/account/shopAccountAdd.js"></script>
+@}

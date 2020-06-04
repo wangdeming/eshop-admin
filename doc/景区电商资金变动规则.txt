@@ -1,0 +1,8 @@
+1.用户已付款：待出账金额+（shop_order_cash_flow）；平台余额+（platform_balance_flow）
+2.用户退款：待出账金额-（shop_order_cash_flow）；平台余额-（platform_balance_flow）
+3.用户确认收货：待出账金额-、待到账金额+（shop_order_cash_flow）
+4.用户售后退款：待到账金额-（shop_order_cash_flow）；平台余额-（platform_balance_flow）
+5.订单结算：待到账金额-（shop_order_cash_flow）；店铺余额+（shop_balance_flow）
+6.店铺申请提现：店铺余额-（shop_balance_flow）
+7.提现审核不通过：店铺余额+（shop_balance_flow）
+8.确认打款：平台余额-（platform_balance_flow）

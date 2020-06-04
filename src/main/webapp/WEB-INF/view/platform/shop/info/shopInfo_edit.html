@@ -1,0 +1,250 @@
+@layout("/common/_container.html"){
+<style>
+    .amap-logo, .amap-copyright {
+        opacity: 0;
+    }
+</style>
+
+<form id="talentForm" action="#" class="form-horizontal" style="position: relative;">
+    <div class="ibox float-e-margins">
+        <div class="ibox-title">
+            <h5>店铺基本信息</h5>
+        </div>
+        <div class="ibox-content">
+            <div class="row row-lg">
+                <div id="shop_Information" class="col-sm-7 ">
+
+                    <input type="hidden"  id="id" value="${shop.id!}">
+                    <input type="hidden"  id="type" value="${shop.type!}">
+                    @if(shop.type==1){
+                    <#input id="type" name="* 店铺类型："  value="特产店铺" disabled="disabled"/>
+                    @}
+                    @if(shop.type==2){
+                    <#input id="type" name="* 店铺类型："  value="酒店店铺" disabled="disabled"/>
+                    @}
+                    <#input id="name" name="* 店铺名称："  placeholder="请输入店铺名称，50个字以内"  value="${shop.name!}"/>
+                    <#input id="frontName" name="店铺前台名称："  placeholder="请输入店铺前台名称，50个字以内" value="${shop.frontName!}"/>
+                    <#input id="officePhone" name="* 营业电话："  placeholder="请输入营业电话"  value="${shop.officePhone!}"/>
+                    <div class="form-group"><label class="col-sm-3 control-label">或&nbsp;</label>
+                        <div class="col-sm-9">&nbsp;</div>
+                    </div>
+                    <#input id="officeTelphone" name="营业手机："  placeholder="请输入营业手机" value="${shop.officeTelphone!}"/>
+
+                    <input type="hidden"  id="provinceId" value="14">
+                    <input type="hidden"  id="cityId" value="170">
+                    <div class="form-group ">
+                        <label class="col-sm-3 control-label">* 选取位置：</label>
+
+                        <div class="col-sm-2">
+                            <input type="text" id="province" class="form-control" value="江西省"
+                                   readonly="readonly" name="province">
+                        </div>
+                        <div class="col-sm-2">
+                            <input id="city" class="form-control" name="city" value="上饶市"
+                                   readonly="readonly"/>
+                        </div>
+                        <div class="col-sm-2"  style="width: 20.8%">
+
+                            <select  class="form-control " id="districtId" name="districtId" onchange="clickarea()" data="${shop.districtId!}">
+                                <option value="">请选择区县</option>
+                            </select>
+                        </div>
+                        <div class="col-sm-3"  style="width: 20.8%">
+                            <select class="form-control" id="streetId" name="streetId"  onchange="clickroad()" data="${shop.streetId!}">
+                                <option value="">请选择街道</option>
+                            </select>
+                        </div>
+                    </div>
+                    <#input id="address" name="* 详细地址："  placeholder="请输入店铺位置" value="${shop.address!}"/>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label"></label>
+                        <div class="col-sm-9" id="map">
+                            <div id="myPageTop" style="z-index: 999;position: absolute;width: 100%;">
+
+                                <input type="text" placeholder="" id="lnglat"
+                                       style="background-color: #F3F5F9;display: none;">
+                                <input type="text" placeholder="" id="latitude"   value="${shop.latitude!}"
+                                       style="background-color: #F3F5F9;display: none;">
+                                <input type="text" placeholder="" id="longitude"   value="${shop.longitude!}"
+                                       style="background-color: #F3F5F9;display: none;">
+                            </div>
+                            <div id="mapContainer" style="height: 360px;"></div>
+                        </div>
+                    </div>
+
+                    <div class=" form-group " id="introduce">
+                        <label class="col-sm-3 control-label  ">店铺简介：</label>
+                        <div class="col-sm-9">
+                            <#rc_textareay id="intro" maxlength="54" placeholder="店铺介绍54字以内" value="${shop.intro!}" name="" direction="vertical"/>
+                        </div>
+                    </div>
+
+                    <div class="form-group" id="img">
+                        <label class="col-sm-3 control-label">店铺封面：</label>
+                        <div id="img_div_5" class=" col-sm-6 img_div" style=" z-index: 1;" onMouseOver="hovershow2(5)">
+                            <img id="img_5" src="${shop.cover!}"  class="imgIcon" alt=""/>
+                            <input id="cover" value="${shop.cover!}" style="display: none;">
+                            <div id="div_imgtype_5" class="div_imgtype" style="position: absolute;">
+                                <div class="imgup"  id="imgup_5">
+                                    <img src="${ctxPath}/static/img/upload.png" style="text-align: center;"/>
+                                    <input class="opt img_up" type="file" name=""
+                                           style="position: absolute;background-color: red; display: inline-block;margin-left: -50px;z-index: 99999;"
+                                           onchange="ShopListInfoDlg.getImgURL(5,750,320)"/>
+                                </div>
+
+                                <div class="imgbox" style="color:#8D939C;">点击上传图片</div>
+                                <div class="imgtype" style="color:#C9CCD1;">只支持JPG、PNG格式大小不超过3M</div>
+                                <div class="imgtype" style="color:#C9CCD1;">推荐尺寸750*320</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group" id="img_img">
+                        <label class="col-sm-3 control-label">店铺LOGO：</label>
+
+                        <div id="img_div_9" class=" col-sm-6 img_div" onMouseOver="hovershow2(9)">
+                            <img id="img_9" src="${shop.logo!}" class="imgIcon" alt=""/>
+                            <input id="logo" value="${shop.logo!}" style="display: none;">
+                            <div id="div_imgtype_9" class="div_imgtype" style="position: absolute;">
+                                <div class="imgup"  id="imgup_9">
+                                    <img src="${ctxPath}/static/img/upload.png" style="text-align: center;"/>
+                                    <input class="opt img_up" type="file" name=""
+                                           style="position: absolute;background-color: red; display: inline-block;margin-left: -50px;z-index: 99999;"
+                                           onchange="ShopListInfoDlg.getImgURL(9,180,180)"/>
+                                </div>
+
+                                <div class="imgbox" style="color:#8D939C;">点击上传图片</div>
+                                <div class="imgtype" style="color:#C9CCD1;">只支持JPG、PNG格式大小不超过3M</div>
+                                <div class="imgtype" style="color:#C9CCD1;">推荐尺寸180*180</div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="ibox float-e-margins">
+
+        <div class="ibox-title">
+            <h5>店铺及法人认证信息</h5>
+        </div>
+        <div class="ibox-content">
+            <div class="row row-lg">
+
+
+                <div id="person_Information" class="col-sm-7">
+                    <#input id="legalPerson" name="* 法   人：" placeholder="请输入法人名称，2-10个字" value="${shop.legalPerson!}" />
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">性别</label>
+                        <div class="col-sm-9">
+                            <input type="hidden" id="sexval" value="${shop.sex!}">
+                            <label><input type="radio"  class="i-checks" checked  value="1" name="sex">男</label>&nbsp;&nbsp;&nbsp;&nbsp;
+                            <label><input type="radio"   class="i-checks" value="2" name="sex">女</label>
+                        </div>
+                    </div>
+
+                    <#input id="phone" name="* 手机号码："  placeholder="请输入手机号码" value="${shop.phone!}"/>
+                    <#input id="identityId" name="* 身份证号码：" placeholder="请输入身份证号码" value="${shop.identityId!}"/>
+
+                    <div class="form-group">
+                        <div class="col-sm-6" id="img_id1" >
+                            <label class="col-sm-12 tablentList" >* 身份证正面照</label>
+                            <div id="img_div_6" class="col-sm-12 img_div"
+                                 style="padding-left: 0px;margin-right:70px;"
+                                 onMouseOver="hovershow2(6)">
+                                <img id="img_6" src="${shop.identityPositive!}" class="imgIcon" alt=""/>
+                                <input id="identityPositive" value="${shop.identityPositive!}" style="display: none;">
+                                <div id="div_imgtype_6" class=" div_imgtype"
+                                     style="position: absolute;padding-left: 0px;">
+                                    <div class="imgup"  id="imgup_6">
+                                        <img src="${ctxPath}/static/img/upload.png"
+                                             style="text-align: center;"/>
+                                        <input class="opt img_up" type="file" name=""
+                                               
+                                               onchange="ShopListInfoDlg.getImgURL(6)"/>
+                                    </div>
+                                    <div class="imgbox" style="color:#8D939C;">点击上传身份证照(头像面)</div>
+                                    <div class="imgtype" style="color:#C9CCD1;">文件不大于3M</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-6" id="img_id" >
+                            <label class="col-sm-12 tablentList" >* 身份证背面照</label>
+                            <div id="img_div_7" class="col-sm-12 img_div" style="padding-left: 0px;"
+                                 onMouseOver="hovershow2(7)">
+                                <img src="${shop.identityNegative!}" class="imgIcon" id="img_7" alt=""/>
+                                <input id="identityNegative" value="${shop.identityNegative!}" style="display: none;">
+                                <div id="div_imgtype_7" class="div_imgtype"
+                                     style="position: absolute;">
+                                    <div class="imgup"  id="imgup_7">
+                                        <img src="${ctxPath}/static/img/upload.png"
+                                             style="text-align: center;"/>
+                                        <input class="opt img_up" type="file" name=""
+                                               
+                                               onchange="ShopListInfoDlg.getImgURL(7)"/>
+                                    </div>
+                                    <div class="imgbox" style="color:#8D939C;">点击上传身份证照(国徽面)</div>
+                                    <div class="imgtype" style="color:#C9CCD1;">文件不大于3M</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <#input id="licenseId" name="* 营业执照编号：" value="${shop.licenseId!}" placeholder="请输入营业执照编号" />
+
+                    <div class="form-group" id="img_shop">
+                        <label class="col-sm-3 control-label" >营业执证图片:</label>
+                        <div id="img_div_8" class="col-sm-6 img_div" onMouseOver="hovershow2(8)">
+                            <img src="${shop.licenseImage!}" class="imgIcon" id="img_8" alt=""/>
+                            <input id="licenseImage" value="${shop.licenseImage!}" style="display: none;">
+                            <div id="div_imgtype_8" class="div_imgtype"
+                                 style="position: absolute;padding-left: 0px;">
+                                <div class="imgup"  id="imgup_8">
+                                    <img src="${ctxPath}/static/img/upload.png"
+                                         style="text-align: center;"/>
+                                    <input class="opt img_up" type="file" name=""
+                                           
+                                           onchange="ShopListInfoDlg.getImgURL(8)"/>
+                                </div>
+                                <div class="imgbox" style="color:#8D939C;">点击上传图片</div>
+                                <div class="imgtype" style="color:#C9CCD1;">文件不大于3M</div>
+                                <!--<div class="imgtype" style="color:#C9CCD1;">推荐尺寸200*400</div>-->
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+</form>
+
+
+<div class="row btn-group-m-t">
+    <div class="col-sm-10">
+        <#button btnCss="danger" name="取消" id="cancel" icon="fa-eraser" clickFun="ShopListInfoDlg.close()"/>
+        <#button  name="提交" id="ensure" icon="fa-check" clickFun="ShopListInfoDlg.editSubmit()"/>
+    </div>
+</div>
+
+
+</div>
+</div>
+
+
+</div>
+<link href="${ctxPath}/static/css/shoplist.css" rel="stylesheet">
+<script src="${ctxPath}/static/modular/platform/shop/info/shopInfoAdd.js"></script>
+<script src="https://webapi.amap.com/maps?v=1.4.0&key=e5ab4e982981f58a45cc6b64f3d0565c&plugin=AMap.Autocomplete,AMap.PlaceSearch"></script>
+<script src="https://cache.amap.com/lbs/static/es5.min.js"></script>
+<script src="${ctxPath}/static/js/plugins/iCheck/icheck.min.js"></script>
+
+
+@}
+
+

@@ -1,0 +1,65 @@
+##########################################################
+###################  开发环境的profile  ###################
+##########################################################
+spring:
+  datasource:
+    url: jdbc:mysql://172.16.0.200:3030/lingshan_eshop?autoReconnect=true&useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=false
+    username: root
+    password: root123
+    filters: log4j,wall,mergeStat
+  redis:
+    host: 223.84.134.61
+    port: 7000
+    password: admin
+    #平台端database为0
+    database: 0
+    #商家端database为1
+#    database: 1
+  rabbitmq:
+    addresses: test.ibdsr.cn:5672
+    username: eshop
+    password: 123456
+    virtual-host: /eshop
+    publisher-confirms: true  # 开启发送消息到exchange确认机制
+    publisher-returns: true   # 开启发送消息到exchange但是exchange没有和队列绑定的确认机制
+    listener:
+      direct:
+        acknowledge-mode: manual
+      simple:
+        acknowledge-mode: manual
+
+#多数据源
+guns:
+  muti-datasource:
+    default-dataSource-name: dataSourceGuns #默认的数据源名称
+    url: jdbc:mysql://172.16.0.251:3306/biz?autoReconnect=true&useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull
+    username: root
+    password: root123
+  url-prefix:
+    messageurl: http://172.16.0.200:8686/smsg #短信发送平台 服务器接口
+    bathurl: http://xjcyxyx.oauth.echoface.online #项目路径前缀
+  spring-session-open: true
+  masterDomain: http://account.iytour.com/accountAdmin
+  curSystem: 3
+  masterLoginUrl: ${guns.masterDomain}/login/${guns.curSystem}
+  domainName: iytour.com
+
+
+  #fastdfs文件上传
+  fastDfs-url:
+    trackers: 172.16.0.200:22122
+    visit: http://172.16.0.200:10080/  #文件访问的URL包括端口信息
+
+#微信支付
+pay:
+  wxpay:
+    appid: wx0f5016dea5dc5104
+    mchid: 1522638381
+    key: d48d12898f8070c6e18e11f6057b9649
+    certpath: apiclient_cert.p12
+
+logging:
+  level.root: info
+  level.cn.ibdsr: debug
+  path: logs/
+  file: guns.log

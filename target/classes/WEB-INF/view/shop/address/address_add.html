@@ -1,0 +1,77 @@
+@layout("/common/_container.html"){
+<style>
+    .ib{
+        padding:14px 39px;
+    }
+    .center-content{
+        margin-left:96px;
+    }
+</style>
+<div class="row">
+    <div class="ibox float-e-margins">
+        <div class="ibox-content">
+            <div class="row">
+                <div class="col-sm-10">
+                    <div class="ib"><h3>新增地址</h3></div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="center-content_1">
+                               <form class="form-horizontal" id="addSubAccount">
+                                    <#input type="userName" id="consigneeName" name="联系人：" placeholder="请输入联系人姓名"/>
+                                    <#input type="contactPhone" id="consigneePhone" name="联系方式：" placeholder="请输入联系人手机号"/>
+                                    <div class="form-group">
+                                        <div style="">
+                                            <lable class="col-sm-3 control-label" style="color:#6d6a6a;font-weight:600;">联系地址：</lable>
+                                            <div style="position:relative;top: 1px;">
+                                                <div class="col-sm-2" >
+                                                    <select  class="form-control " id="provinceId" name="provinceId" onchange="AddressInfoDlg.changearea(this,'cityId')" data="">
+                                                        <option value="">请选择省</option>
+                                                    </select>
+                                                </div>
+                                                <div class="col-sm-2" >
+                                                    <select  class="form-control " id="cityId" name="cityId" onchange="AddressInfoDlg.changearea(this,'districtId')" data="">
+                                                        <option value="">请选择市</option>
+                                                    </select>
+                                                </div>
+                                                <div class="col-sm-2" >
+                                                    <select class="form-control" id="districtId" name="districtId" data="">
+                                                        <option value="">请选择区县</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <#input id="address" type="address" id="address" name="详细地址：" placeholder="请填写详细地址，如街道信息，门牌号"/>
+                                    <div class="form-group">
+                                        <lable class="col-sm-3 control-label" style="color:#6d6a6a;font-weight:600;">地址类型：</lable>
+                                        <div class="col-sm-6">
+                                            <input type="checkbox" id="type"  name="type"
+                                                   checked=""
+                                                   disabled=""
+                                                   value="1" style="position: absolute;top: 6px;" onclick="AddressInfoDlg.clickCheck()">
+                                            <span style="position: absolute;top: 8px;left:37px;">退货地址</span>
+                                        </div>
+                                        <div class="col-sm-6 checkShow">
+                                            <input type="checkbox" id="isDefault"
+                                                   checked=""
+                                                   disabled="false"
+                                                   value="1" name="isDefault" style="position: absolute;top: 6px;left:113px;">
+                                            <span style="position: absolute;top: 8px;left:136px;">设为默认</span>
+                                        </div>
+                                    </div>
+                                </form>
+                                <div class="row btn-group-m-t center-content">
+                                    <div class="col-sm-10">
+                                        <#button btnCss="info" name="保存" id="ensure" icon="fa-check" clickFun="AddressInfoDlg.addSubmit()"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="${ctxPath}/static/modular/shop/address/address_info.js"></script>
+@}

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.ibdsr.web.modular.shop.address.dao.AddressDao">
+    <sql id="Page_Column_List" >
+        sa.id,
+        sa.type,
+        sa.consignee_name AS consigneeName,
+        sa.consignee_phone AS  consigneePhone,
+        sa.province_id AS provinceId,
+        sa.province,
+        sa.city_id AS cityId,
+        sa.city,
+        sa.district_id AS districtId,
+        sa.district,
+        sa.address,
+        sa.is_default AS isDefault
+    </sql>
+
+    <select id="list" resultType="cn.ibdsr.web.modular.shop.address.transfer.AddressListVO">
+        SELECT
+        <include refid="Page_Column_List" />
+        FROM
+        shop_delivery_address sa
+        WHERE sa.shop_id = #{shopId} AND sa.is_deleted = 0
+        ORDER BY sa.is_default DESC,sa.created_time
+    </select>
+</mapper>

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.ibdsr.web.common.persistence.dao.ShopMapper">
+
+	<!-- 通用查询映射结果 -->
+	<resultMap id="BaseResultMap" type="cn.ibdsr.web.common.persistence.model.Shop">
+		<id column="id" property="id" />
+		<result column="type" property="type" />
+		<result column="name" property="name" />
+		<result column="front_name" property="frontName" />
+		<result column="office_phone" property="officePhone" />
+		<result column="office_telphone" property="officeTelphone" />
+		<result column="status" property="status" />
+		<result column="province_id" property="provinceId" />
+		<result column="city_id" property="cityId" />
+		<result column="district_id" property="districtId" />
+		<result column="street_id" property="streetId" />
+		<result column="address" property="address" />
+		<result column="latitude" property="latitude" />
+		<result column="longitude" property="longitude" />
+        <result column="distance_lingshan" property="distanceLingshan"/>
+		<result column="intro" property="intro" />
+		<result column="cover" property="cover" />
+		<result column="logo" property="logo" />
+		<result column="begin_time" property="beginTime" />
+		<result column="end_time" property="endTime" />
+		<result column="legal_person" property="legalPerson" />
+		<result column="sex" property="sex" />
+		<result column="phone" property="phone" />
+		<result column="identity_id" property="identityId" />
+		<result column="identity_positive" property="identityPositive" />
+		<result column="identity_negative" property="identityNegative" />
+		<result column="license_id" property="licenseId" />
+		<result column="license_image" property="licenseImage" />
+		<result column="created_user" property="createdUser" />
+		<result column="created_time" property="createdTime" />
+		<result column="modified_user" property="modifiedUser" />
+		<result column="modified_time" property="modifiedTime" />
+		<result column="is_deleted" property="isDeleted" />
+	</resultMap>
+
+</mapper>

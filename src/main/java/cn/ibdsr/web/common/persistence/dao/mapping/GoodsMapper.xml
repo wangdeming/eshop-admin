@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.ibdsr.web.common.persistence.dao.GoodsMapper">
+
+	<!-- 通用查询映射结果 -->
+	<resultMap id="BaseResultMap" type="cn.ibdsr.web.common.persistence.model.Goods">
+		<id column="id" property="id" />
+		<result column="shop_id" property="shopId" />
+		<result column="category_id" property="categoryId" />
+		<result column="name" property="name" />
+		<result column="main_img" property="mainImg" />
+		<result column="status" property="status" />
+		<result column="price" property="price" />
+		<result column="refer_price" property="referPrice" />
+		<result column="stock" property="stock" />
+		<result column="delivery_type" property="deliveryType" />
+		<result column="express_fee" property="expressFee" />
+		<result column="specs_list" property="specsList" />
+		<result column="sequence" property="sequence" />
+		<result column="onshelf_time" property="onshelfTime" />
+		<result column="offshelf_time" property="offshelfTime" />
+        <result column="platform_manage" property="platformManage"/>
+		<result column="created_user" property="createdUser" />
+		<result column="created_time" property="createdTime" />
+		<result column="modified_user" property="modifiedUser" />
+		<result column="modified_time" property="modifiedTime" />
+		<result column="is_deleted" property="isDeleted" />
+	</resultMap>
+
+</mapper>
